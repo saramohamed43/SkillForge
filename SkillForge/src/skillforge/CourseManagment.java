@@ -1,5 +1,34 @@
 package skillforge;
 
-public class CourseManagement extends JsonDatabase<Course> {
+import java.lang.reflect.Type;
+import java.util.List;
+
+public class CourseManagment extends JsonDatabaseManager<Course> {
+    public CourseManagment(String filename, Type elementType){
+        super(filename, elementType);
+    }
     
+    public boolean createCourse(String courseID, String courseTitle, String courseDescription, String instructorID){
+        Course course = new Course(courseID, courseTitle, courseDescription, instructorID);
+        return add(course);
+    }
+    
+    public Course browseCoursesByID(Course course){
+        return find(course.getCourseID());
+    }
+    
+    @Override
+    public String getId(Course course){
+        return course.getCourseID();
+    }
+    
+    @Override
+    protected boolean isDuplicate(Course course, List<Course> existingCourses){
+        for(int i = 0; i < existingCourses.size(); i++){
+            if(course.getCourseID().equals(existingCourses.get(i).getCourseID())){
+                return true;
+            }
+        }
+        return false;
+    }
 }
