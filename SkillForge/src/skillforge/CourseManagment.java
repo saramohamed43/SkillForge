@@ -5,102 +5,114 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseManagment extends JsonDatabaseManager<Course> {
-    public CourseManagment(String filename, Type elementType){
+
+    public CourseManagment(String filename, Type elementType) {
         super(filename, elementType);
     }
-    
-    public boolean createCourse(String courseID, String courseTitle, String courseDescription, String instructorID){
+
+    public boolean createCourse(String courseID, String courseTitle, String courseDescription, String instructorID) {
         Course course = new Course(courseID, courseTitle, courseDescription, instructorID);
         return add(course);
     }
-    
-    public Course browseCoursesByID(String courseID){
+
+    public Course getCourseByID(String id) {
+        return getItemById(id);
+    }
+
+    public Course browseCoursesByID(String courseID) {
         return getItemById(courseID);
     }
 
-// Remove lesson from a specific course
-    public boolean removeLesson(String courseID, String lessonID){
+    public boolean removeLesson(String courseID, String lessonID) {
         Course course = getItemById(courseID);
-        if(course == null) return false;
-    
+        if (course == null) {
+            return false;
+        }
+
         Lesson lessonToRemove = course.getLesson(lessonID);
-        if(lessonToRemove == null) return false;
-    
+        if (lessonToRemove == null) {
+            return false;
+        }
+
         course.getLessons().remove(lessonToRemove);
         return update(courseID, course);
     }
 
-// Remove student from a specific course
-    public boolean removeStudent(String courseID, String studentID){
+    public boolean removeStudent(String courseID, String studentID) {
         Course course = getItemById(courseID);
-        if(course == null) return false;
-    
+        if (course == null) {
+            return false;
+        }
+
         Student studentToRemove = null;
-        for(Student s : course.getStudents()){
-            if(s.getUserId().equals(studentID)){
+        for (Student s : course.getStudents()) {
+            if (s.getUserId().equals(studentID)) {
                 studentToRemove = s;
                 break;
             }
         }
-    
-        if(studentToRemove == null) return false;
+
+        if (studentToRemove == null) {
+            return false;
+        }
         course.getStudents().remove(studentToRemove);
         return update(courseID, course);
     }
-    
-    // Edit course details
-    public boolean editCourse(String courseID, String newTitle, String newDescription){
+
+    public boolean editCourse(String courseID, String newTitle, String newDescription) {
         Course course = getItemById(courseID);
-        if(course == null) return false;
-    
+        if (course == null) {
+            return false;
+        }
+
         course.setCourseTitle(newTitle);
         course.setCourseDescription(newDescription);
         return update(courseID, course);
     }
 
-// Add lesson to a course
-    public boolean addLesson(String courseID, Lesson lesson){
+    public boolean addLesson(String courseID, Lesson lesson) {
         Course course = getItemById(courseID);
-        if(course == null) return false;
-    
+        if (course == null) {
+            return false;
+        }
+
         course.addLesson(lesson);
         return update(courseID, course);
     }
 
-// Get all courses by instructor
-    public List<Course> getCoursesByInstructor(String instructorID){
+    public List<Course> getCoursesByInstructor(String instructorID) {
         List<Course> allCourses = getAll();
         List<Course> instructorCourses = new ArrayList<>();
-    
-        for(Course c : allCourses){
-            if(c.getInstructorID().equals(instructorID)){
+
+        for (Course c : allCourses) {
+            if (c.getInstructorID().equals(instructorID)) {
                 instructorCourses.add(c);
             }
         }
         return instructorCourses;
     }
-    
-    public ArrayList<Student> getEnrolledStudents(Course course){
+
+    public ArrayList<Student> getEnrolledStudents(Course course) {
         return course.getStudents();
     }
-    
+
     @Override
-    public String getId(Course course){
+    public String getId(Course course) {
         return course.getCourseID();
     }
-    
+
     @Override
-    protected boolean isDuplicate(Course course, List<Course> existingCourses){
-        for(int i = 0; i < existingCourses.size(); i++){
-            if(course.getCourseID().equals(existingCourses.get(i).getCourseID())){
+    protected boolean isDuplicate(Course course, List<Course> existingCourses) {
+        for (int i = 0; i < existingCourses.size(); i++) {
+            if (course.getCourseID().equals(existingCourses.get(i).getCourseID())) {
                 return true;
             }
         }
         return false;
     }
-    
+
     @Override
-    public String getEmail(Course course){
+    public String getEmail(Course course) {
         throw new UnsupportedOperationException("Course does not have an email");
     }
 }
