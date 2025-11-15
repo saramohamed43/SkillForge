@@ -9,5 +9,12 @@ package skillforge;
  * @author zmezm
  */
 public class Servicedatabase {
-    
+    private final List<Student> students = new ArrayList<>();
+    private final List<Course> courses = new ArrayList<>();
+
+    public List<Course> loadAllStudents {
+    return newArrayList<>(students);
+}
+   public List<Course> loadAllCourses {
+    return newArrayList<>(courses) ; 
 }
