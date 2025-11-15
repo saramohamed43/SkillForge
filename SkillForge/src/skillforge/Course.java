@@ -29,7 +29,7 @@ public class Course {
         lesson.setLessonID(newID);
         lesson.setLessonTitle(newTitle);
         lesson.setLessonContent(newContent);
-        lesson.setOptionalRresources(newResources);
+        lesson.setOptionalResources(newResources);
     }
 
     public void enrollStudent(Student student) {
