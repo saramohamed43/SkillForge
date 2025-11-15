@@ -8,51 +8,56 @@ package skillforge;
  *
  * @author zmezm
  */
-public class StudentManager extends {
-    private final ServiceDatabase serviceDatabase;
-    
+public class StudentManager  {
+   private final JsonDatabaseManager<Student> studentDb;
+    private final JsonDatabaseManager<Course> courseDb;
 
-public StudentManager(ServiceDatabase serviceDatabase){
-this.serviceDatabase=serviceDatbase;
+    public StudentManager(JsonDatabaseManager<Student> studentDb, JsonDatabaseManager<Course> courseDb) {
+        this.studentDb = studentDb;
+        this.courseDb = courseDb;
 }
 
 public List<Course> getAllCourses(){
-return serviceDatabase.loadAllCourses;
+return courseDb.getAll;
 }
-public List<Course> getEnrolledCourses(Student student){
-    List<Course> allCourses = serviceDatabase.loadAllCourses;
-    List<Course> enrolled =new ArrayList<>();
-    for(Course c:allCourses){
-        if (student.getEnrolledCourses().contains(c.getCourseID()))
-            enrolled.add(c);
-        
+ public List<Course> getEnrolledCourses(Student student) {
+        List<Course> allCourses = courseDb.getAll();
+        List<Course> enrolled = new ArrayList<>();
+
+        for (Course c : allCourses) {
+            if (student.getEnrolledCourses().contains(c.getCourseId())) {
+                enrolled.add(c);
+            }
+        }
+        return enrolled;
     }
-    return enrolled;
-}
-public boolean enrollStudentInCourse(Student student,Course course){
-   if (student.getEnrolledCourses.contains(course.getCourseID())) 
-       return false;
-   
-       student.getEnrolledCourses().add(course.getCourseId());
-        serviceDatabase.updateStudent(student);
+ public boolean enrollStudentInCourse(Student student, Course course) {
+        if (student.getEnrolledCourses().contains(course.getCourseId())) {
+            return false; 
+        }
+
+        student.getEnrolledCourses().add(course.getCourseId());
+        studentDb.update(student.getUserId(), student);
+
         course.getStudents().add(student.getUserId());
-        serviceDatabase.updateCourse(course);
+        courseDb.update(course.getCourseId(), course);
+
         return true;
-}
+    }
+
   public void markLessonCompleted(Student student, Course course, String lessonId) {
         student.getProgress().computeIfAbsent(course.getCourseId(), k -> new ArrayList<>());
 
         List<String> completedLessons = student.getProgress().get(course.getCourseId());
         if (!completedLessons.contains(lessonId)) {
             completedLessons.add(lessonId);
-            serviceDatabase.updateStudent(student);
+            studentDb.update(student.getUserId(), student);
         }
-    } 
-   public List<String> getCompletedLessons(Student student, Course course) {
+    }
+    public List<String> getCompletedLessons(Student student, Course course) {
         return student.getProgress().getOrDefault(course.getCourseId(), new ArrayList<>());
     }
 
-   
     public boolean isLessonCompleted(Student student, Course course, String lessonId) {
         List<String> completedLessons = getCompletedLessons(student, course);
         return completedLessons.contains(lessonId);
@@ -60,7 +65,8 @@ public boolean enrollStudentInCourse(Student student,Course course){
 
     
     public Optional<Student> getStudentById(String studentId) {
-        return serviceDatabase.getStudentById(studentId);
+        Student s = studentDb.find(studentId);
+        return s != null ? Optional.of(s) : Optional.empty();
     }
 }
 
