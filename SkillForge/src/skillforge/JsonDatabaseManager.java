@@ -100,5 +100,5 @@ public List<T> read() {
     }
     
     public abstract int getId(T item);
-
+    
 }
