@@ -23,7 +23,6 @@ public class CourseManagment extends JsonDatabaseManager<Course> {
         return getItemById(courseID);
     }
 
-// Remove lesson from a specific course
     public boolean removeLesson(String courseID, String lessonID) {
         Course course = getItemById(courseID);
         if (course == null) {
@@ -39,7 +38,6 @@ public class CourseManagment extends JsonDatabaseManager<Course> {
         return update(courseID, course);
     }
 
-// Remove student from a specific course
     public boolean removeStudent(String courseID, String studentID) {
         Course course = getItemById(courseID);
         if (course == null) {
@@ -61,7 +59,6 @@ public class CourseManagment extends JsonDatabaseManager<Course> {
         return update(courseID, course);
     }
 
-    // Edit course details
     public boolean editCourse(String courseID, String newTitle, String newDescription) {
         Course course = getItemById(courseID);
         if (course == null) {
@@ -73,7 +70,6 @@ public class CourseManagment extends JsonDatabaseManager<Course> {
         return update(courseID, course);
     }
 
-// Add lesson to a course
     public boolean addLesson(String courseID, Lesson lesson) {
         Course course = getItemById(courseID);
         if (course == null) {
@@ -84,7 +80,6 @@ public class CourseManagment extends JsonDatabaseManager<Course> {
         return update(courseID, course);
     }
 
-// Get all courses by instructor
     public List<Course> getCoursesByInstructor(String instructorID) {
         List<Course> allCourses = getAll();
         List<Course> instructorCourses = new ArrayList<>();

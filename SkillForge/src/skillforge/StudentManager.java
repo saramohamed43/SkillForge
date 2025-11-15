@@ -75,7 +75,7 @@ public class StudentManager {
     }
 
     public Optional<Student> getStudentById(String studentId) {
-        Student s = studentDb.getStudentById(studentId); // Use the new helper method
+        Student s = studentDb.getStudentById(studentId); 
         return s != null ? Optional.of(s) : Optional.empty();
     }
 }

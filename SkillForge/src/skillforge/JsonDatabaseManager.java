@@ -19,12 +19,11 @@ public abstract class JsonDatabaseManager<T> {
 
     public JsonDatabaseManager(String filePath, Type elementType) {
         this.filePath = filePath;
-        this.gson = createGson(); // CHANGED THIS LINE
+        this.gson = createGson(); 
         this.listType = TypeToken.getParameterized(List.class, elementType).getType();
         ensureFileExists();
     }
 
-// ADD THIS NEW METHOD
     protected Gson createGson() {
         return new GsonBuilder().setPrettyPrinting().create();
     }
@@ -95,7 +94,6 @@ public abstract class JsonDatabaseManager<T> {
         return null;
     }
 
-    // CHANGED: int → String
     public boolean update(String id, T newItem) {
         List<T> items = read();
         for (int i = 0; i < items.size(); i++) {
@@ -108,7 +106,6 @@ public abstract class JsonDatabaseManager<T> {
         return false;
     }
 
-    // CHANGED: int → String
     public boolean deleteById(String id) {
         List<T> items = read();
         for (int i = 0; i < items.size(); i++) {

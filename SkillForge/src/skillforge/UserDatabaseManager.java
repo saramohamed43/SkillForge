@@ -34,7 +34,6 @@ public class UserDatabaseManager extends JsonDatabaseManager<User> {
                 .anyMatch(u -> u.getEmail().equalsIgnoreCase(item.getEmail()));
     }
 
-    // Helper methods for type-safe access
     public Student getStudentById(String studentId) {
         User user = getItemById(studentId);
         if (user instanceof Student) {

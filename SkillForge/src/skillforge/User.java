@@ -21,7 +21,7 @@ public abstract class User {
     }
 
     protected User() {
-        // Initialize with defaults
+        
     }
 
     public static String hashPassword(String Password) {

@@ -10,7 +10,6 @@ public class Student extends User {
     private ArrayList<String> enrolledCourses;
     private Map<String, List<String>> progress;
 
-    // Default constructor for Gson deserialization
     public Student() {
         super();
         this.enrolledCourses = new ArrayList<>();
