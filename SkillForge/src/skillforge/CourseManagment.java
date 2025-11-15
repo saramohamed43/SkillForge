@@ -1,6 +1,7 @@
 package skillforge;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseManagment extends JsonDatabaseManager<Course> {
@@ -13,16 +14,70 @@ public class CourseManagment extends JsonDatabaseManager<Course> {
         return add(course);
     }
     
-    public Course browseCoursesByID(Course course){
-        return find(course.getCourseID());
+    public Course browseCoursesByID(String courseID){
+        return find(courseID);
     }
 
-    public boolean removeLesson(Lesson lesson){
-        return deleteById(lesson.getLessonID());
+// Remove lesson from a specific course
+    public boolean removeLesson(String courseID, String lessonID){
+        Course course = find(courseID);
+        if(course == null) return false;
+    
+        Lesson lessonToRemove = course.getLesson(lessonID);
+        if(lessonToRemove == null) return false;
+    
+        course.getLessons().remove(lessonToRemove);
+        return update(courseID, course);
+    }
+
+// Remove student from a specific course
+    public boolean removeStudent(String courseID, String studentID){
+        Course course = find(courseID);
+        if(course == null) return false;
+    
+        Student studentToRemove = null;
+        for(Student s : course.getStudents()){
+            if(s.getStudentId().equals(studentID)){
+                studentToRemove = s;
+                break;
+            }
+        }
+    
+        if(studentToRemove == null) return false;
+        course.getStudents().remove(studentToRemove);
+        return update(courseID, course);
     }
     
-    public boolean removeStudent(Student student){
-        return deleteById(student.getStudentId());
+    // Edit course details
+    public boolean editCourse(String courseID, String newTitle, String newDescription){
+        Course course = find(courseID);
+        if(course == null) return false;
+    
+        course.setCourseTitle(newTitle);
+        course.setCourseDescription(newDescription);
+        return update(courseID, course);
+    }
+
+// Add lesson to a course
+    public boolean addLesson(String courseID, Lesson lesson){
+        Course course = find(courseID);
+        if(course == null) return false;
+    
+        course.addLesson(lesson);
+        return update(courseID, course);
+    }
+
+// Get all courses by instructor
+    public List<Course> getCoursesByInstructor(String instructorID){
+        List<Course> allCourses = getAll();
+        List<Course> instructorCourses = new ArrayList<>();
+    
+        for(Course c : allCourses){
+            if(c.getInstructorID().equals(instructorID)){
+                instructorCourses.add(c);
+            }
+        }
+        return instructorCourses;
     }
     
     @Override

@@ -21,7 +21,7 @@ public class Course {
         this.students = new ArrayList<>();
     }
 
-    public Lesson getlesson(String lessonID){
+    public Lesson getLesson(String lessonID){
         for(int i = 0; i < lessons.size(); i++){
             if(lessonID.equals(lessons.get(i).getLessonID())){
                 return lessons.get(i);
@@ -34,12 +34,15 @@ public class Course {
         lessons.add(lesson);
     }
 
-    public void editLesson(Lesson lesson, String newID, String newTitle, String newContent, ArrayList<String> newResources) {
-        lesson.setLessonID(newID);
-        lesson.setLessonTitle(newTitle);
-        lesson.setLessonContent(newContent);
-        lesson.setOptionalResources(newResources);
-    }
+public boolean editLesson(String lessonID, String newTitle, String newContent, ArrayList<String> newResources) {
+    Lesson lesson = getLesson(lessonID);
+    if(lesson == null) return false;
+    
+    lesson.setLessonTitle(newTitle);
+    lesson.setLessonContent(newContent);
+    lesson.setOptionalResources(newResources);
+    return true;
+}
   
     public void enrollStudent(Student student) {
         students.add(student);
