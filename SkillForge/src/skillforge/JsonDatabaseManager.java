@@ -16,39 +16,38 @@ public abstract class JsonDatabaseManager<T> {
     protected final Gson gson;
     protected final Type listType;
     
-public JsonDatabaseManager(String filePath, Type elementType) {
-    this.filePath = filePath;
-    this.gson = new GsonBuilder().setPrettyPrinting().create();
-    this.listType = TypeToken.getParameterized(List.class, elementType).getType();
-    ensureFileExists();
-}
-public void ensureFileExists() {
-    File file = new File(filePath);
-    if (!file.exists()) {
-        try (Writer writer = new FileWriter(file)) {
-            writer.write("[]"); 
-        } catch (IOException e) {
-            throw new RuntimeException("Error creating JSON file: " + e.getMessage());
+    public JsonDatabaseManager(String filePath, Type elementType) {
+        this.filePath = filePath;
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.listType = TypeToken.getParameterized(List.class, elementType).getType();
+        ensureFileExists();
+    }
+    
+    public void ensureFileExists() {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            try (Writer writer = new FileWriter(file)) {
+                writer.write("[]");
+            } catch (IOException e) {
+                throw new RuntimeException("Error creating JSON file: " + e.getMessage());
+            }
         }
     }
-}
-
-public List<T> read() {
-    try (Reader reader = new FileReader(filePath)) {
-        List<T> list = gson.fromJson(reader, listType);
-
-        if (list != null) {
-            return list;
-        }
-        else{
+    
+    public List<T> read() {
+        try (Reader reader = new FileReader(filePath)) {
+            List<T> list = gson.fromJson(reader, listType);
+            if (list != null) {
+                return list;
+            } else {
+                return new ArrayList<>();
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
             return new ArrayList<>();
         }
-    } catch (IOException e) {
-        System.out.println("Error reading file: " + e.getMessage());
-        return new ArrayList<>();
     }
-}
-
+    
     public boolean save(List<T> items) {
         try (Writer writer = new FileWriter(filePath)) {
             gson.toJson(items, listType, writer);
@@ -59,46 +58,58 @@ public List<T> read() {
         }
     }
     
-    public boolean add(T item){
+    public boolean add(T item) {
         List<T> items = read();
+        if (isDuplicate(item, items)) {
+            System.err.println("Duplicate entry detected!");
+            return false;
+        }
         items.add(item);
         return save(items);
     }
     
-    public T find(int id) {
+    public T find(String id) {
         List<T> items = read();
-    for (int i = 0; i < items.size(); i++) {
-        T item = items.get(i);
-        if (getId(item) == id) {
-            return item;
+        for (int i = 0; i < items.size(); i++) {
+            T item = items.get(i);
+            if (getId(item).equals(id)) {
+                return item;
+            }
         }
+        return null;
     }
-    return null;
-    }   
-
     
-    public boolean update(int id, T newItem){
+    // CHANGED: int → String
+    public boolean update(String id, T newItem) {
         List<T> items = read();
-        for(int i=0;i<items.size();i++){
-            if(getId(items.get(i)) == id){
+        for (int i = 0; i < items.size(); i++) {
+            if (getId(items.get(i)).equals(id)) {
                 items.set(i, newItem);
                 return save(items);
             }
         }
+        System.err.println("Item not found for update");
         return false;
     }
     
-        public boolean deleteById(int id) {
+    // CHANGED: int → String
+    public boolean deleteById(String id) {
         List<T> items = read();
         for (int i = 0; i < items.size(); i++) {
-            if (getId(items.get(i)) == id) {
+            if (getId(items.get(i)).equals(id)) {
                 items.remove(i);
                 return save(items);
             }
         }
+        System.err.println("Item not found for deletion");
         return false;
     }
     
-    public abstract int getId(T item);
+    public List<T> getAll() {
+        return read();
+    }
     
+    public abstract String getId(T item);
+    
+    protected abstract boolean isDuplicate(T item, List<T> existingItems);
 }
