@@ -68,7 +68,7 @@ public abstract class JsonDatabaseManager<T> {
         return save(items);
     }
     
-    public T find(String id) {
+    public T getUserById(String id) {
         List<T> items = read();
         for (int i = 0; i < items.size(); i++) {
             T item = items.get(i);
@@ -78,6 +78,16 @@ public abstract class JsonDatabaseManager<T> {
         }
         return null;
     }
+    
+    public T getUserByEmail(String email) {
+    List<T> items = read();
+    for (T item : items) {
+        if (getEmail(item).equalsIgnoreCase(email)) {
+            return item;
+        }
+    }
+    return null;
+}
     
     // CHANGED: int → String
     public boolean update(String id, T newItem) {
@@ -110,6 +120,8 @@ public abstract class JsonDatabaseManager<T> {
     }
     
     public abstract String getId(T item);
+    
+    public abstract String getEmail(T item);
     
     protected abstract boolean isDuplicate(T item, List<T> existingItems);
 }
