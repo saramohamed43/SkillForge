@@ -12,17 +12,23 @@ import java.io.*;
 import java.util.*;
 
 public abstract class JsonDatabaseManager<T> {
+
     protected final String filePath;
     protected final Gson gson;
     protected final Type listType;
-    
+
     public JsonDatabaseManager(String filePath, Type elementType) {
         this.filePath = filePath;
-        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.gson = createGson(); // CHANGED THIS LINE
         this.listType = TypeToken.getParameterized(List.class, elementType).getType();
         ensureFileExists();
     }
-    
+
+// ADD THIS NEW METHOD
+    protected Gson createGson() {
+        return new GsonBuilder().setPrettyPrinting().create();
+    }
+
     public void ensureFileExists() {
         File file = new File(filePath);
         if (!file.exists()) {
@@ -33,7 +39,7 @@ public abstract class JsonDatabaseManager<T> {
             }
         }
     }
-    
+
     public List<T> read() {
         try (Reader reader = new FileReader(filePath)) {
             List<T> list = gson.fromJson(reader, listType);
@@ -47,7 +53,7 @@ public abstract class JsonDatabaseManager<T> {
             return new ArrayList<>();
         }
     }
-    
+
     public boolean save(List<T> items) {
         try (Writer writer = new FileWriter(filePath)) {
             gson.toJson(items, listType, writer);
@@ -57,7 +63,7 @@ public abstract class JsonDatabaseManager<T> {
             return false;
         }
     }
-    
+
     public boolean add(T item) {
         List<T> items = read();
         if (isDuplicate(item, items)) {
@@ -67,7 +73,7 @@ public abstract class JsonDatabaseManager<T> {
         items.add(item);
         return save(items);
     }
-    
+
     public T getItemById(String id) {
         List<T> items = read();
         for (int i = 0; i < items.size(); i++) {
@@ -78,17 +84,17 @@ public abstract class JsonDatabaseManager<T> {
         }
         return null;
     }
-    
+
     public T getUserByEmail(String email) {
-    List<T> items = read();
-    for (T item : items) {
-        if (getEmail(item).equalsIgnoreCase(email)) {
-            return item;
+        List<T> items = read();
+        for (T item : items) {
+            if (getEmail(item).equalsIgnoreCase(email)) {
+                return item;
+            }
         }
+        return null;
     }
-    return null;
-}
-    
+
     // CHANGED: int → String
     public boolean update(String id, T newItem) {
         List<T> items = read();
@@ -101,7 +107,7 @@ public abstract class JsonDatabaseManager<T> {
         System.err.println("Item not found for update");
         return false;
     }
-    
+
     // CHANGED: int → String
     public boolean deleteById(String id) {
         List<T> items = read();
@@ -114,14 +120,14 @@ public abstract class JsonDatabaseManager<T> {
         System.err.println("Item not found for deletion");
         return false;
     }
-    
+
     public List<T> getAll() {
         return read();
     }
-    
+
     public abstract String getId(T item);
-    
+
     public abstract String getEmail(T item);
-    
+
     protected abstract boolean isDuplicate(T item, List<T> existingItems);
 }

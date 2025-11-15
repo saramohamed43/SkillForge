@@ -8,27 +8,24 @@ package skillforge;
  *
  * @author zmezm
  */
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class StudentManager {
 
-    private final JsonDatabaseManager<Student> studentDb;
+    private final UserDatabaseManager studentDb;
     private final JsonDatabaseManager<Course> courseDb;
 
-    public StudentManager(JsonDatabaseManager<Student> studentDb, JsonDatabaseManager<Course> courseDb) {
+    public StudentManager(UserDatabaseManager studentDb, JsonDatabaseManager<Course> courseDb) {
         this.studentDb = studentDb;
         this.courseDb = courseDb;
     }
 
-   
     public List<Course> getAllCourses() {
-        return courseDb.getAll(); 
+        return courseDb.getAll();
     }
 
- 
     public List<Course> getEnrolledCourses(Student student) {
         List<Course> allCourses = courseDb.getAll();
         List<Course> enrolled = new ArrayList<>();
@@ -42,27 +39,21 @@ public class StudentManager {
         return enrolled;
     }
 
- 
     public boolean enrollStudentInCourse(Student student, Course course) {
         if (student.getEnrolledCourses().contains(course.getCourseID())) {
-            return false; 
+            return false;
         }
 
-       
-
         student.getEnrolledCourses().add(course.getCourseID());
-        studentDb.update(student.getUserId(), student); 
+        studentDb.update(student.getUserId(), student);
 
         course.enrollStudent(student);
-        courseDb.update(course.getCourseID(), course); 
-
+        courseDb.update(course.getCourseID(), course);
 
         return true;
     }
 
-
     public void markLessonCompleted(Student student, Course course, String lessonId) {
-       
 
         student.getProgress().computeIfAbsent(course.getCourseID(), k -> new ArrayList<>());
 
@@ -70,24 +61,21 @@ public class StudentManager {
 
         if (!completedLessons.contains(lessonId)) {
             completedLessons.add(lessonId);
-            studentDb.update(student.getUserId(), student); 
+            studentDb.update(student.getUserId(), student);
         }
     }
-
 
     public List<String> getCompletedLessons(Student student, Course course) {
         return student.getProgress().getOrDefault(course.getCourseID(), new ArrayList<>());
     }
 
- 
     public boolean isLessonCompleted(Student student, Course course, String lessonId) {
         List<String> completedLessons = getCompletedLessons(student, course);
         return completedLessons.contains(lessonId);
     }
-      
-       public Optional<Student> getStudentById(String studentId) {
-        Student s = studentDb.getItemById(studentId); 
+
+    public Optional<Student> getStudentById(String studentId) {
+        Student s = studentDb.getStudentById(studentId); // Use the new helper method
         return s != null ? Optional.of(s) : Optional.empty();
     }
 }
-

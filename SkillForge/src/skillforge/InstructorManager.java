@@ -18,7 +18,6 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
     }
 
     // ------------------ User management ------------------
-
     @Override
     public String getId(Instructor item) {
         return item.getUserId();
@@ -53,9 +52,10 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
     }
 
     // ------------------ Course management ------------------
-
     public boolean createCourse(Instructor instructor, String courseId, String title, String description) {
-        if (!"instructor".equalsIgnoreCase(instructor.getRole())) return false;
+        if (!"instructor".equalsIgnoreCase(instructor.getRole())) {
+            return false;
+        }
 
         Course course = new Course(courseId, title, description, instructor.getUserId());
         boolean saved = courseManager.add(course);
@@ -68,7 +68,9 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
 
     public boolean editCourse(String courseId, String newTitle, String newDescription) {
         Course course = courseManager.getItemById(courseId);
-        if (course == null) return false;
+        if (course == null) {
+            return false;
+        }
 
         course.setCourseTitle(newTitle);
         course.setCourseDescription(newDescription);
@@ -76,7 +78,6 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
     }
 
     // ------------------ Lesson management ------------------
-
     public void addLesson(String courseId, String lessonId, String title, String content) {
         Lesson lesson = new Lesson(lessonId, title, content);
         courseManager.addLesson(courseId, lesson);
@@ -84,7 +85,9 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
 
     public void editLesson(String courseId, String lessonId, String newTitle, String newContent) {
         Course course = courseManager.getItemById(courseId);
-        if (course == null) return;
+        if (course == null) {
+            return;
+        }
 
         List<Lesson> lessons = course.getLessons();
         for (int i = 0; i < lessons.size(); i++) {
@@ -104,7 +107,6 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
     }
 
     // ------------------ View enrolled students ------------------
-
     public ArrayList<Student> getEnrolledStudents(Course course) {
         return courseManager.getEnrolledStudents(course);
     }
