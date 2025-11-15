@@ -34,7 +34,8 @@ public class StudentManager {
         List<Course> enrolled = new ArrayList<>();
 
         for (Course c : allCourses) {
-            if (student.getEnrolledCourses().contains(c.getCourseID())) {
+
+            if (student.getEnrolledCourses().contains(c.getCourseId())) {
                 enrolled.add(c);
             }
         }
@@ -43,16 +44,18 @@ public class StudentManager {
 
  
     public boolean enrollStudentInCourse(Student student, Course course) {
-        if (student.getEnrolledCourses().contains(course.getCourseID())) {
+        if (student.getEnrolledCourses().contains(course.getCourseId())) {
             return false; 
         }
 
        
-        student.getEnrolledCourses().add(course.getCourseID());
+
+        student.getEnrolledCourses().add(course.getCourseId());
         studentDb.update(student.getUserId(), student); 
 
-        course.enrollStudent(student);
-        courseDb.update(course.getCourseID(), course); 
+        course.getStudents().add(student.getUserId());
+        courseDb.update(course.getCourseId(), course); 
+
 
         return true;
     }
@@ -60,9 +63,11 @@ public class StudentManager {
 
     public void markLessonCompleted(Student student, Course course, String lessonId) {
        
-        student.getProgress().computeIfAbsent(course.getCourseID(), k -> new ArrayList<>());
 
-        List<String> completedLessons = student.getProgress().get(course.getCourseID());
+        student.getProgress().computeIfAbsent(course.getCourseId(), k -> new ArrayList<>());
+
+        List<String> completedLessons = student.getProgress().get(course.getCourseId());
+
         if (!completedLessons.contains(lessonId)) {
             completedLessons.add(lessonId);
             studentDb.update(student.getUserId(), student); 
@@ -71,7 +76,7 @@ public class StudentManager {
 
 
     public List<String> getCompletedLessons(Student student, Course course) {
-        return student.getProgress().getOrDefault(course.getCourseID(), new ArrayList<>());
+        return student.getProgress().getOrDefault(course.getCourseId(), new ArrayList<>());
     }
 
  
