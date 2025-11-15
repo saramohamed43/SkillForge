@@ -263,9 +263,19 @@ cardLayout.show(getContentPane(), "welcomePanel");
 
         ManageLessons.setBackground(new java.awt.Color(153, 153, 255));
         ManageLessons.setText("Manage Lessons");
+        ManageLessons.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ManageLessonsActionPerformed(evt);
+            }
+        });
 
         ViewStudents.setBackground(new java.awt.Color(153, 153, 255));
         ViewStudents.setText("View Entrolled Students");
+        ViewStudents.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewStudentsActionPerformed(evt);
+            }
+        });
 
         Back.setBackground(new java.awt.Color(153, 153, 255));
         Back.setText("Log Out");
@@ -442,7 +452,9 @@ cardLayout.show(getContentPane(), "mainCard");        // TODO add your handling 
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
         InstructorFrame instructorFrame = new InstructorFrame(this);
 instructorFrame.setVisible(true);
-this.setVisible(false); // hide login frame
+instructorFrame.showPanel("DeleteCourseCard");
+this.setVisible(false);
+
     }//GEN-LAST:event_DeleteActionPerformed
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
@@ -463,6 +475,20 @@ instructorFrame.setVisible(true);
 this.setVisible(false); // hide login frame
 
     }//GEN-LAST:event_EditActionPerformed
+
+    private void ManageLessonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManageLessonsActionPerformed
+        InstructorFrame instructorFrame = new InstructorFrame(this);
+instructorFrame.setVisible(true);
+instructorFrame.showPanel("ManageLessonsCard");
+this.setVisible(false);
+    }//GEN-LAST:event_ManageLessonsActionPerformed
+
+    private void ViewStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewStudentsActionPerformed
+        InstructorFrame instructorFrame = new InstructorFrame(this);
+instructorFrame.setVisible(true);
+instructorFrame.showPanel("ViewStudentsCard");
+this.setVisible(false);
+    }//GEN-LAST:event_ViewStudentsActionPerformed
 
     public void showPanel(String panelKey) {
         cardLayout.show(getContentPane(), panelKey);
