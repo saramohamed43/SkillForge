@@ -8,42 +8,74 @@ public class UserAuth {
     private static final UserDatabaseManager db = new UserDatabaseManager();
 
     public static boolean signup(String username, String email, String password, String role) {
-        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            return false;
-        }
-        if (!email.contains("@") || !email.contains(".")) {
-            return false;
-        }
-        if (db.getUserByEmail(email) != null) {
-            return false;
-        }
+        try {
+            if (username == null || username.trim().isEmpty()) {
+                System.err.println("Validation Error: Username cannot be empty");
+                return false;
+            }
+            if (email == null || email.trim().isEmpty()) {
+                System.err.println("Validation Error: Email cannot be empty");
+                return false;
+            }
+            if (password == null || password.isEmpty()) {
+                System.err.println("Validation Error: Password cannot be empty");
+                return false;
+            }
+            if (!User.isValidEmail(email)) {
+                System.err.println("Validation Error: Invalid email format");
+                return false;
+            }
+            if (db.getUserByEmail(email) != null) {
+                System.err.println("Validation Error: Email already exists");
+                return false;
+            }
+            String passwordHash = hashPassword(password);
+            String userId = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+            User newUser;
+            if (role.equalsIgnoreCase("Student")) {
+                newUser = new Student(userId, username, email, passwordHash);
+            } else if (role.equalsIgnoreCase("Instructor")) {
+                newUser = new Instructor(userId, username, email, passwordHash);
+            } else {
+                System.err.println("Validation Error: Invalid role. Must be 'Student' or 'Instructor'");
+                return false;
+            }
 
-        String userId = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-        String passwordHash = hashPassword(password);
-        User newUser;
-        if (role.equalsIgnoreCase("Student")) {
-            newUser = new Student(userId, username, email, passwordHash);
+            return db.add(newUser);
 
-        } else if (role.equalsIgnoreCase("Instructor")) {
-            newUser = new Instructor(userId, username, email, passwordHash);
-        } else {
+        } catch (IllegalArgumentException e) {
+            System.err.println("Validation Error: " + e.getMessage());
             return false;
         }
-        return db.add(newUser);
     }
 
     public static User login(String email, String password) {
-        if (email.isEmpty() || password.isEmpty()) {
+        try {
+            if (email == null || email.trim().isEmpty()) {
+                System.err.println("Validation Error: Email cannot be empty");
+                return null;
+            }
+            if (password == null || password.isEmpty()) {
+                System.err.println("Validation Error: Password cannot be empty");
+                return null;
+            }
+            User user = db.getUserByEmail(email);
+            if (user == null) {
+                System.err.println("Login Error: User not found");
+                return null;
+            }
+
+            String hashedPassword = hashPassword(password);
+            if (!user.getPasswordHash().equals(hashedPassword)) {
+                System.err.println("Login Error: Incorrect password");
+                return null;
+            }
+
+            return user;
+
+        } catch (IllegalArgumentException e) {
+            System.err.println("Validation Error: " + e.getMessage());
             return null;
         }
-        User user = db.getUserByEmail(email);
-        if (user == null) {
-            return null;
-        }
-        String hashedPassword = hashPassword(password);
-        if (!user.getPasswordHash().equals(hashedPassword)) {
-            return null;
-        }
-        return user;
     }
 }

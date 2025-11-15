@@ -21,12 +21,18 @@ public class Instructor extends User {
     }
 
     public void addCreatedCourses(String courseId) {
+              if (courseId == null || courseId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Course ID cannot be empty");
+        }
         if (!createdCourses.contains(courseId)) {
             createdCourses.add(courseId);
         }
     }
 
     public void removeCreatedCourse(String courseId) {
+      if (courseId == null || courseId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Course ID cannot be empty");
+        }
         if (createdCourses.contains(courseId)) {
             createdCourses.remove(courseId);
         }

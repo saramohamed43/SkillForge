@@ -13,6 +13,21 @@ public class Course {
     private ArrayList<Student> students;
 
     public Course(String courseID, String courseTitle, String courseDescription, String instructorID) {
+        if (courseID == null || courseID.trim().isEmpty()) {
+            throw new IllegalArgumentException("Course ID cannot be empty");
+        }
+        if (!courseID.matches("^[A-Za-z0-9]+$")) {
+            throw new IllegalArgumentException("Course ID must contain only letters and numbers");
+        }
+        if (courseTitle == null || courseTitle.trim().isEmpty()) {
+            throw new IllegalArgumentException("Course title cannot be empty");
+        }
+        if (courseDescription == null || courseDescription.trim().isEmpty()) {
+            throw new IllegalArgumentException("Course description cannot be empty");
+        }
+        if (instructorID == null || instructorID.trim().isEmpty()) {
+            throw new IllegalArgumentException("Instructor ID cannot be empty");
+        }
         this.courseID = courseID;
         this.courseTitle = courseTitle;
         this.courseDescription = courseDescription;
@@ -22,6 +37,9 @@ public class Course {
     }
 
     public Lesson getLesson(String lessonID) {
+        if (lessonID == null || lessonID.trim().isEmpty()) {
+            throw new IllegalArgumentException("lesson ID cannot be empty");
+         }
         for (int i = 0; i < lessons.size(); i++) {
             if (lessonID.equals(lessons.get(i).getLessonID())) {
                 return lessons.get(i);
@@ -31,6 +49,13 @@ public class Course {
     }
 
     public void addLesson(Lesson lesson) {
+        if (lesson == null) {
+            throw new IllegalArgumentException("Lesson cannot be null");
+        }
+        // Check for duplicate lesson ID
+        if (getLesson(lesson.getLessonID()) != null) {
+            throw new IllegalArgumentException("Lesson with ID " + lesson.getLessonID() + " already exists");
+        }
         lessons.add(lesson);
     }
 
