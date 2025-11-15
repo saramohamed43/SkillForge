@@ -16,6 +16,14 @@ public class CourseManagment extends JsonDatabaseManager<Course> {
     public Course browseCoursesByID(Course course){
         return find(course.getCourseID());
     }
+
+    public boolean removeLesson(Lesson lesson){
+        return deleteById(lesson.getLessonID());
+    }
+    
+    public boolean removeStudent(Student student){
+        return deleteById(student.getStudentId());
+    }
     
     @Override
     public String getId(Course course){

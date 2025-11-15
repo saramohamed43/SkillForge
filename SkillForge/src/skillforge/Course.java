@@ -21,6 +21,15 @@ public class Course {
         this.students = new ArrayList<>();
     }
 
+    public Lesson getlesson(String lessonID){
+        for(int i = 0; i < lessons.size(); i++){
+            if(lessonID.equals(lessons.get(i).getLessonID())){
+                return lessons.get(i);
+            }
+        }
+        return null;
+    }
+    
     public void addLesson(Lesson lesson) {
         lessons.add(lesson);
     }
@@ -31,11 +40,11 @@ public class Course {
         lesson.setLessonContent(newContent);
         lesson.setOptionalResources(newResources);
     }
-
+  
     public void enrollStudent(Student student) {
         students.add(student);
     }
-
+    
     public String getCourseID() { return courseID; }
     public String getCourseTitle() { return courseTitle; }
     public String getCourseDescription() { return courseDescription; }
