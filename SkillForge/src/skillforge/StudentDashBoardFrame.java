@@ -9,12 +9,64 @@ package skillforge;
  * @author zmezm
  */
 public class StudentDashBoardFrame extends javax.swing.JFrame {
+    private StudentManager studentManager;
+private Student currentStudent;
+private void loadAvailableCourses() {
+    List<Course> courseList = studentManager.getAllCourses();
+
+    DefaultTableModel model = (DefaultTableModel) AvailableCoursesTable.getModel();
+    model.setRowCount(0);
+
+    for (Course course : courseList) {
+        model.addRow(new Object[]{
+            course.getCourseID(),
+            course.getCourseTitle(),
+            course.getInstructorID(),
+            studentManager.getEnrolledCourses(currentStudent).contains(course) ? "Enrolled" : "Enroll"
+        });
+    }
+}
+private void setupEnrollButton() {
+    ClickEnrollBtn.addActionListener(e -> {
+        int selectedRow = AvailableCoursesTable.getSelectedRow();
+        if (selectedRow == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please select a course first!");
+            return;
+        }
+
+        String courseId = (String) AvailableCoursesTable.getValueAt(selectedRow, 0);
+        Course course = studentManager.getAllCourses().stream()
+                .filter(c -> c.getCourseID().equals(courseId))
+                .findFirst()
+                .orElse(null);
+
+        if (course == null) return;
+
+        boolean success = studentManager.enrollStudentInCourse(currentStudent, course);
+
+        if (success) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Enrolled successfully!");
+            loadAvailableCourses(); // refresh table
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "You are already enrolled in this course.");
+        }
+    });
+}
+
+
 
     /**
      * Creates new form StudentDashBoardFrame
      */
-    public StudentDashBoardFrame() {
+    public StudentDashBoardFrame(Student student) {
         initComponents();
+          JsonDatabaseManager<Student> studentDb = new UserDatabaseManager();
+    JsonDatabaseManager<Course> courseDb = new CourseManagment("courses.json", Course.class);
+    this.studentManager = new StudentManager(studentDb, courseDb);
+
+    this.currentStudent = student;
+        loadAvailableCourses();
+        setupEnrollButton();
     }
 
     /**
@@ -26,21 +78,205 @@ public class StudentDashBoardFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        ButtonsPanel = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        MainStudentPanel = new javax.swing.JPanel();
+        BrowseCoursesPanel = new javax.swing.JPanel();
+        AvailableCoursesLbl = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        AvailableCoursesTable = new javax.swing.JTable();
+        ClickEnrollBtn = new javax.swing.JButton();
+        EnrolledCoursesPanel = new javax.swing.JPanel();
+        EnrolledCoursesLbl = new javax.swing.JLabel();
+        EnrolledCoursesScroll = new javax.swing.JScrollPane();
+        EnrolledCoursesTable = new javax.swing.JTable();
+        jButton5 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jButton6 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        WelcomeStudentPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        ButtonsPanel.setName("StudentsButtonPanel"); // NOI18N
+
+        jButton1.setText("available courses");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Enrolled Courses");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("jButton3");
+
+        javax.swing.GroupLayout ButtonsPanelLayout = new javax.swing.GroupLayout(ButtonsPanel);
+        ButtonsPanel.setLayout(ButtonsPanelLayout);
+        ButtonsPanelLayout.setHorizontalGroup(
+            ButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ButtonsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ButtonsPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(ButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton3)
+                    .addComponent(jButton2))
+                .addGap(22, 22, 22))
+        );
+        ButtonsPanelLayout.setVerticalGroup(
+            ButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ButtonsPanelLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(134, 134, 134)
+                .addComponent(jButton3)
+                .addGap(77, 77, 77))
+        );
+
+        MainStudentPanel.setName("MainStudentPanel"); // NOI18N
+        MainStudentPanel.setLayout(new java.awt.CardLayout());
+
+        BrowseCoursesPanel.setLayout(new java.awt.BorderLayout());
+
+        AvailableCoursesLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        AvailableCoursesLbl.setText("Available courses");
+        BrowseCoursesPanel.add(AvailableCoursesLbl, java.awt.BorderLayout.PAGE_START);
+
+        AvailableCoursesTable.setAutoCreateRowSorter(true);
+        AvailableCoursesTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        AvailableCoursesTable.setShowHorizontalLines(true);
+        AvailableCoursesTable.setShowVerticalLines(true);
+        jScrollPane1.setViewportView(AvailableCoursesTable);
+
+        BrowseCoursesPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        ClickEnrollBtn.setText("Enroll in Course");
+        BrowseCoursesPanel.add(ClickEnrollBtn, java.awt.BorderLayout.PAGE_END);
+
+        MainStudentPanel.add(BrowseCoursesPanel, "card2");
+
+        EnrolledCoursesPanel.setLayout(new java.awt.BorderLayout());
+
+        EnrolledCoursesLbl.setText("Enrolled Courses");
+        EnrolledCoursesPanel.add(EnrolledCoursesLbl, java.awt.BorderLayout.PAGE_START);
+
+        EnrolledCoursesTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        EnrolledCoursesScroll.setViewportView(EnrolledCoursesTable);
+
+        EnrolledCoursesPanel.add(EnrolledCoursesScroll, java.awt.BorderLayout.CENTER);
+
+        jButton5.setText("jButton5");
+        EnrolledCoursesPanel.add(jButton5, java.awt.BorderLayout.PAGE_END);
+
+        MainStudentPanel.add(EnrolledCoursesPanel, "card3");
+
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        jLabel3.setText("jLabel3");
+        jPanel5.add(jLabel3, java.awt.BorderLayout.PAGE_START);
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable3);
+
+        jPanel5.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+
+        jButton6.setText("jButton6");
+        jPanel5.add(jButton6, java.awt.BorderLayout.PAGE_END);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane4.setViewportView(jTextArea1);
+
+        jPanel5.add(jScrollPane4, java.awt.BorderLayout.LINE_START);
+
+        MainStudentPanel.add(jPanel5, "card4");
+
+        WelcomeStudentPanel.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("welcome ");
+        WelcomeStudentPanel.add(jLabel1, java.awt.BorderLayout.CENTER);
+
+        MainStudentPanel.add(WelcomeStudentPanel, "card5");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(ButtonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(MainStudentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(ButtonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(MainStudentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      loadAvailableCourses();
+
+    // Get the CardLayout of the main panel
+    CardLayout cl = (CardLayout) MainStudentPanel.getLayout();
+
+    // Show the BrowseCoursesPanel (the "card2" panel)
+    cl.show(MainStudentPanel, "card2");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +314,29 @@ public class StudentDashBoardFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel AvailableCoursesLbl;
+    private javax.swing.JTable AvailableCoursesTable;
+    private javax.swing.JPanel BrowseCoursesPanel;
+    private javax.swing.JPanel ButtonsPanel;
+    private javax.swing.JButton ClickEnrollBtn;
+    private javax.swing.JLabel EnrolledCoursesLbl;
+    private javax.swing.JPanel EnrolledCoursesPanel;
+    private javax.swing.JScrollPane EnrolledCoursesScroll;
+    private javax.swing.JTable EnrolledCoursesTable;
+    private javax.swing.JPanel MainStudentPanel;
+    private javax.swing.JPanel WelcomeStudentPanel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
