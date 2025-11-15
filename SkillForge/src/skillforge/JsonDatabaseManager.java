@@ -68,7 +68,7 @@ public abstract class JsonDatabaseManager<T> {
         return save(items);
     }
     
-    public T getUserById(String id) {
+    public T getItemById(String id) {
         List<T> items = read();
         for (int i = 0; i < items.size(); i++) {
             T item = items.get(i);
