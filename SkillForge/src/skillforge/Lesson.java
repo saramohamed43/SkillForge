@@ -10,6 +10,15 @@ public class Lesson {
     private ArrayList<String> optionalResources;
 
     public Lesson(String lessonID, String lessonTitle, String lessonContent) {
+         if (lessonID == null || lessonID.trim().isEmpty()) {
+            throw new IllegalArgumentException("lesson ID cannot be empty");
+        }
+        if (lessonTitle == null || lessonTitle.trim().isEmpty()) {
+            throw new IllegalArgumentException("lessonTitle  cannot be empty");
+        }
+        if (lessonContent == null || lessonContent.trim().isEmpty()) {
+            throw new IllegalArgumentException("lesson Content cannot be empty");
+        }
         this.lessonID = lessonID;
         this.lessonTitle = lessonTitle;
         this.lessonContent = lessonContent;

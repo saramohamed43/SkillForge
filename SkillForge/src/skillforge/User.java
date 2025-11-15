@@ -13,13 +13,37 @@ public abstract class User {
     protected String passwordHash;
 
     public User(String userId, String role, String username, String email, String passwordHash) {
+        if (userId == null || userId.trim().isEmpty()) {
+            throw new IllegalArgumentException("User ID cannot be empty");
+        }
+   
+        if (role == null || role.trim().isEmpty()) {
+            throw new IllegalArgumentException("Role cannot be empty");
+        }
+        if (!role.equalsIgnoreCase("Student") && !role.equalsIgnoreCase("Instructor")) {
+            throw new IllegalArgumentException("Role must be either 'Student' or 'Instructor'");
+        }
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
+        if (!isValidEmail(email)) {
+            throw new IllegalArgumentException("Invalid email format. Must contain @ and .");
+        }
+    
+        if (passwordHash == null || passwordHash.trim().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be empty");
+        }
+        
         this.userId = userId;
         this.role = role;
-        this.username = username;
-        this.email = email;
+        this.username = username.trim();
+        this.email = email.trim().toLowerCase();
         this.passwordHash = passwordHash;
     }
-
+    
     protected User() {
         
     }

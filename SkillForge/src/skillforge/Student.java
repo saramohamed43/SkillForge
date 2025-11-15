@@ -23,6 +23,9 @@ public class Student extends User {
     }
 
     public void enrollInCourse(String courseId) {
+         if (courseId == null || courseId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Course ID cannot be empty");
+         }
         if (enrolledCourses == null) {
             enrolledCourses = new ArrayList<>();
         }

@@ -11,8 +11,13 @@ public class CourseManagment extends JsonDatabaseManager<Course> {
     }
 
     public boolean createCourse(String courseID, String courseTitle, String courseDescription, String instructorID) {
-        Course course = new Course(courseID, courseTitle, courseDescription, instructorID);
-        return add(course);
+        try{
+            Course course = new Course(courseID, courseTitle, courseDescription, instructorID);
+             return add(course);
+        }catch (IllegalArgumentException e) {
+            System.err.println("Validation Error: " + e.getMessage());
+            return false;
+    }
     }
 
     public Course getCourseByID(String id) {
