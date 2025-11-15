@@ -80,6 +80,10 @@ public class CourseManagment extends JsonDatabaseManager<Course> {
         return instructorCourses;
     }
     
+    public ArrayList<Student> getEnrolledStudents(Course course){
+        return course.getStudents();
+    }
+    
     @Override
     public String getId(Course course){
         return course.getCourseID();
