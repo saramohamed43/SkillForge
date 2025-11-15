@@ -6,14 +6,14 @@ public class Lesson {
     private String lessonTitle;
     private String lessonContent;
     private ArrayList<String> optionalRresources;
-    
-    public Lesson(String lessonID, String lessonTitle, String lessonContent, ArrayList<String> optionalResources) {
+
+    //instructor with resources
+    public Lesson(String lessonID, String lessonTitle, String lessonContent) {
         this.lessonID = lessonID;
         this.lessonTitle = lessonTitle;
         this.lessonContent = lessonContent;
-        this.optionalRresources = optionalResources;
+        this.optionalRresources = new ArrayList<>();
     }
-
     
     public ArrayList<String> getOptionalRresources() {
         return optionalRresources;
@@ -48,5 +48,7 @@ public class Lesson {
         this.lessonContent = lessonContent;
     }
     
-    
+    public void saveProgress(Student student){
+        String courseID = 
+    }
 }

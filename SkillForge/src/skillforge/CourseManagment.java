@@ -9,16 +9,53 @@ public class CourseManagment {
     private String instructorID;
     private ArrayList<Lesson> lessons;
     private ArrayList<Student> students;
+    private ArrayList<CourseManagment> courses = new ArrayList<>();
     
-    public CourseManagment(String courseID, String courseTitle, String courseDescription, String instructorID, ArrayList<Lesson> lessons, ArrayList<Student> students) {
+    public CourseManagment(String courseID, String courseTitle, String courseDescription, String instructorID) {
         this.courseID = courseID;
         this.courseTitle = courseTitle;
         this.courseDescription = courseDescription;
         this.instructorID = instructorID;
-        this.lessons = lessons;
-        this.students = students;
+        this.lessons = new ArrayList<>();
+        this.students = new ArrayList<>();
     }
 
+    public void addStudent(Student student){
+        students.add(student);
+    }
+    
+    public void addCourse(CourseManagment course){
+        courses.add(course);
+    }
+    
+    public void addLesson(Lesson lesson){
+        lessons.add(lesson);
+    }
+    
+    public Lesson createLesson(String lessonID, String lessonTitle, String lessonContent){
+        Lesson lesson = new Lesson(lessonID, lessonTitle, lessonContent);
+        return lesson;
+    }
+    
+    public void editLesson(Lesson lesson, String lessonID, String lessonTitle, String lessonContent, ArrayList<String> resources){
+        lesson.setLessonID(lessonID);
+        lesson.setLessonTitle(lessonTitle);
+       lesson.setLessonContent(lessonContent);
+       lesson.setOptionalRresources(resources);
+    }
+    
+    public void enrollStudent(Student student){
+        students.add(student);
+    }
+    
+    public CourseManagment browseCourses(String courseID){
+        return find(courseID);
+    }
+    
+    //remove iteam
+    
+   //save
+    
     public String getCourseID() {
         return courseID;
     }
@@ -68,10 +105,5 @@ public class CourseManagment {
         this.students = students;
     }
 
-    //add lesson from abstract class service
-    //edit lesson
-    //delete lesson
-    //add student
-    //remove student
     
 }
