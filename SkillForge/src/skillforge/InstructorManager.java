@@ -16,6 +16,8 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
         this.courseManager = new CourseManager(coursesFilePath, courseType);
     }
 
+    // ------------------ User management ------------------
+
     @Override
     public String getId(Instructor item) {
         return item.getUserId();
@@ -23,26 +25,33 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
 
     @Override
     protected boolean isDuplicate(Instructor item, List<Instructor> existingItems) {
-    for (int i = 0; i < existingItems.size(); i++) {
-        Instructor u = existingItems.get(i);
-        if (u.getEmail().equalsIgnoreCase(item.getEmail())) {
-            return true; 
+        for (int i = 0; i < existingItems.size(); i++) {
+            Instructor u = existingItems.get(i);
+            if (u.getEmail().equalsIgnoreCase(item.getEmail())) {
+                return true;
+            }
         }
+        return false;
     }
-    return false;
-}
 
     @Override
     public String getEmail(Instructor item) {
         return item.getEmail();
     }
 
-    // Optional: list all instructors
+    // List all instructors
     public List<Instructor> getAllInstructors() {
-        return read().stream()
-                .filter(u -> "instructor".equalsIgnoreCase(u.getRole()))
-                .toList();
+        List<Instructor> all = read();
+        List<Instructor> instructors = new java.util.ArrayList<>();
+        for (int i = 0; i < all.size(); i++) {
+            if ("instructor".equalsIgnoreCase(all.get(i).getRole())) {
+                instructors.add(all.get(i));
+            }
+        }
+        return instructors;
     }
+
+    // ------------------ Course management ------------------
 
     public boolean createCourse(Instructor instructor, String courseId, String title, String description) {
         if (!"instructor".equalsIgnoreCase(instructor.getRole())) return false;
@@ -65,6 +74,8 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
         return courseManager.update(courseId, course);
     }
 
+    // ------------------ Lesson management ------------------
+
     public void addLesson(String courseId, String lessonId, String title, String content) {
         Lesson lesson = new Lesson(lessonId, title, content);
         courseManager.addLesson(courseId, lesson);
@@ -75,20 +86,23 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
         if (course == null) return;
 
         List<Lesson> lessons = course.getLessons();
-for (int i = 0; i < lessons.size(); i++) {
-    Lesson lesson = lessons.get(i);
-    if (lesson.getLessonId().equals(lessonId)) {
-        lesson.setTitle(newTitle);
-        lesson.setContent(newContent);
-        lessons.set(i, lesson);
-        courseManager.update(courseId, course);
-        return;
-    }
+        for (int i = 0; i < lessons.size(); i++) {
+            Lesson lesson = lessons.get(i);
+            if (lesson.getLessonId().equals(lessonId)) {
+                lesson.setTitle(newTitle);
+                lesson.setContent(newContent);
+                lessons.set(i, lesson); // update list explicitly
+                courseManager.update(courseId, course);
+                return;
+            }
+        }
     }
 
     public void deleteLesson(String courseId, String lessonId) {
         courseManager.deleteLesson(courseId, lessonId);
     }
+
+    // ------------------ View enrolled students ------------------
 
     public List<String> getEnrolledStudents(String courseId) {
         return courseManager.getEnrolledStudents(courseId);
