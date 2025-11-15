@@ -5,6 +5,7 @@
 package skillforge;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InstructorManager extends JsonDatabaseManager<Instructor> {
@@ -59,7 +60,7 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
         Course course = new Course(courseId, title, description, instructor.getUserId());
         boolean saved = courseManager.add(course);
         if (saved) {
-            instructor.addCourse(courseId);
+            instructor.addCreatedCourses(courseId);
             update(instructor.getUserId(), instructor); // save updated instructor
         }
         return saved;
@@ -104,7 +105,7 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
 
     // ------------------ View enrolled students ------------------
 
-    public List<String> getEnrolledStudents(String courseId) {
-        return courseManager.getStudents(courseId);
+    public ArrayList<Student> getEnrolledStudents(Course course) {
+        return courseManager.getEnrolledStudents(course);
     }
 }
