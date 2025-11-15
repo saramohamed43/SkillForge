@@ -4,18 +4,13 @@
  */
 package skillforge;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import java.io.*;
+import java.util.*;
 
-/**
- *
- * @author lenovo
- */
 public abstract class JsonDatabaseManager<T> {
     protected final String filePath;
     protected final Gson gson;
@@ -30,9 +25,14 @@ public JsonDatabaseManager(String filePath, Type elementType) {
 public void ensureFileExists() {
     File file = new File(filePath);
     if (!file.exists()) {
-        throw new RuntimeException("Error: JSON file does not exist: " + filePath);
+        try (Writer writer = new FileWriter(file)) {
+            writer.write("[]"); 
+        } catch (IOException e) {
+            throw new RuntimeException("Error creating JSON file: " + e.getMessage());
+        }
     }
 }
+
 public List<T> read() {
     try (Reader reader = new FileReader(filePath)) {
         List<T> list = gson.fromJson(reader, listType);
@@ -65,24 +65,40 @@ public List<T> read() {
         return save(items);
     }
     
-    public T find(int id){
-        for(i=0;i<items.size();i++){
-            if(getID(item) == id){
-                return item;
-            }
-            return null;
+    public T find(int id) {
+        List<T> items = read();
+    for (int i = 0; i < items.size(); i++) {
+        T item = items.get(i);
+        if (getId(item) == id) {
+            return item;
         }
     }
+    return null;
+    }   
+
     
     public boolean update(int id, T newItem){
         List<T> items = read();
-        for(i=0;i<items.size();i++){
-            if(getID(items.get(i)) == id){
+        for(int i=0;i<items.size();i++){
+            if(getId(items.get(i)) == id){
                 items.set(i, newItem);
                 return save(items);
             }
-            return null;
         }
+        return false;
     }
+    
+        public boolean deleteById(int id) {
+        List<T> items = read();
+        for (int i = 0; i < items.size(); i++) {
+            if (getId(items.get(i)) == id) {
+                items.remove(i);
+                return save(items);
+            }
+        }
+        return false;
+    }
+    
+    public abstract int getId(T item);
 
 }
