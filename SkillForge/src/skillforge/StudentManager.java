@@ -8,7 +8,7 @@ package skillforge;
  *
  * @author zmezm
  */
-public class StudentManager {
+public class StudentManager extends {
     private final ServiceDatabase serviceDatabase;
     
 
@@ -39,5 +39,28 @@ public boolean enrollStudentInCourse(Student student,Course course){
         serviceDatabase.updateCourse(course);
         return true;
 }
-       
+  public void markLessonCompleted(Student student, Course course, String lessonId) {
+        student.getProgress().computeIfAbsent(course.getCourseId(), k -> new ArrayList<>());
+
+        List<String> completedLessons = student.getProgress().get(course.getCourseId());
+        if (!completedLessons.contains(lessonId)) {
+            completedLessons.add(lessonId);
+            serviceDatabase.updateStudent(student);
+        }
+    } 
+   public List<String> getCompletedLessons(Student student, Course course) {
+        return student.getProgress().getOrDefault(course.getCourseId(), new ArrayList<>());
+    }
+
+   
+    public boolean isLessonCompleted(Student student, Course course, String lessonId) {
+        List<String> completedLessons = getCompletedLessons(student, course);
+        return completedLessons.contains(lessonId);
+    }
+
+    
+    public Optional<Student> getStudentById(String studentId) {
+        return serviceDatabase.getStudentById(studentId);
+    }
 }
+
