@@ -247,6 +247,11 @@ cardLayout.show(getContentPane(), "welcomePanel");
 
         Edit.setBackground(new java.awt.Color(153, 153, 255));
         Edit.setText("Edit Course");
+        Edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditActionPerformed(evt);
+            }
+        });
 
         Delete.setBackground(new java.awt.Color(153, 153, 255));
         Delete.setText("Delete Course");
@@ -435,7 +440,9 @@ cardLayout.show(getContentPane(), "mainCard");        // TODO add your handling 
     }//GEN-LAST:event_CreateActionPerformed
 
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
-        // TODO add your handling code here:
+        InstructorFrame instructorFrame = new InstructorFrame(this);
+instructorFrame.setVisible(true);
+this.setVisible(false); // hide login frame
     }//GEN-LAST:event_DeleteActionPerformed
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
@@ -450,6 +457,18 @@ cardLayout.show(getContentPane(), "mainCard");         // TODO add your handling
        cardLayout.show(getContentPane(), "HomeCard"); 
     }//GEN-LAST:event_OkButtonActionPerformed
 
+    private void EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditActionPerformed
+       InstructorFrame instructorFrame = new InstructorFrame(this);
+instructorFrame.setVisible(true);
+this.setVisible(false); // hide login frame
+
+    }//GEN-LAST:event_EditActionPerformed
+
+    public void showPanel(String panelKey) {
+        cardLayout.show(getContentPane(), panelKey);
+    }
+
+    
     /**
      * @param args the command line arguments
      */
