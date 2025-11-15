@@ -81,7 +81,7 @@ public class StudentManager {
     }
       
        public Optional<Student> getStudentById(String studentId) {
-        Student s = studentDb.getUserById(studentId); 
+        Student s = studentDb.getItemById(studentId); 
         return s != null ? Optional.of(s) : Optional.empty();
     }
 }

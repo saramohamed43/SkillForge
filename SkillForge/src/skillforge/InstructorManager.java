@@ -5,15 +5,16 @@
 package skillforge;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InstructorManager extends JsonDatabaseManager<Instructor> {
 
-    private final CourseManager courseManager; // manages courses/lessons
+    private final CourseManagment courseManager; // manages courses/lessons
 
     public InstructorManager(String usersFilePath, String coursesFilePath, Type userType, Type courseType) {
         super(usersFilePath, userType);
-        this.courseManager = new CourseManager(coursesFilePath, courseType);
+        this.courseManager = new CourseManagment(coursesFilePath, courseType);
     }
 
     // ------------------ User management ------------------
@@ -59,18 +60,18 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
         Course course = new Course(courseId, title, description, instructor.getUserId());
         boolean saved = courseManager.add(course);
         if (saved) {
-            instructor.addCourse(courseId);
+            instructor.addCreatedCourses(courseId);
             update(instructor.getUserId(), instructor); // save updated instructor
         }
         return saved;
     }
 
     public boolean editCourse(String courseId, String newTitle, String newDescription) {
-        Course course = courseManager.find(courseId);
+        Course course = courseManager.getItemById(courseId);
         if (course == null) return false;
 
-        course.setTitle(newTitle);
-        course.setDescription(newDescription);
+        course.setCourseTitle(newTitle);
+        course.setCourseDescription(newDescription);
         return courseManager.update(courseId, course);
     }
 
@@ -82,15 +83,15 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
     }
 
     public void editLesson(String courseId, String lessonId, String newTitle, String newContent) {
-        Course course = courseManager.find(courseId);
+        Course course = courseManager.getItemById(courseId);
         if (course == null) return;
 
         List<Lesson> lessons = course.getLessons();
         for (int i = 0; i < lessons.size(); i++) {
             Lesson lesson = lessons.get(i);
-            if (lesson.getLessonId().equals(lessonId)) {
-                lesson.setTitle(newTitle);
-                lesson.setContent(newContent);
+            if (lesson.getLessonID().equals(lessonId)) {
+                lesson.setLessonTitle(newTitle);
+                lesson.setLessonContent(newContent);
                 lessons.set(i, lesson); // update list explicitly
                 courseManager.update(courseId, course);
                 return;
@@ -99,12 +100,12 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
     }
 
     public void deleteLesson(String courseId, String lessonId) {
-        courseManager.deleteLesson(courseId, lessonId);
+        courseManager.removeLesson(courseId, lessonId);
     }
 
     // ------------------ View enrolled students ------------------
 
-    public List<String> getEnrolledStudents(String courseId) {
-        return courseManager.getEnrolledStudents(courseId);
+    public ArrayList<Student> getEnrolledStudents(Course course) {
+        return courseManager.getEnrolledStudents(course);
     }
 }
