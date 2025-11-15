@@ -33,7 +33,11 @@ public boolean enrollStudentInCourse(Student student,Course course){
    if (student.getEnrolledCourses.contains(course.getCourseID())) 
        return false;
    
-   
+       student.getEnrolledCourses().add(course.getCourseId());
+        serviceDatabase.updateStudent(student);
+        course.getStudents().add(student.getUserId());
+        serviceDatabase.updateCourse(course);
+        return true;
 }
        
 }
