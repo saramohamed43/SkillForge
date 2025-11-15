@@ -1,13 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package skillforge;
 
-/**
- *
- * @author SHADY
- */
-public class UserDatabaseManager {
-    
+import java.util.List;
+
+public class UserDatabaseManager extends JsonDatabaseManager<User> {
+
+    public UserDatabaseManager() {
+        super("users.json", User.class);
+    }
+
+    @Override
+    public String getId(User item) {
+        return item.getUserId();
+    }
+
+    @Override
+    public String getEmail(User item) {
+        return item.getEmail();
+    }
+
+    @Override
+    protected boolean isDuplicate(User item, List<User> existingItems) {
+        return existingItems.stream()
+                .anyMatch(u -> u.getEmail().equalsIgnoreCase(item.getEmail()));
+    }
 }
+

@@ -3,11 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/SHADY/term5/programming2/SkillForge/SkillForge/src/skillforge/SkillForge.java</file>
-            <file>file:/C:/Users/SHADY/term5/programming2/SkillForge/SkillForge/src/skillforge/User.java</file>
-            <file>file:/C:/Users/SHADY/term5/programming2/SkillForge/SkillForge/src/skillforge/Student.java</file>
-            <file>file:/C:/Users/SHADY/term5/programming2/SkillForge/SkillForge/src/skillforge/Instructor.java</file>
-            <file>file:/C:/Users/SHADY/term5/programming2/SkillForge/SkillForge/src/skillforge/UserAuth.java</file>
+            <file>file:/C:/Users/zmezm/Documents/GitHub/SkillForge/SkillForge/src/skillforge/JsonDatabaseManager.java</file>
+            <file>file:/C:/Users/zmezm/Documents/GitHub/SkillForge/SkillForge/src/skillforge/SkillForge.java</file>
+            <file>file:/C:/Users/zmezm/Documents/GitHub/SkillForge/SkillForge/src/skillforge/Student.java</file>
+            <file>file:/C:/Users/zmezm/Documents/GitHub/SkillForge/SkillForge/src/skillforge/UserAuth.java</file>
+            <file>file:/C:/Users/zmezm/Documents/GitHub/SkillForge/SkillForge/src/skillforge/InstructorManager.java</file>
+            <file>file:/C:/Users/zmezm/Documents/GitHub/SkillForge/SkillForge/src/skillforge/StudentManager.java</file>
+            <file>file:/C:/Users/zmezm/Documents/GitHub/SkillForge/SkillForge/src/skillforge/Servicedatabase.java</file>
+            <file>file:/C:/Users/zmezm/Documents/GitHub/SkillForge/SkillForge/src/skillforge/StudentDashBoardFrame.java</file>
         </group>
     </open-files>
 </project-private>
