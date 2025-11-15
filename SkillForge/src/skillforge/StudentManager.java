@@ -34,6 +34,7 @@ public class StudentManager {
         List<Course> enrolled = new ArrayList<>();
 
         for (Course c : allCourses) {
+
             if (student.getEnrolledCourses().contains(c.getCourseId())) {
                 enrolled.add(c);
             }
@@ -48,11 +49,13 @@ public class StudentManager {
         }
 
        
+
         student.getEnrolledCourses().add(course.getCourseId());
         studentDb.update(student.getUserId(), student); 
 
         course.getStudents().add(student.getUserId());
         courseDb.update(course.getCourseId(), course); 
+
 
         return true;
     }
@@ -60,9 +63,11 @@ public class StudentManager {
 
     public void markLessonCompleted(Student student, Course course, String lessonId) {
        
+
         student.getProgress().computeIfAbsent(course.getCourseId(), k -> new ArrayList<>());
 
         List<String> completedLessons = student.getProgress().get(course.getCourseId());
+
         if (!completedLessons.contains(lessonId)) {
             completedLessons.add(lessonId);
             studentDb.update(student.getUserId(), student); 
