@@ -34,7 +34,7 @@ public class StudentManager {
         List<Course> enrolled = new ArrayList<>();
 
         for (Course c : allCourses) {
-            if (student.getEnrolledCourses().contains(c.getCourseId())) {
+            if (student.getEnrolledCourses().contains(c.getCourseID())) {
                 enrolled.add(c);
             }
         }
@@ -43,16 +43,16 @@ public class StudentManager {
 
  
     public boolean enrollStudentInCourse(Student student, Course course) {
-        if (student.getEnrolledCourses().contains(course.getCourseId())) {
+        if (student.getEnrolledCourses().contains(course.getCourseID())) {
             return false; 
         }
 
        
-        student.getEnrolledCourses().add(course.getCourseId());
+        student.getEnrolledCourses().add(course.getCourseID());
         studentDb.update(student.getUserId(), student); 
 
-        course.getStudents().add(student.getUserId());
-        courseDb.update(course.getCourseId(), course); 
+        course.enrollStudent(student);
+        courseDb.update(course.getCourseID(), course); 
 
         return true;
     }
@@ -60,9 +60,9 @@ public class StudentManager {
 
     public void markLessonCompleted(Student student, Course course, String lessonId) {
        
-        student.getProgress().computeIfAbsent(course.getCourseId(), k -> new ArrayList<>());
+        student.getProgress().computeIfAbsent(course.getCourseID(), k -> new ArrayList<>());
 
-        List<String> completedLessons = student.getProgress().get(course.getCourseId());
+        List<String> completedLessons = student.getProgress().get(course.getCourseID());
         if (!completedLessons.contains(lessonId)) {
             completedLessons.add(lessonId);
             studentDb.update(student.getUserId(), student); 
@@ -71,7 +71,7 @@ public class StudentManager {
 
 
     public List<String> getCompletedLessons(Student student, Course course) {
-        return student.getProgress().getOrDefault(course.getCourseId(), new ArrayList<>());
+        return student.getProgress().getOrDefault(course.getCourseID(), new ArrayList<>());
     }
 
  
@@ -81,7 +81,7 @@ public class StudentManager {
     }
       
        public Optional<Student> getStudentById(String studentId) {
-        Student s = studentDb.getUserById(studentId); 
+        Student s = studentDb.getItemById(studentId); 
         return s != null ? Optional.of(s) : Optional.empty();
     }
 }
