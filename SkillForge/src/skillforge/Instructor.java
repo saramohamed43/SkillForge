@@ -1,13 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package skillforge;
 
-/**
- *
- * @author SHADY
- */
-public class Instructor {
+import java.util.ArrayList;
+
+public class Instructor extends User {
+    private ArrayList<Integer> createdCourses = new  ArrayList<>();
+
+    public Instructor(int userId, String role, String username, String email, String passwordHash) {
+        super(userId, role, username, email, passwordHash);
+    }
+
+    public ArrayList<Integer> getCreatedCourses() {
+        return createdCourses;
+    }
     
 }
