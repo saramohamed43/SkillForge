@@ -3,14 +3,24 @@ package skillforge;
 import java.util.ArrayList;
 
 public class Instructor extends User {
-    private ArrayList<Integer> createdCourses = new  ArrayList<>();
+    private ArrayList<String> createdCourses = new  ArrayList<>();
 
-    public Instructor(int userId, String role, String username, String email, String passwordHash) {
+    public Instructor(String userId, String role, String username, String email, String passwordHash) {
         super(userId, role, username, email, passwordHash);
+        this.createdCourses = new ArrayList<>();
     }
 
-    public ArrayList<Integer> getCreatedCourses() {
+    public ArrayList<String> getCreatedCourses() {
         return createdCourses;
     }
-    
+    public void addCreatedCourses(String courseId){
+        if(!createdCourses.contains(courseId)){
+            createdCourses.add(courseId);
+        }
+    }
+    public void removeCreatedCourse(String courseId){
+        if(createdCourses.contains(courseId)){
+            createdCourses.remove(courseId);
+        }
+    }   
 }
