@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Instructor extends User {
     private ArrayList<String> createdCourses = new  ArrayList<>();
 
-    public Instructor(String userId, String role, String username, String email, String passwordHash) {
-        super(userId, role, username, email, passwordHash);
+    public Instructor(String userId, String username, String email, String passwordHash) {
+        super(userId, "Instructor", username, email, passwordHash);
         this.createdCourses = new ArrayList<>();
     }
 
