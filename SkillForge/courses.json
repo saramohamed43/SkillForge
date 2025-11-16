@@ -1,20 +1,5 @@
 [
   {
-    "courseID": "P12",
-    "courseTitle": "physics",
-    "courseDescription": "xcvbnm,./gfds",
-    "instructorID": "8BA5EA6D",
-    "lessons": [
-      {
-        "lessonID": "prog",
-        "lessonTitle": "aloalo",
-        "lessonContent": "aloalo",
-        "optionalResources": []
-      }
-    ],
-    "students": []
-  },
-  {
     "courseID": "CS101",
     "courseTitle": "Introduction to Programming",
     "courseDescription": "Learn the basics of programming with Java",
@@ -39,6 +24,137 @@
         "optionalResources": []
       }
     ],
+    "students": [
+      {
+        "enrolledCourses": [
+          "CS101"
+        ],
+        "progress": {},
+        "userId": "STU001",
+        "role": "Student",
+        "username": "Alice Johnson",
+        "email": "alice@student.com",
+        "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+      },
+      {
+        "enrolledCourses": [
+          "CS101"
+        ],
+        "progress": {},
+        "userId": "STU002",
+        "role": "Student",
+        "username": "Bob Smith",
+        "email": "bob@student.com",
+        "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+      },
+      {
+        "enrolledCourses": [
+          "CS101"
+        ],
+        "progress": {},
+        "userId": "STU003",
+        "role": "Student",
+        "username": "Charlie Brown",
+        "email": "charlie@student.com",
+        "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+      },
+      {
+        "enrolledCourses": [
+          "CS101"
+        ],
+        "progress": {},
+        "userId": "STU001",
+        "role": "Student",
+        "username": "Alice Johnson",
+        "email": "alice@student.com",
+        "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+      },
+      {
+        "enrolledCourses": [
+          "CS101"
+        ],
+        "progress": {},
+        "userId": "STU002",
+        "role": "Student",
+        "username": "Bob Smith",
+        "email": "bob@student.com",
+        "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+      },
+      {
+        "enrolledCourses": [
+          "CS101"
+        ],
+        "progress": {},
+        "userId": "STU003",
+        "role": "Student",
+        "username": "Charlie Brown",
+        "email": "charlie@student.com",
+        "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+      }
+    ]
+  },
+  {
+    "courseID": "CS102",
+    "courseTitle": "Data Structures",
+    "courseDescription": "Learn about arrays, linked lists, trees, and graphs",
+    "instructorID": "TEST123",
+    "lessons": [
+      {
+        "lessonID": "L1",
+        "lessonTitle": "Arrays",
+        "lessonContent": "Learn about array data structures",
+        "optionalResources": []
+      },
+      {
+        "lessonID": "L2",
+        "lessonTitle": "Linked Lists",
+        "lessonContent": "Learn about linked list implementations",
+        "optionalResources": []
+      }
+    ],
+    "students": [
+      {
+        "enrolledCourses": [
+          "CS101",
+          "CS102"
+        ],
+        "progress": {
+          "CS101": [
+            "L1",
+            "L2"
+          ]
+        },
+        "userId": "STU001",
+        "role": "Student",
+        "username": "Alice Johnson",
+        "email": "alice@student.com",
+        "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+      },
+      {
+        "enrolledCourses": [
+          "CS101",
+          "CS102"
+        ],
+        "progress": {
+          "CS101": [
+            "L1",
+            "L2"
+          ]
+        },
+        "userId": "STU001",
+        "role": "Student",
+        "username": "Alice Johnson",
+        "email": "alice@student.com",
+        "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+      }
+    ]
+  },
+  {
+    "courseID": "P12",
+    "courseTitle": "programming",
+    "courseDescription": "prdsfghjkldrycfhgvjhbjhgyfutcghjhbkji",
+    "instructorID": "TEST123",
+    "lessons": [],
     "students": []
   },
   {
