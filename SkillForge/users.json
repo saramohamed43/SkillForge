@@ -1,45 +1,54 @@
 [
   {
-    "enrolledCourses": [
-      "CS101",
-      "CS102"
-    ],
-    "progress": {
-      "CS101": [
-        "L1",
-        "L2"
-      ]
-    },
-    "userId": "STU001",
-    "role": "Student",
-    "username": "Alice Johnson",
-    "email": "alice@student.com",
-    "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
-  },
-  {
-    "enrolledCourses": [
-      "CS101"
-    ],
-    "progress": {
-      "CS101": [
-        "L1"
-      ]
-    },
-    "userId": "STU002",
-    "role": "Student",
-    "username": "Bob Smith",
-    "email": "bob@student.com",
-    "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
-  },
-  {
-    "enrolledCourses": [
-      "CS101"
-    ],
+    "enrolledCourses": [],
     "progress": {},
-    "userId": "STU003",
+    "userId": "7EA915AE",
     "role": "Student",
-    "username": "Charlie Brown",
-    "email": "charlie@student.com",
-    "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+    "username": "beso",
+    "email": "beso@belrizo.com",
+    "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+  },
+  {
+    "createdCourses": [
+      "P12"
+    ],
+    "userId": "8BA5EA6D",
+    "role": "Instructor",
+    "username": "sara",
+    "email": "sara@gmail.com",
+    "passwordHash": "b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0"
+  },
+  {
+    "enrolledCourses": [
+      "123"
+    ],
+    "progress": {
+      "123": [
+        "1234"
+      ]
+    },
+    "userId": "5B92EC00",
+    "role": "Student",
+    "username": "sami",
+    "email": "sami@.",
+    "passwordHash": "1d28c120568c10e19b9d8abe8b66d0983fa3d2e11ee7751aca50f83c6f4a43aa"
+  },
+  {
+    "createdCourses": [
+      "123"
+    ],
+    "userId": "114F7FF6",
+    "role": "Instructor",
+    "username": "wqa",
+    "email": "beso@.",
+    "passwordHash": "a30f4ef42176d28f0e2293533c5f532e9c9c5696c68813b35315d17edc44f6b1"
+  },
+  {
+    "createdCourses": [],
+    "userId": "B455B49B",
+    "role": "Instructor",
+    "username": "rami",
+    "email": "ramimoh@.",
+    "passwordHash": "35a9e381b1a27567549b5f8a6f783c167ebf809f1c4d6a9e367240484d8ce281"
   }
 ]

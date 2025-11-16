@@ -471,7 +471,15 @@ cardLayout.show(getContentPane(), "mainCard");        // TODO add your handling 
     }//GEN-LAST:event_DeleteActionPerformed
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
-cardLayout.show(getContentPane(), "mainCard");         // TODO add your handling code here:
+ if (currentInstructor != null) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Logged out successfully!",
+            "Logout",
+            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    currentInstructor = null;
+    cardLayout.show(getContentPane(), "mainCard");   
     }//GEN-LAST:event_BackActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -479,7 +487,47 @@ cardLayout.show(getContentPane(), "mainCard");         // TODO add your handling
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void OkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkButtonActionPerformed
-       cardLayout.show(getContentPane(), "HomeCard"); 
+       String email=EmailTextField.getText().trim();
+       String password=new String(jPasswordField1.getPassword());
+       String selectedRole=(String)jComboBox1.getSelectedItem();
+       if (email.isEmpty() || password.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Please enter email and password!",
+            "Validation Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    if (selectedRole.equals("-Select-")) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Please select your role!",
+            "Validation Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    User user = UserAuth.login(email, password);
+    
+    if (user == null) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Login failed!\nInvalid email or password.",
+            "Login Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+     if (!user.getRole().equalsIgnoreCase(selectedRole)) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Login failed!\nPlease check Entered Information ",
+            "Information mismatch",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+      javax.swing.JOptionPane.showMessageDialog(this,
+        "Welcome, " + user.getUsername() + "!",
+        "Login Successful",
+        javax.swing.JOptionPane.INFORMATION_MESSAGE);
+      if (user.getRole().equalsIgnoreCase("Instructor")){
+        currentInstructor = (Instructor) user;
+        cardLayout.show(getContentPane(), "HomeCard");
+      }
     }//GEN-LAST:event_OkButtonActionPerformed
 
     private void EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditActionPerformed
