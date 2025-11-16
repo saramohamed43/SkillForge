@@ -18,7 +18,7 @@ public class LoginFrame extends javax.swing.JFrame {
      */
         // new login form panel
     private CardLayout cardLayout; 
-    private Instructor currentInstructor;
+    private Instructor currentInstructor = new Instructor("INST001", "Test Instructor", "test@email.com", "password");
 
     public LoginFrame() {
         initComponents();
@@ -592,7 +592,7 @@ if (currentInstructor == null) {
     InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
     instructorFrame.loadCourseLessons(courseId.trim());
     instructorFrame.setVisible(true);
-    instructorFrame.showPanel("ManageLessonsCard");
+    instructorFrame.showPanel("LessonCard");
     this.setVisible(false);
     }//GEN-LAST:event_ManageLessonsActionPerformed
 
@@ -712,22 +712,6 @@ if (currentInstructor == null) {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
-            }
-        }
-    } catch (ClassNotFoundException ex) {
-        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (InstantiationException ex) {
-        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (IllegalAccessException ex) {
-        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
 
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
@@ -736,6 +720,7 @@ if (currentInstructor == null) {
             frame.setVisible(true);
         }
     });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
