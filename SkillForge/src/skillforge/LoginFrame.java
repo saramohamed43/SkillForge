@@ -493,7 +493,7 @@ if (currentInstructor == null) {
     }//GEN-LAST:event_EditActionPerformed
 
     private void ManageLessonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManageLessonsActionPerformed
-if (currentInstructor == null) {
+    if (currentInstructor == null) {
         javax.swing.JOptionPane.showMessageDialog(this,
             "Please login as an instructor first!",
             "Error",

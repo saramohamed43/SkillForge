@@ -98,6 +98,11 @@ public class InstructorFrame extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
+        LessonPanel = new javax.swing.JPanel();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jButton12 = new javax.swing.JButton();
 
         jTextField2.setText("jTextField2");
 
@@ -296,7 +301,7 @@ public class InstructorFrame extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Manage Lessons");
+        jLabel5.setText("Edit Lesson");
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -528,6 +533,66 @@ public class InstructorFrame extends javax.swing.JFrame {
         );
 
         getContentPane().add(ViewStudents, "ViewStudentsCard");
+
+        LessonPanel.setBackground(new java.awt.Color(204, 204, 255));
+        LessonPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jButton10.setBackground(new java.awt.Color(153, 153, 255));
+        jButton10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton10.setText("Add Lesson");
+
+        jButton11.setBackground(new java.awt.Color(153, 153, 255));
+        jButton11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton11.setText("Edit Existing Lessons");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("Manage Lessons");
+
+        jButton12.setBackground(new java.awt.Color(153, 153, 255));
+        jButton12.setText("Back");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout LessonPanelLayout = new javax.swing.GroupLayout(LessonPanel);
+        LessonPanel.setLayout(LessonPanelLayout);
+        LessonPanelLayout.setHorizontalGroup(
+            LessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LessonPanelLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77))
+            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(LessonPanelLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jButton12)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        LessonPanelLayout.setVerticalGroup(
+            LessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LessonPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
+                .addGroup(LessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(144, 144, 144)
+                .addComponent(jButton12)
+                .addGap(24, 24, 24))
+        );
+
+        getContentPane().add(LessonPanel, "card6");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -887,6 +952,17 @@ public class InstructorFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTable2MouseClicked
 
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        LessonPanel.setVisible(false);
+        ManageLessonsPanel.setVisible(true);
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        loginFrame.showPanel("HomeCard"); // switch to the desired panel
+        loginFrame.setVisible(true);       // show the main frame
+        this.dispose();
+    }//GEN-LAST:event_jButton12ActionPerformed
+
     public void showPanel(String panelKey) {
         cardLayout.show(getContentPane(), panelKey);
     }
@@ -900,9 +976,13 @@ public class InstructorFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel DeletePanel;
     private javax.swing.JPanel EditCoursePanel;
+    private javax.swing.JPanel LessonPanel;
     private javax.swing.JPanel ManageLessonsPanel;
     private javax.swing.JPanel ViewStudents;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -914,6 +994,7 @@ public class InstructorFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
