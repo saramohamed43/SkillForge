@@ -433,7 +433,7 @@ int selectedRow = jTable3.getSelectedRow();
     /**
      * @param args the command line arguments
      */
-   /* 
+  /*
 public static void main(String[] args) {
 
         // --- Create backend managers ---
@@ -466,9 +466,8 @@ public static void main(String[] args) {
 
         System.out.println("Test Student Dashboard launched successfully.");
     }
+
 */
-
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AvailableCoursesLbl;
