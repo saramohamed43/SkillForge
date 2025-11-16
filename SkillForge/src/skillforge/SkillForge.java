@@ -1,4 +1,4 @@
-/*package skillforge;
+/package skillforge;
 
 import com.google.gson.reflect.TypeToken;
 import java.io.File;
@@ -573,4 +573,4 @@ public class SkillForge {
             return -1;
         }
     }
-}*/
+}

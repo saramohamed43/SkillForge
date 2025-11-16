@@ -35,6 +35,17 @@
         "username": "Yasmin",
         "email": "test@student.com",
         "passwordHash": "1234"
+      },
+      {
+        "enrolledCourses": [
+          "C100"
+        ],
+        "progress": {},
+        "userId": "S001",
+        "role": "Student",
+        "username": "Yasmin",
+        "email": "test@student.com",
+        "passwordHash": "1234"
       }
     ]
   }
