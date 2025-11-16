@@ -3,71 +3,137 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package skillforge;
+import java.awt.CardLayout;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+
 
 /**
  *
  * @author zmezm
  */
 public class StudentDashBoardFrame extends javax.swing.JFrame {
-    private StudentManager studentManager;
-private Student currentStudent;
-private void loadAvailableCourses() {
-    List<Course> courseList = studentManager.getAllCourses();
+ private StudentManager studentManager;  
+    private Student currentStudent;   
 
-    DefaultTableModel model = (DefaultTableModel) AvailableCoursesTable.getModel();
-    model.setRowCount(0);
-
-    for (Course course : courseList) {
-        model.addRow(new Object[]{
-            course.getCourseID(),
-            course.getCourseTitle(),
-            course.getInstructorID(),
-            studentManager.getEnrolledCourses(currentStudent).contains(course) ? "Enrolled" : "Enroll"
-        });
-    }
-}
-private void setupEnrollButton() {
-    ClickEnrollBtn.addActionListener(e -> {
-        int selectedRow = AvailableCoursesTable.getSelectedRow();
-        if (selectedRow == -1) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please select a course first!");
-            return;
-        }
-
-        String courseId = (String) AvailableCoursesTable.getValueAt(selectedRow, 0);
-        Course course = studentManager.getAllCourses().stream()
-                .filter(c -> c.getCourseID().equals(courseId))
-                .findFirst()
-                .orElse(null);
-
-        if (course == null) return;
-
-        boolean success = studentManager.enrollStudentInCourse(currentStudent, course);
-
-        if (success) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Enrolled successfully!");
-            loadAvailableCourses(); // refresh table
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "You are already enrolled in this course.");
-        }
-    });
-}
 
 
 
     /**
      * Creates new form StudentDashBoardFrame
      */
-    public StudentDashBoardFrame(Student student) {
-        initComponents();
-          JsonDatabaseManager<Student> studentDb = new UserDatabaseManager();
-    JsonDatabaseManager<Course> courseDb = new CourseManagment("courses.json", Course.class);
-    this.studentManager = new StudentManager(studentDb, courseDb);
-
+   public StudentDashBoardFrame(StudentManager studentManager, Student student) {
+    this.studentManager = studentManager;
     this.currentStudent = student;
-        loadAvailableCourses();
-        setupEnrollButton();
+
+    initComponents();
+    
+    // Setup table columns
+    setupTableColumns();
+
+    CardLayout cl = (CardLayout) MainStudentPanel.getLayout();
+    cl.show(MainStudentPanel, "card5");
+
+    jLabel1.setText("Welcome, " + student.getUsername() + "!");
+    jLabel3.setText("Course Lessons");
+    jButton5.setText("View Lessons");
+    jButton6.setText("Mark as Complete");
+
+    // Populate tables
+    populateAvailableCoursesTable();
+    populateEnrolledCoursesTable();
+    
+    // Enroll button listener
+    ClickEnrollBtn.addActionListener(evt -> {
+        int selectedRow = AvailableCoursesTable.getSelectedRow();
+        if (selectedRow >= 0) {
+            String courseId = AvailableCoursesTable.getValueAt(selectedRow, 0).toString();
+            Course selectedCourse = studentManager.getAllCourses().stream()
+                .filter(c -> c.getCourseID().equals(courseId))
+                .findFirst()
+                .orElse(null);
+
+            if (selectedCourse != null) {
+                boolean enrolled = studentManager.enrollStudentInCourse(currentStudent, selectedCourse);
+                if (enrolled) {
+                    populateEnrolledCoursesTable();
+                    populateAvailableCoursesTable();
+                    JOptionPane.showMessageDialog(this, "Successfully enrolled in course!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Already enrolled in this course.");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Select a course to enroll.");
+        }
+    });
+    
+    // View lessons button listener
+    jButton5.addActionListener(evt -> {
+        int selectedRow = EnrolledCoursesTable.getSelectedRow();
+        if (selectedRow >= 0) {
+            String courseId = EnrolledCoursesTable.getValueAt(selectedRow, 0).toString();
+            Course selectedCourse = studentManager.getAllCourses().stream()
+                .filter(c -> c.getCourseID().equals(courseId))
+                .findFirst()
+                .orElse(null);
+
+            if (selectedCourse != null) {
+                DefaultTableModel lessonModel = (DefaultTableModel) jTable3.getModel();
+                lessonModel.setRowCount(0);
+                for (Lesson lesson : selectedCourse.getLessons()) {
+                    lessonModel.addRow(new Object[]{lesson.getLessonID(), lesson.getLessonTitle()});
+                }
+
+                CardLayout cl2 = (CardLayout) MainStudentPanel.getLayout();
+                cl2.show(MainStudentPanel, "card4");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Select a course first to view lessons.");
+        }
+    });
+}
+    private void populateAvailableCoursesTable() {
+    DefaultTableModel model = (DefaultTableModel) AvailableCoursesTable.getModel();
+    model.setRowCount(0); // clear table first
+
+    for (Course course : studentManager.getAllCourses()) {
+        model.addRow(new Object[] {
+            course.getCourseID(),
+            course.getCourseTitle(),
+            course.getCourseDescription(),
+            course.getInstructorID()
+        });
     }
+}
+private void populateEnrolledCoursesTable() {
+    DefaultTableModel model = (DefaultTableModel) EnrolledCoursesTable.getModel();
+    model.setRowCount(0);
+
+    for (Course course : studentManager.getEnrolledCourses(currentStudent)) {
+        model.addRow(new Object[] {
+            course.getCourseID(),
+            course.getCourseTitle(),
+            course.getCourseDescription(),
+            course.getInstructorID()
+        });
+    }
+}
+private void setupTableColumns() {
+    // Setup Available Courses Table
+    DefaultTableModel availableModel = (DefaultTableModel) AvailableCoursesTable.getModel();
+    availableModel.setColumnIdentifiers(new String[]{"Course ID", "Title", "Description", "Instructor ID"});
+    
+    // Setup Enrolled Courses Table
+    DefaultTableModel enrolledModel = (DefaultTableModel) EnrolledCoursesTable.getModel();
+    enrolledModel.setColumnIdentifiers(new String[]{"Course ID", "Title", "Description", "Instructor ID"});
+    
+    // Setup Lessons Table
+    DefaultTableModel lessonModel = (DefaultTableModel) jTable3.getModel();
+    lessonModel.setColumnIdentifiers(new String[]{"Lesson ID", "Lesson Title"});
+}
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -81,7 +147,6 @@ private void setupEnrollButton() {
         ButtonsPanel = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         MainStudentPanel = new javax.swing.JPanel();
         BrowseCoursesPanel = new javax.swing.JPanel();
         AvailableCoursesLbl = new javax.swing.JLabel();
@@ -121,8 +186,6 @@ private void setupEnrollButton() {
             }
         });
 
-        jButton3.setText("jButton3");
-
         javax.swing.GroupLayout ButtonsPanelLayout = new javax.swing.GroupLayout(ButtonsPanel);
         ButtonsPanel.setLayout(ButtonsPanelLayout);
         ButtonsPanelLayout.setHorizontalGroup(
@@ -133,9 +196,7 @@ private void setupEnrollButton() {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ButtonsPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(ButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2))
+                .addComponent(jButton2)
                 .addGap(22, 22, 22))
         );
         ButtonsPanelLayout.setVerticalGroup(
@@ -145,9 +206,7 @@ private void setupEnrollButton() {
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
-                .addGap(134, 134, 134)
-                .addComponent(jButton3)
-                .addGap(77, 77, 77))
+                .addGap(234, 234, 234))
         );
 
         MainStudentPanel.setName("MainStudentPanel"); // NOI18N
@@ -203,6 +262,11 @@ private void setupEnrollButton() {
         EnrolledCoursesPanel.add(EnrolledCoursesScroll, java.awt.BorderLayout.CENTER);
 
         jButton5.setText("jButton5");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         EnrolledCoursesPanel.add(jButton5, java.awt.BorderLayout.PAGE_END);
 
         MainStudentPanel.add(EnrolledCoursesPanel, "card3");
@@ -265,53 +329,43 @@ private void setupEnrollButton() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+
+    CardLayout cl = (CardLayout) MainStudentPanel.getLayout();
+
+    cl.show(MainStudentPanel, "card3");       
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      loadAvailableCourses();
-
-    // Get the CardLayout of the main panel
+     
+// Get the CardLayout from MainStudentPanel
     CardLayout cl = (CardLayout) MainStudentPanel.getLayout();
 
-    // Show the BrowseCoursesPanel (the "card2" panel)
-    cl.show(MainStudentPanel, "card2");
+    // Switch to the BrowseCoursesPanel (card2)
+    cl.show(MainStudentPanel, "card2");  
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        CardLayout cl = (CardLayout) MainStudentPanel.getLayout();
+    cl.show(MainStudentPanel, "card4");
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StudentDashBoardFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StudentDashBoardFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StudentDashBoardFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StudentDashBoardFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    java.awt.EventQueue.invokeLater(() -> {
+        // Initialize backend objects
+        UserDatabaseManager studentDb = new UserDatabaseManager(); // your real init
+       CourseManagment courseDb = new CourseManagment("courses.json", Course.class);
+        StudentManager studentManager = new StudentManager(studentDb, courseDb);
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StudentDashBoardFrame().setVisible(true);
-            }
-        });
-    }
+        // Create a sample student (replace with real login)
+        Student student = new Student("S001", "Yasmin", "yasmin@mail.com", "hash123");
+
+        // Launch the frame
+        new StudentDashBoardFrame(studentManager, student).setVisible(true);
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AvailableCoursesLbl;
@@ -327,7 +381,6 @@ private void setupEnrollButton() {
     private javax.swing.JPanel WelcomeStudentPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
