@@ -6,11 +6,12 @@
     "instructorID": "2C9767F5",
     "lessons": [
       {
-        "lessonID": "L123",
-        "lessonTitle": "one",
-        "lessonContent": "fdskfjkfkja",
+        "lessonID": "L456",
+        "lessonTitle": "ddddddd",
+        "lessonContent": "dskdlfjkf",
         "optionalResources": [
-          "dsafkjfadfd"
+          "dsfladjfkjds",
+          "ddjdfjfjdf"
         ]
       }
     ],
