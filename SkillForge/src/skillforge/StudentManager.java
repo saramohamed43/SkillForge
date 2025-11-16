@@ -78,4 +78,14 @@ public class StudentManager {
         Student s = studentDb.getStudentById(studentId); 
         return s != null ? Optional.of(s) : Optional.empty();
     }
+    public double getCoursePercentage(Student student, Course course) {
+    int totalLessons = course.getLessons().size();
+    if (totalLessons == 0) {
+        return 0.0;
+    }
+    List<String> completedLessons = getCompletedLessons(student, course);
+    int completedCount = completedLessons.size();
+   
+    return (completedCount * 100.0) / totalLessons;
+}
 }

@@ -45,6 +45,23 @@
         "username": "Yasmin",
         "email": "yasmin@mail.com",
         "passwordHash": "hash123"
+      },
+      {
+        "enrolledCourses": [
+          "C001",
+          "P12"
+        ],
+        "progress": {
+          "C001": [
+            "L002",
+            "L003"
+          ]
+        },
+        "userId": "2A768BFD",
+        "role": "Student",
+        "username": "TestStudent",
+        "email": "test@student.com",
+        "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
       }
     ]
   },

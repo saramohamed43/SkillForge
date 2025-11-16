@@ -20,11 +20,17 @@
   },
   {
     "enrolledCourses": [
-      "C001"
+      "C001",
+      "P12"
     ],
     "progress": {
       "C001": [
-        "L002"
+        "L002",
+        "L003",
+        "L001"
+      ],
+      "P12": [
+        "prog"
       ]
     },
     "userId": "2A768BFD",
