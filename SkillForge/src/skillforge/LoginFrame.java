@@ -18,7 +18,7 @@ public class LoginFrame extends javax.swing.JFrame {
      */
         // new login form panel
     private CardLayout cardLayout; 
-    private Instructor currentInstructor;
+    private Instructor currentInstructor = new Instructor("INST001", "Test Instructor", "test@email.com", "password");
 
     public LoginFrame() {
         initComponents();
@@ -592,7 +592,7 @@ if (currentInstructor == null) {
     InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
     instructorFrame.loadCourseLessons(courseId.trim());
     instructorFrame.setVisible(true);
-    instructorFrame.showPanel("ManageLessonsCard");
+    instructorFrame.showPanel("LessonCard");
     this.setVisible(false);
     }//GEN-LAST:event_ManageLessonsActionPerformed
 
@@ -712,31 +712,15 @@ if (currentInstructor == null) {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
-            }
-        }
-    } catch (ClassNotFoundException ex) {
-        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (InstantiationException ex) {
-        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (IllegalAccessException ex) {
-        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
 
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
             LoginFrame frame = new LoginFrame();
-            frame.setTestInstructor();
-            frame.createTestData(); // Add this line!
+            // Add this line!
             frame.setVisible(true);
         }
     });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -775,81 +759,5 @@ if (currentInstructor == null) {
     private javax.swing.JButton signUpButton;
     private javax.swing.JLabel welcomeGreeting;
     // End of variables declaration//GEN-END:variables
-public void setTestInstructor() {
-    currentInstructor = new Instructor("TEST123", "Test Instructor", "test@test.com", "hashedpass");
-}
 
-public void createTestData() {
-    if (currentInstructor == null) {
-        return;
-    }
-    
-    InstructorManager instructorManager = new InstructorManager(
-        "users.json",
-        "courses.json",
-        new com.google.gson.reflect.TypeToken<Instructor>(){}.getType(),
-        new com.google.gson.reflect.TypeToken<Course>(){}.getType()
-    );
-    
-    CourseManagment courseManager = new CourseManagment(
-        "courses.json",
-        new com.google.gson.reflect.TypeToken<Course>(){}.getType()
-    );
-    
-    UserDatabaseManager userDb = new UserDatabaseManager();
-    StudentManager studentManager = new StudentManager(userDb, courseManager);
-    
-    // Create test courses
-    instructorManager.createCourse(
-        currentInstructor,
-        "CS101",
-        "Introduction to Programming",
-        "Learn the basics of programming with Java"
-    );
-    
-    instructorManager.createCourse(
-        currentInstructor,
-        "CS102",
-        "Data Structures",
-        "Learn about arrays, linked lists, trees, and graphs"
-    );
-    
-    // Add lessons to CS101
-    instructorManager.addLesson("CS101", "L1", "Variables and Data Types", "Learn about variables and different data types in Java");
-    instructorManager.addLesson("CS101", "L2", "Control Flow", "Learn about if statements and switch cases");
-    instructorManager.addLesson("CS101", "L3", "Loops", "Learn about for loops and while loops");
-    
-    // Add lessons to CS102
-    instructorManager.addLesson("CS102", "L1", "Arrays", "Learn about array data structures");
-    instructorManager.addLesson("CS102", "L2", "Linked Lists", "Learn about linked list implementations");
-    
-    // Create test students
-    Student student1 = new Student("STU001", "Alice Johnson", "alice@student.com", User.hashPassword("password"));
-    Student student2 = new Student("STU002", "Bob Smith", "bob@student.com", User.hashPassword("password"));
-    Student student3 = new Student("STU003", "Charlie Brown", "charlie@student.com", User.hashPassword("password"));
-    
-    userDb.add(student1);
-    userDb.add(student2);
-    userDb.add(student3);
-    
-    // Enroll students in CS101
-    Course cs101 = courseManager.getCourseByID("CS101");
-    studentManager.enrollStudentInCourse(student1, cs101);
-    studentManager.enrollStudentInCourse(student2, cs101);
-    studentManager.enrollStudentInCourse(student3, cs101);
-    
-    // Mark some lessons as completed for students
-    studentManager.markLessonCompleted(student1, cs101, "L1");
-    studentManager.markLessonCompleted(student1, cs101, "L2");
-    studentManager.markLessonCompleted(student2, cs101, "L1");
-    
-    // Enroll one student in CS102
-    Course cs102 = courseManager.getCourseByID("CS102");
-    studentManager.enrollStudentInCourse(student1, cs102);
-    
-    System.out.println("✅ Test data created:");
-    System.out.println("   - Course CS101 with 3 lessons and 3 enrolled students");
-    System.out.println("   - Course CS102 with 2 lessons and 1 enrolled student");
-    System.out.println("   - 3 test students: Alice, Bob, Charlie");
-}
 }
