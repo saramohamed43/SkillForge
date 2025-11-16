@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "courseID": "C123",
+    "courseTitle": "one",
+    "courseDescription": "dsakdjkdsjds",
+    "instructorID": "2C9767F5",
+    "lessons": [
+      {
+        "lessonID": "L123",
+        "lessonTitle": "one",
+        "lessonContent": "fdskfjkfkja",
+        "optionalResources": [
+          "dsafkjfadfd"
+        ]
+      }
+    ],
+    "students": []
+  }
+]

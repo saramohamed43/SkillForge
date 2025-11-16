@@ -32,17 +32,25 @@ public class InstructorFrame extends javax.swing.JFrame {
         cardLayout = (java.awt.CardLayout) getContentPane().getLayout();
         initializeBackend();
         jTable2.getSelectionModel().addListSelectionListener(e -> {
-        if (!e.getValueIsAdjusting()) {
-            int selectedRow = jTable2.getSelectedRow();
-            if (selectedRow != -1 && selectedCourse != null && selectedRow < selectedCourse.getLessons().size()) {
-                Lesson lesson = selectedCourse.getLessons().get(selectedRow);
-                
-                LessonID.setText(lesson.getLessonID());
-                Lessontitle.setText(lesson.getLessonTitle());
-                Lessoncontent.setText(lesson.getLessonContent());
+    if (!e.getValueIsAdjusting()) {
+        int selectedRow = jTable2.getSelectedRow();
+        if (selectedRow != -1 && selectedCourse != null && selectedRow < selectedCourse.getLessons().size()) {
+            Lesson lesson = selectedCourse.getLessons().get(selectedRow);
+            
+            LessonID.setText(lesson.getLessonID());
+            Lessontitle.setText(lesson.getLessonTitle());
+            Lessoncontent.setText(lesson.getLessonContent());
+            
+            // Populate resources field
+            if (lesson.getOptionalResources() != null && !lesson.getOptionalResources().isEmpty()) {
+                String resourcesString = String.join(", ", lesson.getOptionalResources());
+                LessonResources.setText(resourcesString);
+            } else {
+                LessonResources.setText("");
             }
         }
-    });
+    }
+});
     }
 
     private void initializeBackend() {
@@ -332,33 +340,33 @@ public class InstructorFrame extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Lesson ID", "Lesson Title", "Lesson Content"
+                "Lesson ID", "Lesson Title", "Lesson Content", "Lesson Resurces"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -468,7 +476,7 @@ public class InstructorFrame extends javax.swing.JFrame {
                         .addComponent(jLabel9)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(ManageLessonsPanelLayout.createSequentialGroup()
-                        .addComponent(LessonID, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                        .addComponent(LessonID, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Lessontitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -477,7 +485,6 @@ public class InstructorFrame extends javax.swing.JFrame {
                         .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(LessonResources, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
                     .addComponent(jButton7)
@@ -897,44 +904,26 @@ if (selectedCourse == null) {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        if (selectedCourse == null) {
-            JOptionPane.showMessageDialog(this,
-            "Please select a course first",
-            "No Course Selected",
-            JOptionPane.WARNING_MESSAGE);
+        if(selectedCourse == null){
+            JOptionPane.showMessageDialog(this, "please select a course first", "No Course selected", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        String lessonID = LessonID.getText().trim();
+        String lessonTitle = Lessontitle.getText().trim();
+        String lessonContent = Lessoncontent.getText().trim();
+        String resources = LessonResources.getText().trim();
         
-        String lessonID = LessonID.getText();
-        String lessonTitle = Lessontitle.getText();
-        String lessonContent = Lessoncontent.getText();
-        String resources = LessonResources.getText();
-        String[] items = resources.split(",");
-        ArrayList<String> list = new ArrayList<>();
-        if(resources.isEmpty()){
-            JOptionPane.showMessageDialog(this,
-                "You can not leave this field empty",
-                "saving failed",
-                JOptionPane.ERROR_MESSAGE);
+        if(lessonID.isEmpty() || lessonTitle.isEmpty() || lessonContent.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please fill in Lesson Id, title and content", "validation error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        for(int i = 0; i < items.length; i++){
-            String item = items[i].trim();
-            list.add(item);
+        if(resources.isEmpty()){
+            JOptionPane.showMessageDialog(this, "you can not leave the resources field empty", "validation error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        boolean result = selectedCourse.editLesson(lessonID, lessonTitle, lessonContent, list);
-         if(result){
-            JOptionPane.showMessageDialog(this,
-                "changes saved successfully",
-                "Success",
-                JOptionPane.INFORMATION_MESSAGE);
-        }
-        else{
-            JOptionPane.showMessageDialog(this,
-                "An error occured could not save changes",
-                "adding failed",
-                JOptionPane.ERROR_MESSAGE);
-        }
+        Lesson lesson = selectedCourse.getLesson(lessonID);
+        
+        
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -1302,26 +1291,29 @@ if (selectedCourse == null) {
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 public void loadCourseLessons(String courseId) {
-        Course course = courseManager.getCourseByID(courseId);
-
-        if (course == null) {
-            JOptionPane.showMessageDialog(this, "Course not found!");
-            return;
-        }
-
-        selectedCourse = course;
-
-        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0);
-
-        for (Lesson lesson : course.getLessons()) {
-            model.addRow(new Object[]{
-                lesson.getLessonID(),
-                lesson.getLessonTitle(),
-                lesson.getLessonContent()
-            });
-        }
+    Course course = courseManager.getCourseByID(courseId);
+    if (course == null) {
+        JOptionPane.showMessageDialog(this, "Course not found!");
+        return;
     }
+    selectedCourse = course;
+    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+    model.setRowCount(0);
+    for (Lesson lesson : course.getLessons()) {
+        // Convert resources ArrayList to a string
+        String resourcesString = "";
+        if (lesson.getOptionalResources() != null && !lesson.getOptionalResources().isEmpty()) {
+            resourcesString = String.join(", ", lesson.getOptionalResources());
+        }
+        
+        model.addRow(new Object[]{
+            lesson.getLessonID(),
+            lesson.getLessonTitle(),
+            lesson.getLessonContent(),
+            resourcesString  // Add resources column
+        });
+    }
+}
 
     public void loadEnrolledStudents(String courseId) {
 Course course = courseManager.getCourseByID(courseId);

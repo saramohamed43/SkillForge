@@ -368,7 +368,7 @@
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="LessonID" pref="28" max="32767" attributes="0"/>
+                          <Component id="LessonID" pref="34" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="Lessontitle" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -410,10 +410,11 @@
             <Component class="javax.swing.JTable" name="jTable2">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="3" rowCount="20">
+                  <Table columnCount="4" rowCount="20">
                     <Column editable="false" title="Lesson ID" type="java.lang.Object"/>
                     <Column editable="false" title="Lesson Title" type="java.lang.Object"/>
                     <Column editable="false" title="Lesson Content" type="java.lang.Object"/>
+                    <Column editable="false" title="Lesson Resurces" type="java.lang.Object"/>
                   </Table>
                 </Property>
               </Properties>
