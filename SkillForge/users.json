@@ -23,5 +23,13 @@
     "username": "Yasmin",
     "email": "test@student.com",
     "passwordHash": "1234"
+  },
+  {
+    "createdCourses": [],
+    "userId": "C1B2340D",
+    "role": "Instructor",
+    "username": "sara",
+    "email": "sarazaghlool@gmail.com",
+    "passwordHash": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5"
   }
 ]
