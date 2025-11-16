@@ -1122,56 +1122,83 @@ if (selectedCourse == null) {
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         if (selectedCourse == null) {
-            JOptionPane.showMessageDialog(this,
+        JOptionPane.showMessageDialog(this,
             "Please select a course first",
             "No Course Selected",
             JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        String courseId = selectedCourse.getCourseID();
-        String lessonId = LessonIDText.getText();
-        String lessonTitle = LessonTitleText.getText();
-        String lessonContent = LessonContentText.getText();
-        String resources = ResourcesText.getText();
-        if(resources.isEmpty()){
-            JOptionPane.showMessageDialog(this,
-                "You can not leave this field empty!",
-                "adding failed",
-                JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        String[] items = resources.split(",");
-        ArrayList<String> list = new ArrayList<>();
-        for(int i = 0; i < items.length; i++){
-            String item = items[i].trim();
+        return;
+    }
+    
+    String courseId = selectedCourse.getCourseID();
+    String lessonId = LessonIDText.getText().trim();
+    String lessonTitle = LessonTitleText.getText().trim();
+    String lessonContent = LessonContentText.getText().trim();
+    String resources = ResourcesText.getText().trim();
+    
+    if(lessonId.isEmpty() || lessonTitle.isEmpty() || lessonContent.isEmpty()) {
+        JOptionPane.showMessageDialog(this,
+            "Please fill in Lesson ID, Title, and Content!",
+            "Validation Error",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    if(resources.isEmpty()){
+        JOptionPane.showMessageDialog(this,
+            "You cannot leave resources field empty!",
+            "Validation Error",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    String[] items = resources.split(",");
+    ArrayList<String> list = new ArrayList<>();
+    for(int i = 0; i < items.length; i++){
+        String item = items[i].trim();
+        if (!item.isEmpty()) {
             list.add(item);
         }
-        boolean result1 = instructorManager.addLesson(courseId, lessonId, lessonTitle, lessonContent);
-        if(result1){
-            boolean result = selectedCourse.editLesson(lessonId, lessonTitle, lessonContent, list);
-            if(result){
-                JOptionPane.showMessageDialog(this,
-                    "lesson added successfully",
-                    "Success",
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-            else{
-                JOptionPane.showMessageDialog(this,
-                    "An error occured could not add lesson",
-                    "adding failed",
-                    JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        else{
+    }
+    
+    boolean result1 = instructorManager.addLesson(courseId, lessonId, lessonTitle, lessonContent);
+    
+    if(result1){
+        selectedCourse = courseManager.getCourseByID(courseId);
+        Lesson addedLesson = selectedCourse.getLesson(lessonId);
+    
+        if (addedLesson != null) {
+            // Set the resources using the setter
+            addedLesson.setOptionalResources(list);
+        
+            // Save the updated course back to JSON
+            courseManager.update(courseId, selectedCourse);
+        
             JOptionPane.showMessageDialog(this,
-                "An error occured could not add lesson",
-                "adding failed",
+                "Lesson added successfully!",
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE);
+        
+            // Clear the fields
+            LessonIDText.setText("");
+            LessonTitleText.setText("");
+            LessonContentText.setText("");
+            ResourcesText.setText("");
+            
+        } else {
+            JOptionPane.showMessageDialog(this,
+                "An error occurred, could not add lesson resources",
+                "Adding Failed",
                 JOptionPane.ERROR_MESSAGE);
         }
-        
+    } else {
+        JOptionPane.showMessageDialog(this,
+            "An error occurred, could not add lesson. Lesson ID might already exist.",
+            "Adding Failed",
+            JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jButton14ActionPerformed
 
+    
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         if (selectedCourse == null) {
             JOptionPane.showMessageDialog(this,
