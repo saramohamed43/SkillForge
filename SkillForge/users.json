@@ -31,5 +31,29 @@
     "username": "sara",
     "email": "sarazaghlool@gmail.com",
     "passwordHash": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5"
+  },
+  {
+    "enrolledCourses": [],
+    "progress": {},
+    "userId": "EA3383B5",
+    "role": "Student",
+    "username": "mohammed",
+    "email": "mohammed@.",
+    "passwordHash": "22a2fa7d04248931a8853a7714b86546610afd01b2b1841890e979ba7ba6bcae"
+  },
+  {
+    "enrolledCourses": [
+      "C100"
+    ],
+    "progress": {
+      "C100": [
+        "L1"
+      ]
+    },
+    "userId": "4EE2C443",
+    "role": "Student",
+    "username": "neam",
+    "email": "neam45@gmail.com",
+    "passwordHash": "0f8ef3377b30fc47f96b48247f463a726a802f62f3faa03d56403751d2f66c67"
   }
 ]
