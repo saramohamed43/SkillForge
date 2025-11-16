@@ -32,17 +32,25 @@ public class InstructorFrame extends javax.swing.JFrame {
         cardLayout = (java.awt.CardLayout) getContentPane().getLayout();
         initializeBackend();
         jTable2.getSelectionModel().addListSelectionListener(e -> {
-        if (!e.getValueIsAdjusting()) {
-            int selectedRow = jTable2.getSelectedRow();
-            if (selectedRow != -1 && selectedCourse != null && selectedRow < selectedCourse.getLessons().size()) {
-                Lesson lesson = selectedCourse.getLessons().get(selectedRow);
-                
-                LessonID.setText(lesson.getLessonID());
-                Lessontitle.setText(lesson.getLessonTitle());
-                Lessoncontent.setText(lesson.getLessonContent());
+    if (!e.getValueIsAdjusting()) {
+        int selectedRow = jTable2.getSelectedRow();
+        if (selectedRow != -1 && selectedCourse != null && selectedRow < selectedCourse.getLessons().size()) {
+            Lesson lesson = selectedCourse.getLessons().get(selectedRow);
+            
+            LessonID.setText(lesson.getLessonID());
+            Lessontitle.setText(lesson.getLessonTitle());
+            Lessoncontent.setText(lesson.getLessonContent());
+            
+            // Populate resources field
+            if (lesson.getOptionalResources() != null && !lesson.getOptionalResources().isEmpty()) {
+                String resourcesString = String.join(", ", lesson.getOptionalResources());
+                LessonResources.setText(resourcesString);
+            } else {
+                LessonResources.setText("");
             }
         }
-    });
+    }
+});
     }
 
     private void initializeBackend() {
@@ -332,33 +340,33 @@ public class InstructorFrame extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Lesson ID", "Lesson Title", "Lesson Content"
+                "Lesson ID", "Lesson Title", "Lesson Content", "Lesson Resurces"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -438,7 +446,7 @@ public class InstructorFrame extends javax.swing.JFrame {
                             .addGap(150, 150, 150)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ManageLessonsPanelLayout.createSequentialGroup()
                         .addComponent(jLabel17)
-                        .addGap(36, 36, 36)))
+                        .addGap(34, 34, 34)))
                 .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(LessonID)
                     .addComponent(Lessontitle)
@@ -461,23 +469,22 @@ public class InstructorFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ManageLessonsPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel9)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(ManageLessonsPanelLayout.createSequentialGroup()
-                        .addComponent(LessonID, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                        .addComponent(LessonID, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Lessontitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Lessoncontent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(7, 7, 7)
-                        .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(LessonResources, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel17))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17)
+                            .addComponent(LessonResources, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(ManageLessonsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel9)))
+                .addGap(9, 9, 9)
                 .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
                     .addComponent(jButton7)
@@ -898,43 +905,87 @@ if (selectedCourse == null) {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (selectedCourse == null) {
-            JOptionPane.showMessageDialog(this,
+        JOptionPane.showMessageDialog(this,
             "Please select a course first",
             "No Course Selected",
             JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        String lessonID = LessonID.getText();
-        String lessonTitle = Lessontitle.getText();
-        String lessonContent = Lessoncontent.getText();
-        String resources = LessonResources.getText();
-        String[] items = resources.split(",");
-        ArrayList<String> list = new ArrayList<>();
-        if(resources.isEmpty()){
-            JOptionPane.showMessageDialog(this,
-                "You can not leave this field empty",
-                "saving failed",
-                JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        for(int i = 0; i < items.length; i++){
-            String item = items[i].trim();
+        return;
+    }
+    
+    String lessonID = LessonID.getText().trim();
+    String lessonTitle = Lessontitle.getText().trim();
+    String lessonContent = Lessoncontent.getText().trim();
+    String resources = LessonResources.getText().trim();
+    
+    // Validate fields
+    if(lessonID.isEmpty() || lessonTitle.isEmpty() || lessonContent.isEmpty()) {
+        JOptionPane.showMessageDialog(this,
+            "Please fill in Lesson ID, Title, and Content!",
+            "Validation Error",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    if(resources.isEmpty()){
+        JOptionPane.showMessageDialog(this,
+            "You cannot leave resources field empty",
+            "Validation Error",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // Parse resources
+    String[] items = resources.split(",");
+    ArrayList<String> list = new ArrayList<>();
+    for(int i = 0; i < items.length; i++){
+        String item = items[i].trim();
+        if (!item.isEmpty()) {
             list.add(item);
         }
-        boolean result = selectedCourse.editLesson(lessonID, lessonTitle, lessonContent, list);
-         if(result){
+    }
+    
+    // Get the lesson directly and update it
+    Lesson lesson = selectedCourse.getLesson(lessonID);
+    
+    if (lesson == null) {
+        JOptionPane.showMessageDialog(this,
+            "Lesson not found! You cannot change the Lesson ID.\nPlease select a lesson from the table.",
+            "Lesson ID Cannot Be Changed",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    try {
+        // Update lesson properties directly
+        lesson.setLessonTitle(lessonTitle);
+        lesson.setLessonContent(lessonContent);
+        lesson.setOptionalResources(list);
+        
+        // Save the updated course to JSON
+        boolean result = courseManager.update(selectedCourse.getCourseID(), selectedCourse);
+        
+        if(result){
             JOptionPane.showMessageDialog(this,
-                "changes saved successfully",
+                "Changes saved successfully",
                 "Success",
                 JOptionPane.INFORMATION_MESSAGE);
-        }
-        else{
+            
+            // Refresh the table
+            loadCourseLessons(selectedCourse.getCourseID());
+            
+        } else {
             JOptionPane.showMessageDialog(this,
-                "An error occured could not save changes",
-                "adding failed",
+                "An error occurred, could not save changes to file",
+                "Save Failed",
                 JOptionPane.ERROR_MESSAGE);
         }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+            "Error: " + e.getMessage(),
+            "Save Failed",
+            JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -1122,88 +1173,145 @@ if (selectedCourse == null) {
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         if (selectedCourse == null) {
-            JOptionPane.showMessageDialog(this,
+        JOptionPane.showMessageDialog(this,
             "Please select a course first",
             "No Course Selected",
             JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        String courseId = selectedCourse.getCourseID();
-        String lessonId = LessonIDText.getText();
-        String lessonTitle = LessonTitleText.getText();
-        String lessonContent = LessonContentText.getText();
-        String resources = ResourcesText.getText();
-        if(resources.isEmpty()){
-            JOptionPane.showMessageDialog(this,
-                "You can not leave this field empty!",
-                "adding failed",
-                JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        String[] items = resources.split(",");
-        ArrayList<String> list = new ArrayList<>();
-        for(int i = 0; i < items.length; i++){
-            String item = items[i].trim();
+        return;
+    }
+    
+    String courseId = selectedCourse.getCourseID();
+    String lessonId = LessonIDText.getText().trim();
+    String lessonTitle = LessonTitleText.getText().trim();
+    String lessonContent = LessonContentText.getText().trim();
+    String resources = ResourcesText.getText().trim();
+    
+    if(lessonId.isEmpty() || lessonTitle.isEmpty() || lessonContent.isEmpty()) {
+        JOptionPane.showMessageDialog(this,
+            "Please fill in Lesson ID, Title, and Content!",
+            "Validation Error",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    if(resources.isEmpty()){
+        JOptionPane.showMessageDialog(this,
+            "You cannot leave resources field empty!",
+            "Validation Error",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    String[] items = resources.split(",");
+    ArrayList<String> list = new ArrayList<>();
+    for(int i = 0; i < items.length; i++){
+        String item = items[i].trim();
+        if (!item.isEmpty()) {
             list.add(item);
         }
-        boolean result1 = instructorManager.addLesson(courseId, lessonId, lessonTitle, lessonContent);
-        if(result1){
-            boolean result = selectedCourse.editLesson(lessonId, lessonTitle, lessonContent, list);
-            if(result){
-                JOptionPane.showMessageDialog(this,
-                    "lesson added successfully",
-                    "Success",
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-            else{
-                JOptionPane.showMessageDialog(this,
-                    "An error occured could not add lesson",
-                    "adding failed",
-                    JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        else{
+    }
+    
+    boolean result1 = instructorManager.addLesson(courseId, lessonId, lessonTitle, lessonContent);
+    
+    if(result1){
+        selectedCourse = courseManager.getCourseByID(courseId);
+        Lesson addedLesson = selectedCourse.getLesson(lessonId);
+    
+        if (addedLesson != null) {
+            // Set the resources using the setter
+            addedLesson.setOptionalResources(list);
+        
+            // Save the updated course back to JSON
+            courseManager.update(courseId, selectedCourse);
+        
             JOptionPane.showMessageDialog(this,
-                "An error occured could not add lesson",
-                "adding failed",
+                "Lesson added successfully!",
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE);
+        
+            // Clear the fields
+            LessonIDText.setText("");
+            LessonTitleText.setText("");
+            LessonContentText.setText("");
+            ResourcesText.setText("");
+            
+        } else {
+            JOptionPane.showMessageDialog(this,
+                "An error occurred, could not add lesson resources",
+                "Adding Failed",
                 JOptionPane.ERROR_MESSAGE);
         }
-        
+    } else {
+        JOptionPane.showMessageDialog(this,
+            "An error occurred, could not add lesson. Lesson ID might already exist.",
+            "Adding Failed",
+            JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jButton14ActionPerformed
 
+    
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        if (selectedCourse == null) {
-            JOptionPane.showMessageDialog(this,
+         if (selectedCourse == null) {
+        JOptionPane.showMessageDialog(this,
             "Please select a course first",
             "No Course Selected",
             JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        String lessonId = LessonID.getText();
-        int result1 = JOptionPane.showConfirmDialog(
-                this,
-                "Are you sure you want to delete this lesson? ",
-                "Confirm Delete",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE
-        );
+        return;
+    }
+    
+    String lessonId = LessonID.getText().trim();
+    
+    if (lessonId.isEmpty()) {
+        JOptionPane.showMessageDialog(this,
+            "Please select a lesson to delete",
+            "No Lesson Selected",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // Check if lesson exists
+    Lesson lesson = selectedCourse.getLesson(lessonId);
+    if (lesson == null) {
+        JOptionPane.showMessageDialog(this,
+            "Lesson not found!",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    int result1 = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to delete lesson: " + lesson.getLessonTitle() + "?",
+        "Confirm Delete",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE
+    );
 
-        if (result1 == JOptionPane.YES_OPTION) {
-            boolean result = instructorManager.deleteLesson(selectedCourse.getCourseID(), lessonId.trim());
+    if (result1 == JOptionPane.YES_OPTION) {
+        boolean result = instructorManager.deleteLesson(selectedCourse.getCourseID(), lessonId.trim());
+        
         if(result){
-                JOptionPane.showMessageDialog(this,
-                    "lesson deleted successfully",
-                    "Success",
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-            else{
-                JOptionPane.showMessageDialog(this,
-                    "An error occured could not delete lesson",
-                    "deleting failed",
-                    JOptionPane.ERROR_MESSAGE);
-            }        
-        }
+            JOptionPane.showMessageDialog(this,
+                "Lesson deleted successfully",
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE);
+            
+            // Clear the text fields
+            LessonID.setText("");
+            Lessontitle.setText("");
+            Lessoncontent.setText("");
+            LessonResources.setText("");
+            
+            // Refresh the table
+            loadCourseLessons(selectedCourse.getCourseID());
+            
+        } else {
+            JOptionPane.showMessageDialog(this,
+                "An error occurred, could not delete lesson",
+                "Delete Failed",
+                JOptionPane.ERROR_MESSAGE);
+        }        
+    }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     public void showPanel(String panelKey) {
@@ -1275,26 +1383,29 @@ if (selectedCourse == null) {
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 public void loadCourseLessons(String courseId) {
-        Course course = courseManager.getCourseByID(courseId);
-
-        if (course == null) {
-            JOptionPane.showMessageDialog(this, "Course not found!");
-            return;
-        }
-
-        selectedCourse = course;
-
-        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0);
-
-        for (Lesson lesson : course.getLessons()) {
-            model.addRow(new Object[]{
-                lesson.getLessonID(),
-                lesson.getLessonTitle(),
-                lesson.getLessonContent()
-            });
-        }
+    Course course = courseManager.getCourseByID(courseId);
+    if (course == null) {
+        JOptionPane.showMessageDialog(this, "Course not found!");
+        return;
     }
+    selectedCourse = course;
+    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+    model.setRowCount(0);
+    for (Lesson lesson : course.getLessons()) {
+        // Convert resources ArrayList to a string
+        String resourcesString = "";
+        if (lesson.getOptionalResources() != null && !lesson.getOptionalResources().isEmpty()) {
+            resourcesString = String.join(", ", lesson.getOptionalResources());
+        }
+        
+        model.addRow(new Object[]{
+            lesson.getLessonID(),
+            lesson.getLessonTitle(),
+            lesson.getLessonContent(),
+            resourcesString  // Add resources column
+        });
+    }
+}
 
     public void loadEnrolledStudents(String courseId) {
 Course course = courseManager.getCourseByID(courseId);
