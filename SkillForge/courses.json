@@ -40,5 +40,38 @@
       }
     ],
     "students": []
+  },
+  {
+    "courseID": "123",
+    "courseTitle": "sub",
+    "courseDescription": "bob",
+    "instructorID": "114F7FF6",
+    "lessons": [
+      {
+        "lessonID": "1234",
+        "lessonTitle": "ww",
+        "lessonContent": "wwwe",
+        "optionalResources": []
+      },
+      {
+        "lessonID": "1235",
+        "lessonTitle": "wwq",
+        "lessonContent": "wwqe",
+        "optionalResources": []
+      }
+    ],
+    "students": [
+      {
+        "enrolledCourses": [
+          "123"
+        ],
+        "progress": {},
+        "userId": "5B92EC00",
+        "role": "Student",
+        "username": "sami",
+        "email": "sami@.",
+        "passwordHash": "1d28c120568c10e19b9d8abe8b66d0983fa3d2e11ee7751aca50f83c6f4a43aa"
+      }
+    ]
   }
 ]

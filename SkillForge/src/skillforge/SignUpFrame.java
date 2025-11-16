@@ -161,17 +161,51 @@ public class SignUpFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// Optional: validate user input here (email, password, etc.)
-    
-    // Show confirmation message
-    JOptionPane.showMessageDialog(this, "Sign up successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-    
-    // Go back to LoginFrame
-    LoginFrame login = new LoginFrame();
-    login.setVisible(true);  // open login
-    login.setLocationRelativeTo(null); // center login
-    
-    this.dispose(); // close signup frame        // TODO add your handling code here:
+        String username = jTextField1.getText().trim();
+        String email = jTextField2.getText().trim();
+        String password = new String(jPasswordField1.getPassword());
+
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Please fill in all fields!",
+                    "Validation Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String[] roles = {"Student", "Instructor"};
+        String role = (String) JOptionPane.showInputDialog(
+                this,
+                "Select your role:",
+                "Choose Role",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                roles,
+                roles[0]
+        );
+
+        if (role == null) {
+            return; // User cancelled
+        }
+
+        // ✅ BACKEND CONNECTION: Call UserAuth.signup()
+        boolean success = UserAuth.signup(username, email, password, role);
+
+        if (success) {
+            JOptionPane.showMessageDialog(this,
+                    "Account created successfully!\nYou can now login.",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            // Go back to login
+            LoginFrame login = new LoginFrame();
+            login.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Signup failed!\nEmail may already exist or invalid input.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
