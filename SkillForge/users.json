@@ -1,64 +1,10 @@
 [
   {
-    "enrolledCourses": [],
-    "progress": {},
-    "userId": "7EA915AE",
-    "role": "Student",
-    "username": "beso",
-    "email": "beso@belrizo.com",
-    "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
-  },
-  {
-    "createdCourses": [
-      "P12"
-    ],
-    "userId": "8BA5EA6D",
+    "createdCourses": [],
+    "userId": "CA035A25",
     "role": "Instructor",
     "username": "sara",
     "email": "sara@gmail.com",
     "passwordHash": "b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0"
-  },
-  {
-    "enrolledCourses": [],
-    "progress": {},
-    "userId": "2A768BFD",
-    "role": "Student",
-    "username": "TestStudent",
-    "email": "test@student.com",
-    "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
-  },
-  {
-    "enrolledCourses": [
-      "C001"
-    ],
-    "progress": {
-      "C001": [
-        "L1"
-      ]
-    },
-    "userId": "S001",
-    "role": "Student",
-    "username": "Alice",
-    "email": "alice@test.com",
-    "passwordHash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
-  },
-  {
-    "enrolledCourses": [],
-    "progress": {},
-    "userId": "S002",
-    "role": "Student",
-    "username": "Bob",
-    "email": "bob@test.com",
-    "passwordHash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
-  },
-  {
-    "createdCourses": [
-      "C003"
-    ],
-    "userId": "I001",
-    "role": "Instructor",
-    "username": "John",
-    "email": "john@teach.com",
-    "passwordHash": "d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1"
   }
 ]
