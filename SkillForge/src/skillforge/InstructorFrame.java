@@ -180,7 +180,7 @@ public class InstructorFrame extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, true
+                false, true, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -784,63 +784,57 @@ public class InstructorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        if (selectedCourse == null) {
-            JOptionPane.showMessageDialog(this,
-                    "No course selected!",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+if (selectedCourse == null) {
+        JOptionPane.showMessageDialog(this,
+                "No course selected!",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        int selectedRow = jTable3.getSelectedRow();
+    int selectedRow = jTable3.getSelectedRow();
 
-        if (selectedRow < 0) {
-            JOptionPane.showMessageDialog(this,
-                    "Please select a student!",
-                    "Selection Required",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+    if (selectedRow < 0) {
+        JOptionPane.showMessageDialog(this,
+                "Please select a student from the table!",
+                "Selection Required",
+                JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-        String studentId = model.getValueAt(selectedRow, 0).toString();
-        String studentName = model.getValueAt(selectedRow, 1).toString();
+    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+    String studentId = model.getValueAt(selectedRow, 0).toString();
+    String studentName = model.getValueAt(selectedRow, 1).toString();
 
-        int result = JOptionPane.showConfirmDialog(
-                this,
-                "Remove " + studentName + " from course?",
-                "Confirm",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE
+    int result = JOptionPane.showConfirmDialog(
+            this,
+            "Remove " + studentName + " from " + selectedCourse.getCourseTitle() + "?",
+            "Confirm Removal",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+    );
+
+    if (result == JOptionPane.YES_OPTION) {
+        boolean success = courseManager.removeStudent(
+                selectedCourse.getCourseID(),
+                studentId
         );
 
-        if (result == JOptionPane.YES_OPTION) {
-            boolean success = courseManager.removeStudent(
-                    selectedCourse.getCourseID(),
-                    studentId
-            );
+        if (success) {
+            JOptionPane.showMessageDialog(this,
+                    studentName + " removed successfully!",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
 
-            if (success) {
-                JOptionPane.showMessageDialog(this,
-                        "Student removed successfully!",
-                        "Success",
-                        JOptionPane.INFORMATION_MESSAGE);
-
-                // Refresh student table
-                loadEnrolledStudents(selectedCourse.getCourseID());
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "Failed to remove student!",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
+            // Refresh student table
+            loadEnrolledStudents(selectedCourse.getCourseID());
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Removal cancelled!",
-                    "Cancelled",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    "Failed to remove student!",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
-
+    }
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -944,69 +938,96 @@ public class InstructorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (selectedCourse == null) {
-            JOptionPane.showMessageDialog(this,
-                    "Please search for a course first!",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+if (selectedCourse == null) {
+        JOptionPane.showMessageDialog(this,
+                "Please search for a course first!",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        int result = JOptionPane.showConfirmDialog(
-                this,
-                "Are you sure you want to save the changes?",
-                "Confirm Saving",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE
-        );
+    // CRITICAL FIX: Stop any active cell editing first
+    if (jTable1.isEditing()) {
+        jTable1.getCellEditor().stopCellEditing();
+    }
+    
+    // Give the table a moment to update its model
+    try {
+        Thread.sleep(100);
+    } catch (InterruptedException e) {
+        // Ignore
+    }
 
-        if (result == JOptionPane.YES_OPTION) {
-            try {
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                if (model.getRowCount() == 0) {
-                    JOptionPane.showMessageDialog(this,
-                            "No course to update!",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+    int result = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to save the changes?",
+            "Confirm Saving",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+    );
 
-                String newTitle = model.getValueAt(0, 1).toString();
-                String newDescription = model.getValueAt(0, 2).toString();
-
-                boolean success = instructorManager.editCourse(
-                        selectedCourse.getCourseID(),
-                        newTitle,
-                        newDescription
-                );
-
-                if (success) {
-                    JOptionPane.showMessageDialog(this,
-                            "Course updated successfully!",
-                            "Success",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                    jTextField1.setText("");
-                    model.setRowCount(0); // Clear table
-                    selectedCourse = null;
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Failed to update course. Check console for errors.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (Exception e) {
+    if (result == JOptionPane.YES_OPTION) {
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            if (model.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(this,
-                        "Error: " + e.getMessage(),
+                        "No course to update!",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Object titleObj = model.getValueAt(0, 1);
+            Object descObj = model.getValueAt(0, 2);
+            
+            if (titleObj == null || descObj == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Title and Description cannot be empty!",
+                        "Validation Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String newTitle = titleObj.toString();
+            String newDescription = descObj.toString();
+
+            System.out.println("Saving - Title: " + newTitle);
+            System.out.println("Saving - Description: " + newDescription);
+
+            boolean success = instructorManager.editCourse(
+                    selectedCourse.getCourseID(),
+                    newTitle,
+                    newDescription
+            );
+
+            if (success) {
+                JOptionPane.showMessageDialog(this,
+                        "Course updated successfully!",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                jTextField1.setText("");
+                model.setRowCount(0);
+                selectedCourse = null;
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Failed to update course. Check console for validation errors.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
             }
-        } else {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
-                    "No changes saved",
-                    "Cancelled",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    "Error: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
+    } else {
+        JOptionPane.showMessageDialog(this,
+                "No changes saved",
+                "Cancelled",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1277,29 +1298,47 @@ public void loadCourseLessons(String courseId) {
     }
 
     public void loadEnrolledStudents(String courseId) {
-        Course course = courseManager.getCourseByID(courseId);
+Course course = courseManager.getCourseByID(courseId);
 
-        if (course == null) {
-            JOptionPane.showMessageDialog(this, "Course not found!");
-            return;
+    if (course == null) {
+        return;
+    }
+
+    selectedCourse = course;
+    
+    // Re-fetch students to ensure we have latest data
+    ArrayList<Student> students = course.getStudents();
+
+    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+    model.setRowCount(0);
+
+    System.out.println("Loading students for course: " + courseId);
+    System.out.println("Total students enrolled: " + students.size());
+
+    for (Student student : students) {
+        // Get fresh student data from database
+        Student freshStudent = userDb.getStudentById(student.getUserId());
+        
+        if (freshStudent == null) {
+            freshStudent = student; // Fallback to course's student reference
         }
+        
+        List<String> completedLessons = studentManager.getCompletedLessons(freshStudent, course);
+        int totalLessons = course.getLessons().size();
+        
+        String progress = completedLessons.size() + "/" + totalLessons;
+        
+        System.out.println("Student: " + freshStudent.getUsername() + 
+                         " - Progress: " + progress);
 
-        selectedCourse = course;
-        ArrayList<Student> students = instructorManager.getEnrolledStudents(course);
-
-        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-        model.setRowCount(0);
-
-        for (Student student : students) {
-            List<String> completedLessons = studentManager.getCompletedLessons(student, course);
-            String progress = completedLessons.size() + "/" + course.getLessons().size();
-
-            model.addRow(new Object[]{
-                student.getUserId(),
-                student.getUsername(),
-                progress
-            });
-        }
+        model.addRow(new Object[]{
+            freshStudent.getUserId(),
+            freshStudent.getUsername(),
+            progress
+        });
+    }
+    
+    System.out.println("Table loaded with " + model.getRowCount() + " rows");
     }
     
     public Course askForCourseId() {

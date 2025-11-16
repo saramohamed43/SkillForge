@@ -1,17 +1,7 @@
 [
   {
     "createdCourses": [],
-    "userId": "7EA915AE",
-    "role": "Student",
-    "username": "beso",
-    "email": "beso@belrizo.com",
-    "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
-  },
-  {
-    "createdCourses": [
-      "P12"
-    ],
-    "userId": "8BA5EA6D",
+    "userId": "CA035A25",
     "role": "Instructor",
     "username": "sara",
     "email": "sara@gmail.com",
