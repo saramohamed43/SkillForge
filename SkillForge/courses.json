@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "courseID": "F12",
+    "courseTitle": "Physics",
+    "courseDescription": "cooool",
+    "instructorID": "CA035A25",
+    "lessons": [],
+    "students": []
+  }
+]

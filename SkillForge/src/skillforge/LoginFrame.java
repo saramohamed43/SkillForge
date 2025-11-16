@@ -351,7 +351,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel8.setText("Enter Instructor ID:");
 
         jButton1.setBackground(new java.awt.Color(153, 153, 255));
-        jButton1.setText("Create Lesson");
+        jButton1.setText("Confirm");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
