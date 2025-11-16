@@ -1087,7 +1087,6 @@ if (selectedCourse == null) {
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        selectedCourse = askForCourseId();
         if (selectedCourse == null) {
             JOptionPane.showMessageDialog(this,
                 "Please select a course first",
@@ -1097,7 +1096,7 @@ if (selectedCourse == null) {
         }
         LessonPanel.setVisible(false);
         ManageLessonsPanel.setVisible(true);
-        loadCourseLessons(selectedCourse.getCourseID());
+        //loadCourseLessons(selectedCourse.getCourseID());
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed

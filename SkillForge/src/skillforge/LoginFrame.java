@@ -592,7 +592,7 @@ if (currentInstructor == null) {
     InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
     instructorFrame.loadCourseLessons(courseId.trim());
     instructorFrame.setVisible(true);
-    instructorFrame.showPanel("ManageLessonsCard");
+    instructorFrame.showPanel("LessonCard");
     this.setVisible(false);
     }//GEN-LAST:event_ManageLessonsActionPerformed
 
