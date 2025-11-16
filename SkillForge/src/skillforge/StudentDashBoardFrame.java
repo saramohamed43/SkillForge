@@ -9,6 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 
 
+
+
 /**
  *
  * @author zmezm
@@ -68,7 +70,7 @@ private Course currentViewedCourse;
     
 jButton5.addActionListener(evt -> {
     int selectedRow = EnrolledCoursesTable.getSelectedRow();
-    if (selectedRow >= 0) {
+    if (selectedRow >= 0) { 
         String courseId = EnrolledCoursesTable.getValueAt(selectedRow, 0).toString();
         Course selectedCourse = studentManager.getAllCourses().stream()
             .filter(c -> c.getCourseID().equals(courseId))
@@ -79,39 +81,34 @@ jButton5.addActionListener(evt -> {
             currentViewedCourse = selectedCourse;
 
             populateLessonsTableWithStatus(selectedCourse);
-            displayCourseInfo(selectedCourse);  // FIXED: proper name
 
+           
             CardLayout cl2 = (CardLayout) MainStudentPanel.getLayout();
             cl2.show(MainStudentPanel, "card4");
         }
     } else {
         JOptionPane.showMessageDialog(this, "Select a course first to view lessons.");
+
     }
 });
 
 
+
+
 jButton6.addActionListener(evt -> {
     int selectedRow = jTable3.getSelectedRow();
+
     if (selectedRow >= 0 && currentViewedCourse != null) {
 
         String lessonId = jTable3.getValueAt(selectedRow, 0).toString();
-        String currentStatus = jTable3.getValueAt(selectedRow, 2).toString();
+        String currentStatus = jTable3.getValueAt(selectedRow, 3).toString(); // FIXED
 
         if (currentStatus.equals("❌ Not Completed")) {
 
             studentManager.markLessonCompleted(currentStudent, currentViewedCourse, lessonId);
 
             populateLessonsTableWithStatus(currentViewedCourse);
-
-            // FIX: get actual Lesson object
-            Lesson selectedLesson = currentViewedCourse.getLessons().stream()
-                .filter(l -> l.getLessonID().equals(lessonId))
-                .findFirst()
-                .orElse(null);
-
-            if (selectedLesson != null) {
-                displayLessonsCourseInfo(selectedLesson);  // refresh text area
-            }
+            populateEnrolledCoursesTable();  
 
             JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
 
@@ -125,6 +122,7 @@ jButton6.addActionListener(evt -> {
 });
 
 
+
 EnrolledCoursesTable.getSelectionModel().addListSelectionListener(e -> {
     if (!e.getValueIsAdjusting()) {
         int selectedRow = EnrolledCoursesTable.getSelectedRow();
@@ -135,9 +133,7 @@ EnrolledCoursesTable.getSelectionModel().addListSelectionListener(e -> {
                 .findFirst()
                 .orElse(null);
             
-            if (selectedCourse != null) {
-                displayCourseInfo(selectedCourse);
-            }
+           
         }
     }
 });
@@ -151,21 +147,19 @@ AvailableCoursesTable.getSelectionModel().addListSelectionListener(e -> {
                 .findFirst()
                 .orElse(null);
 
-            if (selectedCourse != null) {
-                displayCourseInfoInBrowse(selectedCourse);
-            }
+           
         }
     }
 });
 
    }
    
-    private void populateAvailableCoursesTable() {
+   private void populateAvailableCoursesTable() {
     DefaultTableModel model = (DefaultTableModel) AvailableCoursesTable.getModel();
-    model.setRowCount(0); 
+    model.setRowCount(0);
 
     for (Course course : studentManager.getAllCourses()) {
-        model.addRow(new Object[] {
+        model.addRow(new Object[]{
             course.getCourseID(),
             course.getCourseTitle(),
             course.getCourseDescription(),
@@ -173,73 +167,67 @@ AvailableCoursesTable.getSelectionModel().addListSelectionListener(e -> {
         });
     }
 }
+
 private void populateEnrolledCoursesTable() {
     DefaultTableModel model = (DefaultTableModel) EnrolledCoursesTable.getModel();
     model.setRowCount(0);
 
-    for (Course course : studentManager.getEnrolledCourses(currentStudent)) {
-        model.addRow(new Object[] {
-            course.getCourseID(),
-            course.getCourseTitle(),
-            course.getCourseDescription(),
-            course.getInstructorID()
+    for (Course c : studentManager.getEnrolledCourses(currentStudent)) {
+
+        double percentage = studentManager.getCoursePercentage(currentStudent, c);
+
+        model.addRow(new Object[]{
+            c.getCourseID(),
+            c.getCourseTitle(),
+             c.getCourseDescription(),
+            c.getInstructorID(),
+            percentage + "%"
         });
     }
 }
-private void setupTableColumns() {
-    
-    DefaultTableModel availableModel = (DefaultTableModel) AvailableCoursesTable.getModel();
-    availableModel.setColumnIdentifiers(new String[]{"Course ID", "Title", "Description", "Instructor ID"});
-    
-    DefaultTableModel enrolledModel = (DefaultTableModel) EnrolledCoursesTable.getModel();
-    enrolledModel.setColumnIdentifiers(new String[]{"Course ID", "Title", "Description", "Instructor ID"});
- 
-    DefaultTableModel lessonModel = (DefaultTableModel) jTable3.getModel();
-    lessonModel.setColumnIdentifiers(new String[]{"Lesson ID", "Lesson Title", "Status"});
-}
 private void populateLessonsTableWithStatus(Course course) {
-    DefaultTableModel lessonModel = (DefaultTableModel) jTable3.getModel();
-    lessonModel.setRowCount(0);
+    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+    model.setRowCount(0);
+
     for (Lesson lesson : course.getLessons()) {
-        boolean isCompleted = studentManager.isLessonCompleted(currentStudent, course, lesson.getLessonID());
-        String status = isCompleted ? "✅ Completed" : "❌ Not Completed";
-        
-        lessonModel.addRow(new Object[]{
-            lesson.getLessonID(), 
+
+        boolean completed = studentManager.isLessonCompleted(currentStudent, course, lesson.getLessonID());
+        String status = completed ? "✔ Completed" : "❌ Not Completed";
+
+        model.addRow(new Object[]{
+            lesson.getLessonID(),
             lesson.getLessonTitle(),
+            lesson.getLessonContent(),
             status
         });
     }
-    
 }
 
-private void displayLessonsCourseInfo(Lesson lesson) {
-    StringBuilder info = new StringBuilder();
-    info.append("Lesson Description:\n\n");
-    info.append(lesson.getLessonContent()).append("\n\n");
-    
-    jTextArea1.setText(info.toString());
-    jTextArea1.setEditable(false);
-}
-private void displayCourseInfo(Course course) {
-    double percentage = studentManager.getCoursePercentage(currentStudent, course);
-    
-    StringBuilder info = new StringBuilder();
-    info.append("Course Description:\n\n");
-    info.append(course.getCourseDescription()).append("\n\n");
-    info.append("Completion: ").append(percentage);
-    
-    jTextArea2.setText(info.toString());
-    jTextArea2.setEditable(false);
-}
-private void displayCourseInfoInBrowse(Course course) {
-    StringBuilder info = new StringBuilder();
-    info.append("Course Description:\n\n");
-    info.append(course.getCourseDescription()).append("\n");
 
-    jTextArea3.setText(info.toString());
-    jTextArea3.setEditable(false);
+private void setupTableColumns() {
+
+   
+    DefaultTableModel availableModel = (DefaultTableModel) AvailableCoursesTable.getModel();
+    availableModel.setColumnIdentifiers(new String[]{
+        "Course ID", "Title", "Description", "Instructor"
+    });
+
+ 
+    DefaultTableModel enrolledModel = (DefaultTableModel) EnrolledCoursesTable.getModel();
+    enrolledModel.setColumnIdentifiers(new String[]{
+        "Course ID", "Title","Description", "Instructor", "Completion %"
+    });
+
+  
+    DefaultTableModel lessonModel = (DefaultTableModel) jTable3.getModel();
+    lessonModel.setColumnIdentifiers(new String[]{
+        "Lesson ID", "Title", "Content", "Status"
+    });
 }
+
+
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -259,22 +247,16 @@ private void displayCourseInfoInBrowse(Course course) {
         jScrollPane1 = new javax.swing.JScrollPane();
         AvailableCoursesTable = new javax.swing.JTable();
         ClickEnrollBtn = new javax.swing.JButton();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
         EnrolledCoursesPanel = new javax.swing.JPanel();
         EnrolledCoursesLbl = new javax.swing.JLabel();
         EnrolledCoursesScroll = new javax.swing.JScrollPane();
         EnrolledCoursesTable = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         WelcomeStudentPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -349,12 +331,6 @@ private void displayCourseInfoInBrowse(Course course) {
         ClickEnrollBtn.setText("Enroll in Course");
         BrowseCoursesPanel.add(ClickEnrollBtn, java.awt.BorderLayout.PAGE_END);
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane5.setViewportView(jTextArea3);
-
-        BrowseCoursesPanel.add(jScrollPane5, java.awt.BorderLayout.LINE_START);
-
         MainStudentPanel.add(BrowseCoursesPanel, "card2");
 
         EnrolledCoursesPanel.setLayout(new java.awt.BorderLayout());
@@ -385,12 +361,6 @@ private void displayCourseInfoInBrowse(Course course) {
         });
         EnrolledCoursesPanel.add(jButton5, java.awt.BorderLayout.PAGE_END);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
-
-        EnrolledCoursesPanel.add(jScrollPane2, java.awt.BorderLayout.LINE_START);
-
         MainStudentPanel.add(EnrolledCoursesPanel, "card3");
 
         jPanel5.setLayout(new java.awt.BorderLayout());
@@ -415,12 +385,6 @@ private void displayCourseInfoInBrowse(Course course) {
 
         jButton6.setText("jButton6");
         jPanel5.add(jButton6, java.awt.BorderLayout.PAGE_END);
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane4.setViewportView(jTextArea1);
-
-        jPanel5.add(jScrollPane4, java.awt.BorderLayout.LINE_START);
 
         MainStudentPanel.add(jPanel5, "card4");
 
@@ -470,46 +434,22 @@ private void displayCourseInfoInBrowse(Course course) {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-    java.awt.EventQueue.invokeLater(() -> {
-        // Initialize backend
-        UserDatabaseManager userDb = new UserDatabaseManager();
-        CourseManagment courseDb = new CourseManagment("courses.json", Course.class);
-        StudentManager studentManager = new StudentManager(userDb, courseDb);
+    
+public static void main(String[] args) {
+    
+    UserDatabaseManager userDb = new UserDatabaseManager();
+    CourseManagment courseDb = new CourseManagment("courses.json", Course.class);
+    StudentManager studentManager = new StudentManager(userDb, courseDb);
 
-        // Create or get test student
-        Student testStudent = (Student) userDb.getUserByEmail("test@student.com");
-        if (testStudent == null) {
-            // Create new test student
-            UserAuth.signup("TestStudent", "test@student.com", "password123", "Student");
-            testStudent = (Student) userDb.getUserByEmail("test@student.com");
-        }
-
-        // Create test course with lessons if needed
-        Course testCourse = courseDb.getItemById("C001");
-        if (testCourse == null) {
-            courseDb.createCourse("C001", "Java Programming", "Learn Java basics", "I001");
-            testCourse = courseDb.getItemById("C001");
-            
-            // Add some test lessons
-            Lesson lesson1 = new Lesson("L001", "Introduction to Java", "Java basics content");
-            Lesson lesson2 = new Lesson("L002", "Variables and Data Types", "Variables content");
-            Lesson lesson3 = new Lesson("L003", "Control Structures", "If/else and loops");
-            
-            testCourse.addLesson(lesson1);
-            testCourse.addLesson(lesson2);
-            testCourse.addLesson(lesson3);
-            courseDb.update("C001", testCourse);
-        }
-
-        // Launch the dashboard
-        new StudentDashBoardFrame(studentManager, testStudent).setVisible(true);
-        
-        System.out.println("Dashboard launched successfully!");
-        System.out.println("Student: " + testStudent.getUsername());
-        System.out.println("Enrolled courses: " + testStudent.getEnrolledCourses().size());
+   
+    javax.swing.SwingUtilities.invokeLater(() -> {
+        LoginFrame loginFrame = new LoginFrame(userDb, studentManager);
+        loginFrame.setVisible(true);
     });
 }
+
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AvailableCoursesLbl;
@@ -531,13 +471,7 @@ private void displayCourseInfoInBrowse(Course course) {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
     // End of variables declaration//GEN-END:variables
 }

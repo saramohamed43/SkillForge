@@ -62,31 +62,81 @@
         "username": "TestStudent",
         "email": "test@student.com",
         "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+      },
+      {
+        "enrolledCourses": [
+          "P12"
+        ],
+        "progress": {},
+        "userId": "S001",
+        "role": "Student",
+        "username": "Yasmin",
+        "email": "test@student.com",
+        "passwordHash": "1234"
+      },
+      {
+        "enrolledCourses": [
+          "P12"
+        ],
+        "progress": {},
+        "userId": "S001",
+        "role": "Student",
+        "username": "Yasmin",
+        "email": "test@student.com",
+        "passwordHash": "1234"
+      },
+      {
+        "enrolledCourses": [
+          "P12"
+        ],
+        "progress": {},
+        "userId": "S001",
+        "role": "Student",
+        "username": "Yasmin",
+        "email": "test@student.com",
+        "passwordHash": "1234"
+      },
+      {
+        "enrolledCourses": [
+          "P12"
+        ],
+        "progress": {},
+        "userId": "S001",
+        "role": "Student",
+        "username": "Yasmin",
+        "email": "test@student.com",
+        "passwordHash": "1234"
+      },
+      {
+        "enrolledCourses": [
+          "C001",
+          "P12"
+        ],
+        "progress": {},
+        "userId": "S001",
+        "role": "Student",
+        "username": "Yasmin",
+        "email": "test@student.com",
+        "passwordHash": "1234"
       }
     ]
   },
   {
     "courseID": "C001",
-    "courseTitle": "Java Programming",
-    "courseDescription": "Learn Java basics",
+    "courseTitle": "Java Basics",
+    "courseDescription": "Learn Java",
     "instructorID": "I001",
     "lessons": [
       {
-        "lessonID": "L001",
-        "lessonTitle": "Introduction to Java",
-        "lessonContent": "Java basics content",
+        "lessonID": "L1",
+        "lessonTitle": "Intro",
+        "lessonContent": "Java Intro",
         "optionalResources": []
       },
       {
-        "lessonID": "L002",
-        "lessonTitle": "Variables and Data Types",
-        "lessonContent": "Variables content",
-        "optionalResources": []
-      },
-      {
-        "lessonID": "L003",
-        "lessonTitle": "Control Structures",
-        "lessonContent": "If/else and loops",
+        "lessonID": "L2",
+        "lessonTitle": "Variables",
+        "lessonContent": "Variables in Java",
         "optionalResources": []
       }
     ],
@@ -96,12 +146,35 @@
           "C001"
         ],
         "progress": {},
-        "userId": "2A768BFD",
+        "userId": "S001",
         "role": "Student",
-        "username": "TestStudent",
-        "email": "test@student.com",
-        "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+        "username": "Alice",
+        "email": "alice@test.com",
+        "passwordHash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
       }
     ]
+  },
+  {
+    "courseID": "C002",
+    "courseTitle": "Python Basics",
+    "courseDescription": "Learn Python",
+    "instructorID": "I001",
+    "lessons": [
+      {
+        "lessonID": "L1",
+        "lessonTitle": "Intro",
+        "lessonContent": "Python Intro",
+        "optionalResources": []
+      }
+    ],
+    "students": []
+  },
+  {
+    "courseID": "C003",
+    "courseTitle": "C++ Basics",
+    "courseDescription": "Learn C++",
+    "instructorID": "I001",
+    "lessons": [],
+    "students": []
   }
 ]
