@@ -944,7 +944,6 @@ public class InstructorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        selectedCourse = askForCourseId();
         if (selectedCourse == null) {
             JOptionPane.showMessageDialog(this,
                     "Please search for a course first!",
@@ -1093,12 +1092,15 @@ public class InstructorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        selectedCourse = askForCourseId();
+        if(selectedCourse == null){
+            return;
+        }
         LessonPanel.setVisible(false);
         AddLessonPanel.setVisible(true);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        selectedCourse = askForCourseId();
         if (selectedCourse == null) {
             JOptionPane.showMessageDialog(this,
             "Please select a course first",
@@ -1151,6 +1153,7 @@ public class InstructorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        if (selectedCourse == null) {
             JOptionPane.showMessageDialog(this,
             "Please select a course first",
             "No Course Selected",
