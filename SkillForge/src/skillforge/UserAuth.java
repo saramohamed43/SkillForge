@@ -65,7 +65,7 @@ public class UserAuth {
             System.err.println("Validation Error: " + e.getMessage());
             return null;
         }
-    }
+    } 
  public static String getAllErrors() {
         if (validationErrors.isEmpty()) {
             return "Unknown error occurred";

@@ -186,23 +186,23 @@ public class SignUpFrame extends javax.swing.JFrame {
         if (role == null) {
             return;
         }
-       String userId = UserAuth.signup(username, email, password, role);
+        String userId = UserAuth.signup(username, email, password, role);
 
-if (userId != null) {
-    JOptionPane.showMessageDialog(this,
-            "Account created successfully! Your ID: " + userId + 
-            "\nYou can now login.",
-            "Success",
-            JOptionPane.INFORMATION_MESSAGE);
-    new LoginFrame().setVisible(true);
-    this.dispose();
-} else {
-    String errorMessage = "Please fix the following errors:\n\n" + UserAuth.getAllErrors();
-    JOptionPane.showMessageDialog(this,
-            errorMessage,
-            "Signup Failed",
-            JOptionPane.ERROR_MESSAGE);
-}
+        if (userId != null) {
+            JOptionPane.showMessageDialog(this,
+                    "Account created successfully! Your ID: " + userId
+                    + "\nYou can now login.",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+            new LoginFrame().setVisible(true);
+            this.dispose();
+        } else {
+            String errorMessage = "Please fix the following errors:\n\n" + UserAuth.getAllErrors();
+            JOptionPane.showMessageDialog(this,
+                    errorMessage,
+                    "Signup Failed",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
