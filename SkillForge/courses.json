@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "courseID": "E12",
+    "courseTitle": "Electronics",
+    "courseDescription": "very good",
+    "instructorID": "CA035A25",
+    "lessons": [
+      {
+        "lessonID": "P12",
+        "lessonTitle": "clipper",
+        "lessonContent": "circuits",
+        "optionalResources": []
+      }
+    ],
+    "students": []
+  }
+]

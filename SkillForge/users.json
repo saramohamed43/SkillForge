@@ -1,6 +1,8 @@
 [
   {
-    "createdCourses": [],
+    "createdCourses": [
+      "E12"
+    ],
     "userId": "CA035A25",
     "role": "Instructor",
     "username": "sara",
