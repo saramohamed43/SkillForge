@@ -10,14 +10,6 @@
     "passwordHash": "b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0"
   },
   {
-    "createdCourses": [
-      "C123"
-    ],
-    "userId": "2C9767F5",
-    "role": "Instructor",
-    "username": "sara",
-    "email": "saraa@gmail.com",
-    "passwordHash": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5"
     "enrolledCourses": [
       "C100"
     ],

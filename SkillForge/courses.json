@@ -1,21 +1,5 @@
 [
   {
-    "courseID": "C123",
-    "courseTitle": "one",
-    "courseDescription": "dsakdjkdsjds",
-    "instructorID": "2C9767F5",
-    "lessons": [
-      {
-        "lessonID": "L456",
-        "lessonTitle": "ddddddd",
-        "lessonContent": "dskdlfjkf",
-        "optionalResources": [
-          "dsfladjfkjds",
-          "ddjdfjfjdf"
-        ]
-      }
-    ],
-    "students": []
     "courseID": "C100",
     "courseTitle": "Java Basics",
     "courseDescription": "A beginner Java course",
