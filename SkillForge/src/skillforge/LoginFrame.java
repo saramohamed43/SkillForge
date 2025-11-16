@@ -17,7 +17,8 @@ public class LoginFrame extends javax.swing.JFrame {
      * Creates new form LoginFrame
      */
         // new login form panel
-    private CardLayout cardLayout;  
+    private CardLayout cardLayout; 
+    private Instructor currentInstructor;
 
     public LoginFrame() {
         initComponents();
@@ -450,11 +451,18 @@ cardLayout.show(getContentPane(), "mainCard");        // TODO add your handling 
     }//GEN-LAST:event_CreateActionPerformed
 
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
-        InstructorFrame instructorFrame = new InstructorFrame(this);
-instructorFrame.setVisible(true);
-instructorFrame.showPanel("DeleteCourseCard");
-this.setVisible(false);
-
+    if (currentInstructor == null) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Please login as an instructor first!",
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
+    instructorFrame.setVisible(true);
+    instructorFrame.showPanel("DeleteCourseCard");
+    this.setVisible(false);
     }//GEN-LAST:event_DeleteActionPerformed
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
@@ -470,24 +478,70 @@ cardLayout.show(getContentPane(), "mainCard");         // TODO add your handling
     }//GEN-LAST:event_OkButtonActionPerformed
 
     private void EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditActionPerformed
-       InstructorFrame instructorFrame = new InstructorFrame(this);
-instructorFrame.setVisible(true);
-this.setVisible(false); // hide login frame
-
+if (currentInstructor == null) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Please login as an instructor first!",
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
+    instructorFrame.setVisible(true);
+    instructorFrame.showPanel("EditCourseCard");
+    this.setVisible(false);
     }//GEN-LAST:event_EditActionPerformed
 
     private void ManageLessonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManageLessonsActionPerformed
-        InstructorFrame instructorFrame = new InstructorFrame(this);
-instructorFrame.setVisible(true);
-instructorFrame.showPanel("ManageLessonsCard");
-this.setVisible(false);
+if (currentInstructor == null) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Please login as an instructor first!",
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // Ask for course ID
+    String courseId = javax.swing.JOptionPane.showInputDialog(this,
+        "Enter Course ID:",
+        "Manage Lessons",
+        javax.swing.JOptionPane.QUESTION_MESSAGE);
+    
+    if (courseId == null || courseId.trim().isEmpty()) {
+        return;
+    }
+    
+    InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
+    instructorFrame.loadCourseLessons(courseId.trim());
+    instructorFrame.setVisible(true);
+    instructorFrame.showPanel("ManageLessonsCard");
+    this.setVisible(false);
     }//GEN-LAST:event_ManageLessonsActionPerformed
 
     private void ViewStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewStudentsActionPerformed
-        InstructorFrame instructorFrame = new InstructorFrame(this);
-instructorFrame.setVisible(true);
-instructorFrame.showPanel("ViewStudentsCard");
-this.setVisible(false);
+    if (currentInstructor == null) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Please login as an instructor first!",
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // Ask for course ID
+    String courseId = javax.swing.JOptionPane.showInputDialog(this,
+        "Enter Course ID:",
+        "View Students",
+        javax.swing.JOptionPane.QUESTION_MESSAGE);
+    
+    if (courseId == null || courseId.trim().isEmpty()) {
+        return;
+    }
+    
+    InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
+    instructorFrame.loadEnrolledStudents(courseId.trim());
+    instructorFrame.setVisible(true);
+    instructorFrame.showPanel("ViewStudentsCard");
+    this.setVisible(false);
     }//GEN-LAST:event_ViewStudentsActionPerformed
 
     public void showPanel(String panelKey) {
@@ -499,35 +553,31 @@ this.setVisible(false);
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+    } catch (ClassNotFoundException ex) {
+        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginFrame().setVisible(true);
-            }
-        });
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            LoginFrame frame = new LoginFrame();
+            frame.setTestInstructor();
+            frame.createTestData(); // Add this line!
+            frame.setVisible(true);
+        }
+    });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -566,4 +616,35 @@ this.setVisible(false);
     private javax.swing.JButton signUpButton;
     private javax.swing.JLabel welcomeGreeting;
     // End of variables declaration//GEN-END:variables
+public void setTestInstructor() {
+    currentInstructor = new Instructor("TEST123", "Test Instructor", "test@test.com", "hashedpass");
+}
+
+public void createTestData() {
+    if (currentInstructor == null) {
+        return;
+    }
+    
+    InstructorManager instructorManager = new InstructorManager(
+        "users.json",
+        "courses.json",
+        new com.google.gson.reflect.TypeToken<Instructor>(){}.getType(),
+        new com.google.gson.reflect.TypeToken<Course>(){}.getType()
+    );
+    
+    // Create test course
+    instructorManager.createCourse(
+        currentInstructor,
+        "CS101",
+        "Introduction to Programming",
+        "Learn the basics of programming with Java"
+    );
+    
+    // Add lessons to the course
+    instructorManager.addLesson("CS101", "L1", "Variables and Data Types", "Learn about variables and different data types in Java");
+    instructorManager.addLesson("CS101", "L2", "Control Flow", "Learn about if statements and switch cases");
+    instructorManager.addLesson("CS101", "L3", "Loops", "Learn about for loops and while loops");
+    
+    System.out.println("✅ Test data created: Course CS101 with 3 lessons");
+}
 }
