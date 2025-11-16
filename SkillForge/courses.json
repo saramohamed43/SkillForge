@@ -1,10 +1,52 @@
 [
   {
-    "courseID": "F12",
-    "courseTitle": "Physics",
-    "courseDescription": "cooool",
-    "instructorID": "CA035A25",
-    "lessons": [],
-    "students": []
+    "courseID": "C100",
+    "courseTitle": "Java Basics",
+    "courseDescription": "A beginner Java course",
+    "instructorID": "I001",
+    "lessons": [
+      {
+        "lessonID": "L1",
+        "lessonTitle": "Intro to Java",
+        "lessonContent": "Java intro content",
+        "optionalResources": []
+      },
+      {
+        "lessonID": "L2",
+        "lessonTitle": "Variables",
+        "lessonContent": "Variable types content",
+        "optionalResources": []
+      },
+      {
+        "lessonID": "L3",
+        "lessonTitle": "Loops",
+        "lessonContent": "Loops content",
+        "optionalResources": []
+      }
+    ],
+    "students": [
+      {
+        "enrolledCourses": [
+          "C100"
+        ],
+        "progress": {},
+        "userId": "S001",
+        "role": "Student",
+        "username": "Yasmin",
+        "email": "test@student.com",
+        "passwordHash": "1234"
+      },
+      {
+        "enrolledCourses": [
+          "C100"
+        ],
+        "progress": {},
+        "userId": "S001",
+        "role": "Student",
+        "username": "Yasmin",
+        "email": "test@student.com",
+        "passwordHash": "1234"
+      }
+    ]
   }
 ]
