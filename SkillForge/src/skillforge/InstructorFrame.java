@@ -31,6 +31,18 @@ public class InstructorFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);  // center the frame
         cardLayout = (java.awt.CardLayout) getContentPane().getLayout();
         initializeBackend();
+        jTable2.getSelectionModel().addListSelectionListener(e -> {
+        if (!e.getValueIsAdjusting()) {
+            int selectedRow = jTable2.getSelectedRow();
+            if (selectedRow != -1 && selectedCourse != null && selectedRow < selectedCourse.getLessons().size()) {
+                Lesson lesson = selectedCourse.getLessons().get(selectedRow);
+                
+                LessonID.setText(lesson.getLessonID());
+                Lessontitle.setText(lesson.getLessonTitle());
+                Lessoncontent.setText(lesson.getLessonContent());
+            }
+        }
+    });
     }
 
     private void initializeBackend() {
@@ -84,13 +96,16 @@ public class InstructorFrame extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        LessonID = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        Lessontitle = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        Lessoncontent = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        LessonResources = new javax.swing.JTextField();
         ViewStudents = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -103,6 +118,18 @@ public class InstructorFrame extends javax.swing.JFrame {
         jButton11 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jButton12 = new javax.swing.JButton();
+        AddLessonPanel = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        LessonIDText = new javax.swing.JTextField();
+        LessonTitleText = new javax.swing.JTextField();
+        LessonContentText = new javax.swing.JTextField();
+        jButton14 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
+        ResourcesText = new javax.swing.JTextField();
 
         jTextField2.setText("jTextField2");
 
@@ -374,6 +401,17 @@ public class InstructorFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton13.setBackground(new java.awt.Color(153, 153, 255));
+        jButton13.setText("Delete");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel17.setText("Resources(separated by commas):");
+
         javax.swing.GroupLayout ManageLessonsPanelLayout = new javax.swing.GroupLayout(ManageLessonsPanel);
         ManageLessonsPanel.setLayout(ManageLessonsPanelLayout);
         ManageLessonsPanelLayout.setHorizontalGroup(
@@ -387,21 +425,29 @@ public class InstructorFrame extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ManageLessonsPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ManageLessonsPanelLayout.createSequentialGroup()
+                            .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(76, 76, 76))
+                        .addGroup(ManageLessonsPanelLayout.createSequentialGroup()
+                            .addComponent(jButton7)
+                            .addGap(150, 150, 150)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ManageLessonsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addGap(36, 36, 36)))
+                .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(LessonID)
+                    .addComponent(Lessontitle)
+                    .addComponent(Lessoncontent, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                     .addGroup(ManageLessonsPanelLayout.createSequentialGroup()
-                        .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton6))
-                    .addGroup(ManageLessonsPanelLayout.createSequentialGroup()
-                        .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(76, 76, 76)
-                        .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField4)
-                            .addComponent(jTextField5)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))))
+                        .addComponent(jButton6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                    .addComponent(LessonResources))
                 .addGap(154, 154, 154))
         );
         ManageLessonsPanelLayout.setVerticalGroup(
@@ -414,20 +460,28 @@ public class InstructorFrame extends javax.swing.JFrame {
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addGroup(ManageLessonsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel9)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(ManageLessonsPanelLayout.createSequentialGroup()
+                        .addComponent(LessonID, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Lessontitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Lessoncontent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
+                        .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(LessonResources, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ManageLessonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
-                    .addComponent(jButton7))
+                    .addComponent(jButton7)
+                    .addComponent(jButton13))
                 .addGap(7, 7, 7))
         );
 
@@ -540,6 +594,11 @@ public class InstructorFrame extends javax.swing.JFrame {
         jButton10.setBackground(new java.awt.Color(153, 153, 255));
         jButton10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton10.setText("Add Lesson");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jButton11.setBackground(new java.awt.Color(153, 153, 255));
         jButton11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -592,7 +651,105 @@ public class InstructorFrame extends javax.swing.JFrame {
                 .addGap(24, 24, 24))
         );
 
-        getContentPane().add(LessonPanel, "card6");
+        getContentPane().add(LessonPanel, "LessonCard");
+
+        AddLessonPanel.setBackground(new java.awt.Color(204, 204, 255));
+        AddLessonPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Add Lesson");
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel14.setText("Lesson ID: ");
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel15.setText("Lesson Title:");
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel16.setText("Lesson Content:");
+        jLabel16.setToolTipText("");
+
+        jButton14.setBackground(new java.awt.Color(153, 153, 255));
+        jButton14.setText("Add");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+
+        jButton15.setBackground(new java.awt.Color(153, 153, 255));
+        jButton15.setText("Back");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel18.setText("Lesson Resources (separated by commas):");
+
+        javax.swing.GroupLayout AddLessonPanelLayout = new javax.swing.GroupLayout(AddLessonPanel);
+        AddLessonPanel.setLayout(AddLessonPanelLayout);
+        AddLessonPanelLayout.setHorizontalGroup(
+            AddLessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(AddLessonPanelLayout.createSequentialGroup()
+                .addGroup(AddLessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(AddLessonPanelLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton14))
+                    .addGroup(AddLessonPanelLayout.createSequentialGroup()
+                        .addGroup(AddLessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddLessonPanelLayout.createSequentialGroup()
+                                .addGap(102, 102, 102)
+                                .addGroup(AddLessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(126, 126, 126))
+                            .addGroup(AddLessonPanelLayout.createSequentialGroup()
+                                .addGap(53, 53, 53)
+                                .addComponent(jLabel18)
+                                .addGap(48, 48, 48)))
+                        .addGroup(AddLessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(LessonIDText)
+                            .addComponent(LessonTitleText)
+                            .addComponent(LessonContentText)
+                            .addComponent(ResourcesText, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))))
+                .addContainerGap(56, Short.MAX_VALUE))
+        );
+        AddLessonPanelLayout.setVerticalGroup(
+            AddLessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AddLessonPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel13)
+                .addGap(28, 28, 28)
+                .addGroup(AddLessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LessonIDText, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(AddLessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LessonTitleText, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53)
+                .addGroup(AddLessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(LessonContentText, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(52, 52, 52)
+                .addGroup(AddLessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(ResourcesText, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addGroup(AddLessonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton14)
+                    .addComponent(jButton15))
+                .addGap(19, 19, 19))
+        );
+
+        getContentPane().add(AddLessonPanel, "AddLessonCard");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -748,89 +905,46 @@ public class InstructorFrame extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (selectedCourse == null) {
             JOptionPane.showMessageDialog(this,
-                    "No course selected! Load lessons first.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            "Please select a course first",
+            "No Course Selected",
+            JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        String lessonId = jTextField4.getText().trim();
-        String lessonTitle = jTextField5.getText().trim();
-        String lessonContent = jTextField6.getText().trim();
-
-        if (lessonId.isEmpty() || lessonTitle.isEmpty() || lessonContent.isEmpty()) {
+        
+        String lessonID = LessonID.getText();
+        String lessonTitle = Lessontitle.getText();
+        String lessonContent = Lessoncontent.getText();
+        String resources = LessonResources.getText();
+        String[] items = resources.split(",");
+        ArrayList<String> list = new ArrayList<>();
+        if(resources.isEmpty()){
             JOptionPane.showMessageDialog(this,
-                    "All fields are required!",
-                    "Input Required",
-                    JOptionPane.WARNING_MESSAGE);
+                "You can not leave this field empty",
+                "saving failed",
+                JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        int result = JOptionPane.showConfirmDialog(
-                this,
-                "Save changes to this lesson?",
-                "Confirm",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE
-        );
-
-        if (result == JOptionPane.YES_OPTION) {
-            try {
-                Lesson existingLesson = selectedCourse.getLesson(lessonId);
-                boolean success;
-
-                if (existingLesson != null) {
-                    // Edit existing lesson
-                    success = instructorManager.editLesson(
-                            selectedCourse.getCourseID(),
-                            lessonId,
-                            lessonTitle,
-                            lessonContent
-                    );
-                } else {
-                    // Add new lesson
-                    success = instructorManager.addLesson(
-                            selectedCourse.getCourseID(),
-                            lessonId,
-                            lessonTitle,
-                            lessonContent
-                    );
-                }
-
-                if (success) {
-                    JOptionPane.showMessageDialog(this,
-                            "Lesson saved successfully!",
-                            "Success",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                    // Refresh lesson table
-                    loadCourseLessons(selectedCourse.getCourseID());
-
-                    // Clear fields
-                    jTextField4.setText("");
-                    jTextField5.setText("");
-                    jTextField6.setText("");
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Failed to save lesson! Check console for validation errors.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this,
-                        "Error: " + e.getMessage(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
+        for(int i = 0; i < items.length; i++){
+            String item = items[i].trim();
+            list.add(item);
+        }
+        boolean result = selectedCourse.editLesson(lessonID, lessonTitle, lessonContent, list);
+         if(result){
             JOptionPane.showMessageDialog(this,
-                    "No changes saved",
-                    "Cancelled",
-                    JOptionPane.INFORMATION_MESSAGE);
+                "changes saved successfully",
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(this,
+                "An error occured could not save changes",
+                "adding failed",
+                JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        selectedCourse = askForCourseId();
         if (selectedCourse == null) {
             JOptionPane.showMessageDialog(this,
                     "Please search for a course first!",
@@ -946,15 +1060,24 @@ public class InstructorFrame extends javax.swing.JFrame {
         int selectedRow = jTable2.getSelectedRow();
         if (selectedRow >= 0) {
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-            jTextField4.setText(model.getValueAt(selectedRow, 0).toString());
-            jTextField5.setText(model.getValueAt(selectedRow, 1).toString());
-            jTextField6.setText(model.getValueAt(selectedRow, 2).toString());
+            LessonID.setText(model.getValueAt(selectedRow, 0).toString());
+            Lessontitle.setText(model.getValueAt(selectedRow, 1).toString());
+            Lessoncontent.setText(model.getValueAt(selectedRow, 2).toString());
         }
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        selectedCourse = askForCourseId();
+        if (selectedCourse == null) {
+            JOptionPane.showMessageDialog(this,
+                "Please select a course first",
+                "No Course Selected",
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         LessonPanel.setVisible(false);
         ManageLessonsPanel.setVisible(true);
+        loadCourseLessons(selectedCourse.getCourseID());
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
@@ -962,6 +1085,103 @@ public class InstructorFrame extends javax.swing.JFrame {
         loginFrame.setVisible(true);       // show the main frame
         this.dispose();
     }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        loginFrame.showPanel("HomeCard"); // switch to the desired panel
+        loginFrame.setVisible(true);       // show the main frame
+        this.dispose();
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        LessonPanel.setVisible(false);
+        AddLessonPanel.setVisible(true);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        selectedCourse = askForCourseId();
+        if (selectedCourse == null) {
+            JOptionPane.showMessageDialog(this,
+            "Please select a course first",
+            "No Course Selected",
+            JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        String courseId = selectedCourse.getCourseID();
+        String lessonId = LessonIDText.getText();
+        String lessonTitle = LessonTitleText.getText();
+        String lessonContent = LessonContentText.getText();
+        String resources = ResourcesText.getText();
+        if(resources.isEmpty()){
+            JOptionPane.showMessageDialog(this,
+                "You can not leave this field empty!",
+                "adding failed",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String[] items = resources.split(",");
+        ArrayList<String> list = new ArrayList<>();
+        for(int i = 0; i < items.length; i++){
+            String item = items[i].trim();
+            list.add(item);
+        }
+        boolean result1 = instructorManager.addLesson(courseId, lessonId, lessonTitle, lessonContent);
+        if(result1){
+            boolean result = selectedCourse.editLesson(lessonId, lessonTitle, lessonContent, list);
+            if(result){
+                JOptionPane.showMessageDialog(this,
+                    "lesson added successfully",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                JOptionPane.showMessageDialog(this,
+                    "An error occured could not add lesson",
+                    "adding failed",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this,
+                "An error occured could not add lesson",
+                "adding failed",
+                JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+            JOptionPane.showMessageDialog(this,
+            "Please select a course first",
+            "No Course Selected",
+            JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        String lessonId = LessonID.getText();
+        int result1 = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to delete this lesson? ",
+                "Confirm Delete",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (result1 == JOptionPane.YES_OPTION) {
+            boolean result = instructorManager.deleteLesson(selectedCourse.getCourseID(), lessonId.trim());
+        if(result){
+                JOptionPane.showMessageDialog(this,
+                    "lesson deleted successfully",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                JOptionPane.showMessageDialog(this,
+                    "An error occured could not delete lesson",
+                    "deleting failed",
+                    JOptionPane.ERROR_MESSAGE);
+            }        
+        }
+    }//GEN-LAST:event_jButton13ActionPerformed
 
     public void showPanel(String panelKey) {
         cardLayout.show(getContentPane(), panelKey);
@@ -974,15 +1194,27 @@ public class InstructorFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel AddLessonPanel;
     private javax.swing.JPanel DeletePanel;
     private javax.swing.JPanel EditCoursePanel;
+    private javax.swing.JTextField LessonContentText;
+    private javax.swing.JTextField LessonID;
+    private javax.swing.JTextField LessonIDText;
     private javax.swing.JPanel LessonPanel;
+    private javax.swing.JTextField LessonResources;
+    private javax.swing.JTextField LessonTitleText;
+    private javax.swing.JTextField Lessoncontent;
+    private javax.swing.JTextField Lessontitle;
     private javax.swing.JPanel ManageLessonsPanel;
+    private javax.swing.JTextField ResourcesText;
     private javax.swing.JPanel ViewStudents;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -995,6 +1227,12 @@ public class InstructorFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1012,9 +1250,6 @@ public class InstructorFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 public void loadCourseLessons(String courseId) {
         Course course = courseManager.getCourseByID(courseId);
@@ -1063,5 +1298,27 @@ public void loadCourseLessons(String courseId) {
             });
         }
     }
+    
+    public Course askForCourseId() {
+    String courseId = JOptionPane.showInputDialog(
+        null,
+        "Please enter the Course ID:",
+        "Enter Course ID",
+        JOptionPane.QUESTION_MESSAGE
+    );
+
+    // If user pressed Cancel → return null
+    if (courseId == null || courseId.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(
+            null,
+            "Operation cancelled or invalid Course ID.",
+            "Cancelled",
+            JOptionPane.WARNING_MESSAGE
+        );
+        return null;
+    }
+
+    return courseManager.getCourseByID(courseId);
+}
 }
 

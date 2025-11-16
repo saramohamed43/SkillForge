@@ -124,8 +124,8 @@ public class InstructorManager extends JsonDatabaseManager<Instructor> {
         return false;
     }
 
-    public void deleteLesson(String courseId, String lessonId) {
-        courseManager.removeLesson(courseId, lessonId);
+    public boolean deleteLesson(String courseId, String lessonId) {
+        return courseManager.removeLesson(courseId, lessonId);
     }
 
     public ArrayList<Student> getEnrolledStudents(Course course) {

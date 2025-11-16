@@ -18,7 +18,7 @@ public class LoginFrame extends javax.swing.JFrame {
      */
         // new login form panel
     private CardLayout cardLayout; 
-    private Instructor currentInstructor;
+    private Instructor currentInstructor = new Instructor("INST001", "Test Instructor", "test@email.com", "password");
 
     public LoginFrame() {
         initComponents();
@@ -493,29 +493,11 @@ if (currentInstructor == null) {
     }//GEN-LAST:event_EditActionPerformed
 
     private void ManageLessonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManageLessonsActionPerformed
-    if (currentInstructor == null) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Please login as an instructor first!",
-            "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    // Ask for course ID
-    String courseId = javax.swing.JOptionPane.showInputDialog(this,
-        "Enter Course ID:",
-        "Manage Lessons",
-        javax.swing.JOptionPane.QUESTION_MESSAGE);
-    
-    if (courseId == null || courseId.trim().isEmpty()) {
-        return;
-    }
-    
-    InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
-    instructorFrame.loadCourseLessons(courseId.trim());
-    instructorFrame.setVisible(true);
-    instructorFrame.showPanel("ManageLessonsCard");
-    this.setVisible(false);
+        
+        InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
+        instructorFrame.setVisible(true);
+        instructorFrame.showPanel("LessonCard");
+        this.setVisible(false);
     }//GEN-LAST:event_ManageLessonsActionPerformed
 
     private void ViewStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewStudentsActionPerformed
@@ -553,31 +535,7 @@ if (currentInstructor == null) {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
-            }
-        }
-    } catch (ClassNotFoundException ex) {
-        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (InstantiationException ex) {
-        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (IllegalAccessException ex) {
-        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-        java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
 
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            LoginFrame frame = new LoginFrame();
-            frame.setTestInstructor();
-            frame.createTestData(); // Add this line!
-            frame.setVisible(true);
-        }
-    });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -616,35 +574,5 @@ if (currentInstructor == null) {
     private javax.swing.JButton signUpButton;
     private javax.swing.JLabel welcomeGreeting;
     // End of variables declaration//GEN-END:variables
-public void setTestInstructor() {
-    currentInstructor = new Instructor("TEST123", "Test Instructor", "test@test.com", "hashedpass");
-}
 
-public void createTestData() {
-    if (currentInstructor == null) {
-        return;
-    }
-    
-    InstructorManager instructorManager = new InstructorManager(
-        "users.json",
-        "courses.json",
-        new com.google.gson.reflect.TypeToken<Instructor>(){}.getType(),
-        new com.google.gson.reflect.TypeToken<Course>(){}.getType()
-    );
-    
-    // Create test course
-    instructorManager.createCourse(
-        currentInstructor,
-        "CS101",
-        "Introduction to Programming",
-        "Learn the basics of programming with Java"
-    );
-    
-    // Add lessons to the course
-    instructorManager.addLesson("CS101", "L1", "Variables and Data Types", "Learn about variables and different data types in Java");
-    instructorManager.addLesson("CS101", "L2", "Control Flow", "Learn about if statements and switch cases");
-    instructorManager.addLesson("CS101", "L3", "Loops", "Learn about for loops and while loops");
-    
-    System.out.println("✅ Test data created: Course CS101 with 3 lessons");
-}
 }
