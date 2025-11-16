@@ -1,0 +1,17 @@
+[
+  {
+    "courseID": "P12",
+    "courseTitle": "physics",
+    "courseDescription": "xcvbnm,./gfds",
+    "instructorID": "8BA5EA6D",
+    "lessons": [
+      {
+        "lessonID": "prog",
+        "lessonTitle": "aloalo",
+        "lessonContent": "aloalo",
+        "optionalResources": []
+      }
+    ],
+    "students": []
+  }
+]
