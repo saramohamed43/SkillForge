@@ -352,6 +352,11 @@ cardLayout.show(getContentPane(), "welcomePanel");
 
         jButton1.setBackground(new java.awt.Color(153, 153, 255));
         jButton1.setText("Create Lesson");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(153, 153, 255));
         jButton2.setText("Back");
@@ -559,6 +564,31 @@ if (currentInstructor == null) {
         return;
     }
     
+    // VALIDATE COURSE EXISTS BEFORE OPENING FRAME
+    CourseManagment courseManager = new CourseManagment(
+        "courses.json",
+        new com.google.gson.reflect.TypeToken<Course>(){}.getType()
+    );
+    
+    Course course = courseManager.getCourseByID(courseId.trim());
+    
+    if (course == null) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Course not found!",
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return; // DON'T open the frame
+    }
+    
+    // Check if this course belongs to current instructor
+    if (!course.getInstructorID().equals(currentInstructor.getUserId())) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "You can only manage lessons in your own courses!",
+            "Access Denied",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
     InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
     instructorFrame.loadCourseLessons(courseId.trim());
     instructorFrame.setVisible(true);
@@ -567,7 +597,7 @@ if (currentInstructor == null) {
     }//GEN-LAST:event_ManageLessonsActionPerformed
 
     private void ViewStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewStudentsActionPerformed
-    if (currentInstructor == null) {
+        if (currentInstructor == null) {
         javax.swing.JOptionPane.showMessageDialog(this,
             "Please login as an instructor first!",
             "Error",
@@ -585,12 +615,93 @@ if (currentInstructor == null) {
         return;
     }
     
+    // VALIDATE COURSE EXISTS BEFORE OPENING FRAME
+    CourseManagment courseManager = new CourseManagment(
+        "courses.json",
+        new com.google.gson.reflect.TypeToken<Course>(){}.getType()
+    );
+    
+    Course course = courseManager.getCourseByID(courseId.trim());
+    
+    if (course == null) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Course not found!",
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return; // DON'T open the frame
+    }
+    
+    // Check if this course belongs to current instructor
+    if (!course.getInstructorID().equals(currentInstructor.getUserId())) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "You can only view students in your own courses!",
+            "Access Denied",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
     InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
     instructorFrame.loadEnrolledStudents(courseId.trim());
     instructorFrame.setVisible(true);
     instructorFrame.showPanel("ViewStudentsCard");
     this.setVisible(false);
     }//GEN-LAST:event_ViewStudentsActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (currentInstructor == null) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Please login first!",
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    String courseId = jTextField1.getText().trim();
+    String courseTitle = jTextField2.getText().trim();
+    String courseDescription = jTextField3.getText().trim();
+    
+    if (courseId.isEmpty() || courseTitle.isEmpty() || courseDescription.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Course ID, Title, and Description are required!",
+            "Input Required",
+            javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    InstructorManager instructorManager = new InstructorManager(
+        "users.json",
+        "courses.json",
+        new com.google.gson.reflect.TypeToken<Instructor>(){}.getType(),
+        new com.google.gson.reflect.TypeToken<Course>(){}.getType()
+    );
+    
+    boolean success = instructorManager.createCourse(
+        currentInstructor,
+        courseId,
+        courseTitle,
+        courseDescription
+    );
+    
+    if (success) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Course created successfully!",
+            "Success",
+            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        
+        // Clear fields
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        
+        cardLayout.show(getContentPane(), "HomeCard");
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Failed to create course. Check console for validation errors.",
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public void showPanel(String panelKey) {
         cardLayout.show(getContentPane(), panelKey);
@@ -680,7 +791,15 @@ public void createTestData() {
         new com.google.gson.reflect.TypeToken<Course>(){}.getType()
     );
     
-    // Create test course
+    CourseManagment courseManager = new CourseManagment(
+        "courses.json",
+        new com.google.gson.reflect.TypeToken<Course>(){}.getType()
+    );
+    
+    UserDatabaseManager userDb = new UserDatabaseManager();
+    StudentManager studentManager = new StudentManager(userDb, courseManager);
+    
+    // Create test courses
     instructorManager.createCourse(
         currentInstructor,
         "CS101",
@@ -688,11 +807,49 @@ public void createTestData() {
         "Learn the basics of programming with Java"
     );
     
-    // Add lessons to the course
+    instructorManager.createCourse(
+        currentInstructor,
+        "CS102",
+        "Data Structures",
+        "Learn about arrays, linked lists, trees, and graphs"
+    );
+    
+    // Add lessons to CS101
     instructorManager.addLesson("CS101", "L1", "Variables and Data Types", "Learn about variables and different data types in Java");
     instructorManager.addLesson("CS101", "L2", "Control Flow", "Learn about if statements and switch cases");
     instructorManager.addLesson("CS101", "L3", "Loops", "Learn about for loops and while loops");
     
-    System.out.println("✅ Test data created: Course CS101 with 3 lessons");
+    // Add lessons to CS102
+    instructorManager.addLesson("CS102", "L1", "Arrays", "Learn about array data structures");
+    instructorManager.addLesson("CS102", "L2", "Linked Lists", "Learn about linked list implementations");
+    
+    // Create test students
+    Student student1 = new Student("STU001", "Alice Johnson", "alice@student.com", User.hashPassword("password"));
+    Student student2 = new Student("STU002", "Bob Smith", "bob@student.com", User.hashPassword("password"));
+    Student student3 = new Student("STU003", "Charlie Brown", "charlie@student.com", User.hashPassword("password"));
+    
+    userDb.add(student1);
+    userDb.add(student2);
+    userDb.add(student3);
+    
+    // Enroll students in CS101
+    Course cs101 = courseManager.getCourseByID("CS101");
+    studentManager.enrollStudentInCourse(student1, cs101);
+    studentManager.enrollStudentInCourse(student2, cs101);
+    studentManager.enrollStudentInCourse(student3, cs101);
+    
+    // Mark some lessons as completed for students
+    studentManager.markLessonCompleted(student1, cs101, "L1");
+    studentManager.markLessonCompleted(student1, cs101, "L2");
+    studentManager.markLessonCompleted(student2, cs101, "L1");
+    
+    // Enroll one student in CS102
+    Course cs102 = courseManager.getCourseByID("CS102");
+    studentManager.enrollStudentInCourse(student1, cs102);
+    
+    System.out.println("✅ Test data created:");
+    System.out.println("   - Course CS101 with 3 lessons and 3 enrolled students");
+    System.out.println("   - Course CS102 with 2 lessons and 1 enrolled student");
+    System.out.println("   - 3 test students: Alice, Bob, Charlie");
 }
 }
