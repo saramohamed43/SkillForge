@@ -16,18 +16,18 @@ public class LoginFrame extends javax.swing.JFrame {
     /**
      * Creates new form LoginFrame
      */
-        // new login form panel
-    private CardLayout cardLayout; 
+    // new login form panel
+    private CardLayout cardLayout;
     private Instructor currentInstructor = new Instructor("INST001", "Test Instructor", "test@email.com", "password");
 
     public LoginFrame() {
         initComponents();
-       cardLayout = (CardLayout) getContentPane().getLayout();
+        cardLayout = (CardLayout) getContentPane().getLayout();
 
-getContentPane().setLayout(cardLayout);
+        getContentPane().setLayout(cardLayout);
 
 // Show welcome panel first
-cardLayout.show(getContentPane(), "welcomePanel");
+        cardLayout.show(getContentPane(), "welcomePanel");
 
         this.setLocationRelativeTo(null);  // center the frame
     }
@@ -431,20 +431,20 @@ cardLayout.show(getContentPane(), "welcomePanel");
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
 
-     cardLayout.show(getContentPane(), "loginCard"); // show panel 2
+        cardLayout.show(getContentPane(), "loginCard"); // show panel 2
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
 // Open the signup frame
-    SignUpFrame signup = new SignUpFrame();
-    signup.setVisible(true);
+        SignUpFrame signup = new SignUpFrame();
+        signup.setVisible(true);
 
-    // Close the login frame
-    this.dispose();
+        // Close the login frame
+        this.dispose();
     }//GEN-LAST:event_signUpButtonActionPerformed
 
     private void BackBittonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackBittonActionPerformed
-cardLayout.show(getContentPane(), "mainCard");        // TODO add your handling code here:
+        cardLayout.show(getContentPane(), "mainCard");        // TODO add your handling code here:
     }//GEN-LAST:event_BackBittonActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
@@ -452,274 +452,277 @@ cardLayout.show(getContentPane(), "mainCard");        // TODO add your handling 
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void CreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateActionPerformed
-    cardLayout.show(getContentPane(), "CreateCourseCard");         // TODO add your handling code here:
+        cardLayout.show(getContentPane(), "CreateCourseCard");         // TODO add your handling code here:
     }//GEN-LAST:event_CreateActionPerformed
 
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
-    if (currentInstructor == null) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Please login as an instructor first!",
-            "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
-    instructorFrame.setVisible(true);
-    instructorFrame.showPanel("DeleteCourseCard");
-    this.setVisible(false);
+        if (currentInstructor == null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Please login as an instructor first!",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
+        instructorFrame.setVisible(true);
+        instructorFrame.showPanel("DeleteCourseCard");
+        this.setVisible(false);
     }//GEN-LAST:event_DeleteActionPerformed
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
- if (currentInstructor != null) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Logged out successfully!",
-            "Logout",
-            javax.swing.JOptionPane.INFORMATION_MESSAGE);
-    }
-    
-    currentInstructor = null;
-    cardLayout.show(getContentPane(), "mainCard");   
+        if (currentInstructor != null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Logged out successfully!",
+                    "Logout",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        currentInstructor = null;
+        cardLayout.show(getContentPane(), "mainCard");
     }//GEN-LAST:event_BackActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       cardLayout.show(getContentPane(), "HomeCard"); 
+        cardLayout.show(getContentPane(), "HomeCard");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void OkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkButtonActionPerformed
-       String email=EmailTextField.getText().trim();
-       String password=new String(jPasswordField1.getPassword());
-       String selectedRole=(String)jComboBox1.getSelectedItem();
-       if (email.isEmpty() || password.isEmpty()) {
+        String email = EmailTextField.getText().trim();
+        String password = new String(jPasswordField1.getPassword());
+        String selectedRole = (String) jComboBox1.getSelectedItem();
+        if (email.isEmpty() || password.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Please enter email and password!",
+                    "Validation Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (selectedRole.equals("-Select-")) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Please select your role!",
+                    "Validation Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        User user = UserAuth.login(email, password);
+
+        if (user == null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Login failed!\nInvalid email or password.",
+                    "Login Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!user.getRole().equalsIgnoreCase(selectedRole)) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Login failed!\nPlease check Entered Information ",
+                    "Information mismatch",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         javax.swing.JOptionPane.showMessageDialog(this,
-            "Please enter email and password!",
-            "Validation Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    if (selectedRole.equals("-Select-")) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Please select your role!",
-            "Validation Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    User user = UserAuth.login(email, password);
-    
-    if (user == null) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Login failed!\nInvalid email or password.",
-            "Login Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-     if (!user.getRole().equalsIgnoreCase(selectedRole)) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Login failed!\nPlease check Entered Information ",
-            "Information mismatch",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-      javax.swing.JOptionPane.showMessageDialog(this,
-        "Welcome, " + user.getUsername() + "!",
-        "Login Successful",
-        javax.swing.JOptionPane.INFORMATION_MESSAGE);
-      if (user.getRole().equalsIgnoreCase("Instructor")){
-        currentInstructor = (Instructor) user;
-        cardLayout.show(getContentPane(), "HomeCard");
-      }
+                "Welcome, " + user.getUsername() + "!",
+                "Login Successful",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        if (user.getRole().equalsIgnoreCase("Instructor")) {
+            currentInstructor = (Instructor) user;
+            cardLayout.show(getContentPane(), "HomeCard");
+        }
     }//GEN-LAST:event_OkButtonActionPerformed
 
     private void EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditActionPerformed
-if (currentInstructor == null) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Please login as an instructor first!",
-            "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
-    instructorFrame.setVisible(true);
-    instructorFrame.showPanel("EditCourseCard");
-    this.setVisible(false);
+        if (currentInstructor == null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Please login as an instructor first!",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
+        instructorFrame.setVisible(true);
+        instructorFrame.showPanel("EditCourseCard");
+        this.setVisible(false);
     }//GEN-LAST:event_EditActionPerformed
 
     private void ManageLessonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManageLessonsActionPerformed
-if (currentInstructor == null) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Please login as an instructor first!",
-            "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    // Ask for course ID
-    String courseId = javax.swing.JOptionPane.showInputDialog(this,
-        "Enter Course ID:",
-        "Manage Lessons",
-        javax.swing.JOptionPane.QUESTION_MESSAGE);
-    
-    if (courseId == null || courseId.trim().isEmpty()) {
-        return;
-    }
-    
-    // VALIDATE COURSE EXISTS BEFORE OPENING FRAME
-    CourseManagment courseManager = new CourseManagment(
-        "courses.json",
-        new com.google.gson.reflect.TypeToken<Course>(){}.getType()
-    );
-    
-    Course course = courseManager.getCourseByID(courseId.trim());
-    
-    if (course == null) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Course not found!",
-            "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return; // DON'T open the frame
-    }
-    
-    // Check if this course belongs to current instructor
-    if (!course.getInstructorID().equals(currentInstructor.getUserId())) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "You can only manage lessons in your own courses!",
-            "Access Denied",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
-    instructorFrame.loadCourseLessons(courseId.trim());
-    instructorFrame.setVisible(true);
-    instructorFrame.showPanel("LessonCard");
-    this.setVisible(false);
+        if (currentInstructor == null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Please login as an instructor first!",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Ask for course ID
+        String courseId = javax.swing.JOptionPane.showInputDialog(this,
+                "Enter Course ID:",
+                "Manage Lessons",
+                javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+        if (courseId == null || courseId.trim().isEmpty()) {
+            return;
+        }
+
+        // VALIDATE COURSE EXISTS BEFORE OPENING FRAME
+        CourseManagment courseManager = new CourseManagment(
+                "courses.json",
+                new com.google.gson.reflect.TypeToken<Course>() {
+                }.getType()
+        );
+
+        Course course = courseManager.getCourseByID(courseId.trim());
+
+        if (course == null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Course not found!",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return; // DON'T open the frame
+        }
+
+        // Check if this course belongs to current instructor
+        if (!course.getInstructorID().equals(currentInstructor.getUserId())) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "You can only manage lessons in your own courses!",
+                    "Access Denied",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
+        instructorFrame.loadCourseLessons(courseId.trim());
+        instructorFrame.setVisible(true);
+        instructorFrame.showPanel("LessonCard");
+        this.setVisible(false);
     }//GEN-LAST:event_ManageLessonsActionPerformed
 
     private void ViewStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewStudentsActionPerformed
         if (currentInstructor == null) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Please login as an instructor first!",
-            "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    // Ask for course ID
-    String courseId = javax.swing.JOptionPane.showInputDialog(this,
-        "Enter Course ID:",
-        "View Students",
-        javax.swing.JOptionPane.QUESTION_MESSAGE);
-    
-    if (courseId == null || courseId.trim().isEmpty()) {
-        return;
-    }
-    
-    // VALIDATE COURSE EXISTS BEFORE OPENING FRAME
-    CourseManagment courseManager = new CourseManagment(
-        "courses.json",
-        new com.google.gson.reflect.TypeToken<Course>(){}.getType()
-    );
-    
-    Course course = courseManager.getCourseByID(courseId.trim());
-    
-    if (course == null) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Course not found!",
-            "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return; // DON'T open the frame
-    }
-    
-    // Check if this course belongs to current instructor
-    if (!course.getInstructorID().equals(currentInstructor.getUserId())) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "You can only view students in your own courses!",
-            "Access Denied",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
-    instructorFrame.loadEnrolledStudents(courseId.trim());
-    instructorFrame.setVisible(true);
-    instructorFrame.showPanel("ViewStudentsCard");
-    this.setVisible(false);
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Please login as an instructor first!",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Ask for course ID
+        String courseId = javax.swing.JOptionPane.showInputDialog(this,
+                "Enter Course ID:",
+                "View Students",
+                javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+        if (courseId == null || courseId.trim().isEmpty()) {
+            return;
+        }
+
+        // VALIDATE COURSE EXISTS BEFORE OPENING FRAME
+        CourseManagment courseManager = new CourseManagment(
+                "courses.json",
+                new com.google.gson.reflect.TypeToken<Course>() {
+                }.getType()
+        );
+
+        Course course = courseManager.getCourseByID(courseId.trim());
+
+        if (course == null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Course not found!",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return; // DON'T open the frame
+        }
+
+        // Check if this course belongs to current instructor
+        if (!course.getInstructorID().equals(currentInstructor.getUserId())) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "You can only view students in your own courses!",
+                    "Access Denied",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        InstructorFrame instructorFrame = new InstructorFrame(this, currentInstructor);
+        instructorFrame.loadEnrolledStudents(courseId.trim());
+        instructorFrame.setVisible(true);
+        instructorFrame.showPanel("ViewStudentsCard");
+        this.setVisible(false);
     }//GEN-LAST:event_ViewStudentsActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (currentInstructor == null) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Please login first!",
-            "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    String courseId = jTextField1.getText().trim();
-    String courseTitle = jTextField2.getText().trim();
-    String courseDescription = jTextField3.getText().trim();
-    
-    if (courseId.isEmpty() || courseTitle.isEmpty() || courseDescription.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Course ID, Title, and Description are required!",
-            "Input Required",
-            javax.swing.JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    
-    InstructorManager instructorManager = new InstructorManager(
-        "users.json",
-        "courses.json",
-        new com.google.gson.reflect.TypeToken<Instructor>(){}.getType(),
-        new com.google.gson.reflect.TypeToken<Course>(){}.getType()
-    );
-    
-    boolean success = instructorManager.createCourse(
-        currentInstructor,
-        courseId,
-        courseTitle,
-        courseDescription
-    );
-    
-    if (success) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Course created successfully!",
-            "Success",
-            javax.swing.JOptionPane.INFORMATION_MESSAGE);
-        
-        // Clear fields
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
-        
-        cardLayout.show(getContentPane(), "HomeCard");
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Failed to create course. Check console for validation errors.",
-            "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-    }
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Please login first!",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String courseId = jTextField1.getText().trim();
+        String courseTitle = jTextField2.getText().trim();
+        String courseDescription = jTextField3.getText().trim();
+
+        if (courseId.isEmpty() || courseTitle.isEmpty() || courseDescription.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Course ID, Title, and Description are required!",
+                    "Input Required",
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        InstructorManager instructorManager = new InstructorManager(
+                "users.json",
+                "courses.json",
+                new com.google.gson.reflect.TypeToken<Instructor>() {
+                }.getType(),
+                new com.google.gson.reflect.TypeToken<Course>() {
+                }.getType()
+        );
+
+        boolean success = instructorManager.createCourse(
+                currentInstructor,
+                courseId,
+                courseTitle,
+                courseDescription
+        );
+
+        if (success) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Course created successfully!",
+                    "Success",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            // Clear fields
+            jTextField1.setText("");
+            jTextField2.setText("");
+            jTextField3.setText("");
+            jTextField4.setText("");
+
+            cardLayout.show(getContentPane(), "HomeCard");
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Failed to create course. Check console for validation errors.",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void showPanel(String panelKey) {
         cardLayout.show(getContentPane(), panelKey);
     }
 
-    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
 
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            LoginFrame frame = new LoginFrame();
-            // Add this line!
-            frame.setVisible(true);
-        }
-    });
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                LoginFrame frame = new LoginFrame();
+                // Add this line!
+                frame.setVisible(true);
+            }
+        });
 
     }
 
