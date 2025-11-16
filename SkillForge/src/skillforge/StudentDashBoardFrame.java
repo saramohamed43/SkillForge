@@ -42,84 +42,7 @@ private Course currentViewedCourse;
 
     populateAvailableCoursesTable();
     populateEnrolledCoursesTable();
-    
-    ClickEnrollBtn.addActionListener(evt -> {
-        int selectedRow = AvailableCoursesTable.getSelectedRow();
-        if (selectedRow >= 0) {
-            String courseId = AvailableCoursesTable.getValueAt(selectedRow, 0).toString();
-            Course selectedCourse = studentManager.getAllCourses().stream()
-                .filter(c -> c.getCourseID().equals(courseId))
-                .findFirst()
-                .orElse(null);
 
-            if (selectedCourse != null) {
-                boolean enrolled = studentManager.enrollStudentInCourse(currentStudent, selectedCourse);
-                if (enrolled) {
-                    populateEnrolledCoursesTable();
-                    populateAvailableCoursesTable();
-                    JOptionPane.showMessageDialog(this, "Successfully enrolled in course!");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Already enrolled in this course.");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Select a course to enroll.");
-        }
-    });
-    
-    
-jButton5.addActionListener(evt -> {
-    int selectedRow = EnrolledCoursesTable.getSelectedRow();
-    if (selectedRow >= 0) { 
-        String courseId = EnrolledCoursesTable.getValueAt(selectedRow, 0).toString();
-        Course selectedCourse = studentManager.getAllCourses().stream()
-            .filter(c -> c.getCourseID().equals(courseId))
-            .findFirst()
-            .orElse(null);
-
-        if (selectedCourse != null) {
-            currentViewedCourse = selectedCourse;
-
-            populateLessonsTableWithStatus(selectedCourse);
-
-           
-            CardLayout cl2 = (CardLayout) MainStudentPanel.getLayout();
-            cl2.show(MainStudentPanel, "card4");
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Select a course first to view lessons.");
-
-    }
-});
-
-
-
-
-jButton6.addActionListener(evt -> {
-    int selectedRow = jTable3.getSelectedRow();
-
-    if (selectedRow >= 0 && currentViewedCourse != null) {
-
-        String lessonId = jTable3.getValueAt(selectedRow, 0).toString();
-        String currentStatus = jTable3.getValueAt(selectedRow, 3).toString(); // FIXED
-
-        if (currentStatus.equals("❌ Not Completed")) {
-
-            studentManager.markLessonCompleted(currentStudent, currentViewedCourse, lessonId);
-
-            populateLessonsTableWithStatus(currentViewedCourse);
-            populateEnrolledCoursesTable();  
-
-            JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
-
-        } else {
-            JOptionPane.showMessageDialog(this, "This lesson is already completed.");
-        }
-
-    } else {
-        JOptionPane.showMessageDialog(this, "Select a lesson to mark as complete.");
-    }
-});
 
 
 
@@ -329,6 +252,11 @@ private void setupTableColumns() {
         BrowseCoursesPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         ClickEnrollBtn.setText("Enroll in Course");
+        ClickEnrollBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClickEnrollBtnActionPerformed(evt);
+            }
+        });
         BrowseCoursesPanel.add(ClickEnrollBtn, java.awt.BorderLayout.PAGE_END);
 
         MainStudentPanel.add(BrowseCoursesPanel, "card2");
@@ -384,6 +312,11 @@ private void setupTableColumns() {
         jPanel5.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
         jButton6.setText("jButton6");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         jPanel5.add(jButton6, java.awt.BorderLayout.PAGE_END);
 
         MainStudentPanel.add(jPanel5, "card4");
@@ -427,26 +360,112 @@ private void setupTableColumns() {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        CardLayout cl = (CardLayout) MainStudentPanel.getLayout();
-    cl.show(MainStudentPanel, "card4");
+       int selectedRow = EnrolledCoursesTable.getSelectedRow();
+    if (selectedRow >= 0) { 
+        String courseId = EnrolledCoursesTable.getValueAt(selectedRow, 0).toString();
+        Course selectedCourse = studentManager.getAllCourses().stream()
+            .filter(c -> c.getCourseID().equals(courseId))
+            .findFirst()
+            .orElse(null);
+
+        if (selectedCourse != null) {
+            currentViewedCourse = selectedCourse;
+            populateLessonsTableWithStatus(selectedCourse);
+
+            CardLayout cl2 = (CardLayout) MainStudentPanel.getLayout();
+            cl2.show(MainStudentPanel, "card4");
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Select a course first to view lessons.");
+    }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void ClickEnrollBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClickEnrollBtnActionPerformed
+       int selectedRow = AvailableCoursesTable.getSelectedRow();
+        if (selectedRow >= 0) {
+            String courseId = AvailableCoursesTable.getValueAt(selectedRow, 0).toString();
+            Course selectedCourse = studentManager.getAllCourses().stream()
+                .filter(c -> c.getCourseID().equals(courseId))
+                .findFirst()
+                .orElse(null);
+
+            if (selectedCourse != null) {
+                boolean enrolled = studentManager.enrollStudentInCourse(currentStudent, selectedCourse);
+                if (enrolled) {
+                    populateEnrolledCoursesTable();
+                    populateAvailableCoursesTable();
+                    JOptionPane.showMessageDialog(this, "Successfully enrolled in course!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Already enrolled in this course.");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Select a course to enroll.");
+        } 
+    }//GEN-LAST:event_ClickEnrollBtnActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+int selectedRow = jTable3.getSelectedRow();
+
+    if (selectedRow >= 0 && currentViewedCourse != null) {
+
+        String lessonId = jTable3.getValueAt(selectedRow, 0).toString();
+        String currentStatus = jTable3.getValueAt(selectedRow, 3).toString(); // FIXED
+
+        if (currentStatus.equals("❌ Not Completed")) {
+
+            studentManager.markLessonCompleted(currentStudent, currentViewedCourse, lessonId);
+
+            populateLessonsTableWithStatus(currentViewedCourse);
+            populateEnrolledCoursesTable();  
+
+            JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
+
+        } else {
+            JOptionPane.showMessageDialog(this, "This lesson is already completed.");
+        }
+
+    } else {
+        JOptionPane.showMessageDialog(this, "Select a lesson to mark as complete.");
+    }      
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     
 public static void main(String[] args) {
-    
-    UserDatabaseManager userDb = new UserDatabaseManager();
-    CourseManagment courseDb = new CourseManagment("courses.json", Course.class);
-    StudentManager studentManager = new StudentManager(userDb, courseDb);
 
-   
-    javax.swing.SwingUtilities.invokeLater(() -> {
-        LoginFrame loginFrame = new LoginFrame(userDb, studentManager);
-        loginFrame.setVisible(true);
-    });
-}
+        // --- Create backend managers ---
+        UserDatabaseManager userDb = new UserDatabaseManager();
+        CourseManagment courseDb = new CourseManagment("courses.json", Course.class);
+        StudentManager studentManager = new StudentManager(userDb, courseDb);
+
+        // --- Create a test student ---
+        Student testStudent = new Student("S001", "Yasmin", "test@student.com", "1234");
+        userDb.add(testStudent);
+
+        // --- Create a test course with lessons if not exists ---
+        Course course = courseDb.getItemById("C100");
+        if (course == null) {
+            course = new Course("C100", "Java Basics", "A beginner Java course", "I001");
+
+            // Add sample lessons
+            course.addLesson(new Lesson("L1", "Intro to Java", "Java intro content"));
+            course.addLesson(new Lesson("L2", "Variables", "Variable types content"));
+            course.addLesson(new Lesson("L3", "Loops", "Loops content"));
+
+            courseDb.add(course);
+        }
+
+        // --- Show Student Dashboard ---
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            StudentDashBoardFrame frame = new StudentDashBoardFrame(studentManager, testStudent);
+            frame.setVisible(true);
+        });
+
+        System.out.println("Test Student Dashboard launched successfully.");
+    }
 
 
 
