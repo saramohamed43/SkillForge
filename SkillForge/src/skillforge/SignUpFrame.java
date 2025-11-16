@@ -184,10 +184,8 @@ public class SignUpFrame extends javax.swing.JFrame {
         );
 
         if (role == null) {
-            return; // User cancelled
+            return;
         }
-
-        // ✅ BACKEND CONNECTION: Call UserAuth.signup()
         boolean success = UserAuth.signup(username, email, password, role);
 
         if (success) {
@@ -201,11 +199,12 @@ public class SignUpFrame extends javax.swing.JFrame {
             login.setVisible(true);
             this.dispose();
         } else {
-            JOptionPane.showMessageDialog(this,
-                    "Signup failed!\nEmail may already exist or invalid input.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+        String errorMessage = "Please fix the following errors:\n\n" + UserAuth.getAllErrors();
+        JOptionPane.showMessageDialog(this,
+                errorMessage,
+                "Signup Failed",
+                JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

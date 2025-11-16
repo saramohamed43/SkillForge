@@ -50,5 +50,14 @@
     "username": "rami",
     "email": "ramimoh@.",
     "passwordHash": "35a9e381b1a27567549b5f8a6f783c167ebf809f1c4d6a9e367240484d8ce281"
+  },
+  {
+    "enrolledCourses": [],
+    "progress": {},
+    "userId": "25F8709F",
+    "role": "Student",
+    "username": "ba2",
+    "email": "bass@.",
+    "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
   }
 ]
