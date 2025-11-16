@@ -12,6 +12,18 @@
         "optionalResources": []
       }
     ],
-    "students": []
+    "students": [
+      {
+        "enrolledCourses": [
+          "P12"
+        ],
+        "progress": {},
+        "userId": "S001",
+        "role": "Student",
+        "username": "Yasmin",
+        "email": "yasmin@mail.com",
+        "passwordHash": "hash123"
+      }
+    ]
   }
 ]
