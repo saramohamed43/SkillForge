@@ -528,6 +528,19 @@ cardLayout.show(getContentPane(), "mainCard");        // TODO add your handling 
         currentInstructor = (Instructor) user;
         cardLayout.show(getContentPane(), "HomeCard");
       }
+      else  if (user.getRole().equalsIgnoreCase("Student")) {
+        Student student = (Student) user;
+        UserDatabaseManager userDb = new UserDatabaseManager();
+        CourseManagment courseDb = new CourseManagment(
+            "courses.json", 
+            new com.google.gson.reflect.TypeToken<Course>(){}.getType()
+        );
+        StudentManager studentManager = new StudentManager(userDb, courseDb);
+        StudentDashBoardFrame studentFrame = new StudentDashBoardFrame(studentManager, student);
+        studentFrame.setVisible(true);
+        studentFrame.setLocationRelativeTo(null);
+        this.dispose();
+        }
     }//GEN-LAST:event_OkButtonActionPerformed
 
     private void EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditActionPerformed
