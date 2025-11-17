@@ -9,7 +9,7 @@ public class UserAuth {
 
     private static final UserDatabaseManager db = new UserDatabaseManager();
     private static List<String> validationErrors = new ArrayList<>();
-    public static String signup(String username, String email, String password, String role) {
+    public static boolean signup(String username, String email, String password, String role) {
         validationErrors.clear(); 
         try {
             if (username == null || username.trim().isEmpty()) {
@@ -45,27 +45,23 @@ public class UserAuth {
                 newUser = new Instructor(userId, username, email, passwordHash);
             } else {
                  validationErrors.add("Validation Error: Invalid role. Must be 'Student' or 'Instructor'");
-                return null;
+                return false;
             }
             if (!validationErrors.isEmpty()) {
                 for (String error : validationErrors) {
                     System.err.println("Errors:\n " + error);
                 }
-                return null;
+                return false;
             }
 
-            boolean added = db.add(newUser);
-             if (added) {
-            return userId;  
-        } else {
-            return null;   
-        }
+            return db.add(newUser);
+
         }  catch (IllegalArgumentException e) {
             validationErrors.add("• " + e.getMessage());
             System.err.println("Validation Error: " + e.getMessage());
-            return null;
+            return false;
         }
-    } 
+    }
  public static String getAllErrors() {
         if (validationErrors.isEmpty()) {
             return "Unknown error occurred";

@@ -1,52 +1,19 @@
 [
   {
-    "courseID": "C100",
-    "courseTitle": "Java Basics",
-    "courseDescription": "A beginner Java course",
-    "instructorID": "I001",
+    "courseID": "C123",
+    "courseTitle": "one",
+    "courseDescription": "dsakdjkdsjds",
+    "instructorID": "2C9767F5",
     "lessons": [
       {
-        "lessonID": "L1",
-        "lessonTitle": "Intro to Java",
-        "lessonContent": "Java intro content",
-        "optionalResources": []
-      },
-      {
-        "lessonID": "L2",
-        "lessonTitle": "Variables",
-        "lessonContent": "Variable types content",
-        "optionalResources": []
-      },
-      {
-        "lessonID": "L3",
-        "lessonTitle": "Loops",
-        "lessonContent": "Loops content",
-        "optionalResources": []
+        "lessonID": "L147",
+        "lessonTitle": "dfffdf",
+        "lessonContent": "sdsad",
+        "optionalResources": [
+          "dfghhj"
+        ]
       }
     ],
-    "students": [
-      {
-        "enrolledCourses": [
-          "C100"
-        ],
-        "progress": {},
-        "userId": "S001",
-        "role": "Student",
-        "username": "Yasmin",
-        "email": "test@student.com",
-        "passwordHash": "1234"
-      },
-      {
-        "enrolledCourses": [
-          "C100"
-        ],
-        "progress": {},
-        "userId": "S001",
-        "role": "Student",
-        "username": "Yasmin",
-        "email": "test@student.com",
-        "passwordHash": "1234"
-      }
-    ]
+    "students": []
   }
 ]
