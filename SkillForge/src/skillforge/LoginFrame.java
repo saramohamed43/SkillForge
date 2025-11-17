@@ -536,7 +536,7 @@ cardLayout.show(getContentPane(), "mainCard");        // TODO add your handling 
             new com.google.gson.reflect.TypeToken<Course>(){}.getType()
         );
         StudentManager studentManager = new StudentManager(userDb, courseDb);
-        StudentDashBoardFrame studentFrame = new StudentDashBoardFrame(studentManager, student);
+        StudentDashBoardFrame studentFrame = new StudentDashBoardFrame(studentManager, student,this);
         studentFrame.setVisible(true);
         studentFrame.setLocationRelativeTo(null);
         this.dispose();

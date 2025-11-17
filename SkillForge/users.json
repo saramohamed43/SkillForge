@@ -21,7 +21,11 @@
     "enrolledCourses": [
       "C123"
     ],
-    "progress": {},
+    "progress": {
+      "C123": [
+        "L147"
+      ]
+    },
     "userId": "51549554",
     "role": "Student",
     "username": "bassant",
