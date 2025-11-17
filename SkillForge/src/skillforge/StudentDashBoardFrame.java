@@ -4,7 +4,6 @@
  */
 package skillforge;
 import java.awt.CardLayout;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 
