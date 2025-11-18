@@ -6,6 +6,8 @@ import java.util.List;
 
 public class CourseManagment extends JsonDatabaseManager<Course> {
 
+    private final UserDatabaseManager studentDb = new UserDatabaseManager();
+    
     public CourseManagment(String filename, Type elementType) {
         super(filename, elementType);
     }
@@ -61,6 +63,11 @@ public class CourseManagment extends JsonDatabaseManager<Course> {
             return false;
         }
         course.getStudents().remove(studentToRemove);
+        Student fullStudent = studentDb.getStudentById(studentID);
+        if (fullStudent != null) {
+            fullStudent.getEnrolledCourses().remove(courseID);
+            studentDb.update(studentID, fullStudent);
+        }
         return update(courseID, course);
     }
 

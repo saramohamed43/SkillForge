@@ -88,4 +88,5 @@ public class StudentManager {
    
     return (completedCount * 100.0) / totalLessons;
 }
+    
 }
