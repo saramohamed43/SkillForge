@@ -10,6 +10,7 @@ package skillforge;
  */
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class StudentManager {
@@ -66,8 +67,34 @@ public class StudentManager {
     }
 
     public List<String> getCompletedLessons(Student student, Course course) {
-        return student.getProgress().getOrDefault(course.getCourseID(), new ArrayList<>());
+    // Step 1: Get all the student's progress
+    Map<String, List<String>> progress = student.getProgress();
+    
+    // Step 2: Get completed lessons for THIS course
+    List<String> courseProgress = progress.get(course.getCourseID());
+    
+    // Step 3: If student hasn't started this course, return empty list
+    if (courseProgress == null) {
+        return new ArrayList<>();
     }
+    
+    // Step 4: Get all valid lesson IDs from the course
+    List<String> validLessonIds = new ArrayList<>();
+    for (Lesson lesson : course.getLessons()) {
+        validLessonIds.add(lesson.getLessonID());
+    }
+    
+    // Step 5: Keep only completed lessons that still exist in the course
+    List<String> result = new ArrayList<>();
+    for (String lessonId : courseProgress) {
+        // Check if this lesson still exists in the course
+        if (validLessonIds.contains(lessonId)) {
+            result.add(lessonId);
+        }
+    }
+    studentDb.update(student.getUserId(), student);
+    return result;
+}
 
     public boolean isLessonCompleted(Student student, Course course, String lessonId) {
         List<String> completedLessons = getCompletedLessons(student, course);

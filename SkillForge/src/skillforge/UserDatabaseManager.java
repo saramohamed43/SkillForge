@@ -49,4 +49,5 @@ public class UserDatabaseManager extends JsonDatabaseManager<User> {
         }
         return null;
     }
+    
 }
